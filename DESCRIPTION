@@ -1,0 +1,24 @@
+Package: translateSPSS2R
+Type: Package
+Title: Toolset for translating SPSS-Syntax to R-Code
+Version: 0.1
+Date: 2014-10-17
+Maintainer: eoda <translate2R@eoda.de>
+Author: Andreas Wygrabek
+Authors: c(person("Andreas", "Wygrabek", role = c("aut", "cre"),
+    email = "Andreas.Wygrabek@eoda.de"),
+    person("Bastian", "Wiessner", role = "aut")
+Description: Package with translated commands from SPSS. The usage is oriented
+    on the handling of the SPSS-Syntax. Mainly the package has two purposes.
+    First it facilitates SPSS-Users to change over to R. Second it facilitates
+    migration projects from SPSS to R.
+License: GPL-3
+Depends:
+    R (>= 3.0.0),
+    data.table (>= 1.9.4),
+    foreign (>= 0.8),
+    e1071 (>= 1.6-3),
+    plyr (>= 1.8.1),
+    car (>= 2.0),
+    stringr (>= 0.6.2),
+    tidyr (>= 0.1)
