@@ -1,22 +1,22 @@
 #' Splits the data.frame into pieces by a factor
 #'
-#' R Implementation of the SPSS \code{filter} argument
+#' R implementation of the SPSS \code{SPLIT FILE} argument
 #'
 #' @usage xpssSplitFile(x, by = NULL, type = "seperated", attachSplit = FALSE)
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param by the factor variable which splits the data frame
-#' @param type the results from an analysis function applied on a splitted data frame can be presented either in a seperated or an layered design
-#' @param attachSplit Should the splitted data be attached to the object as an attribute?
-#' @return The function return the input data with modified attributes
+#' @param by factor variable which splits the data frame.
+#' @param type character vector containing, either seperated or layered. Specifies the results from an analysis function applied on a splitted data frame. Default is \code{"seperated"} design.
+#' @param attachSplit logical. Indicating if the splitted data should get attached to the object as an attribute. Default is \code{"FALSE"}.
+#' @return The function return the input data with modified attributes.
 #' @author Andreas Wygrabek
 #' @seealso \code{\link{xpssDoIf}} \code{\link{xpssFilterOff}} \code{\link{xpssSelectIf}} 
 #' \code{\link{xpssTemporary}} 
-#' @examples 
-#' data(fromXPSS)
-#' xpssSplitFile(fromXPSS, "V6", "layered", attachSplit = FALSE)
 #' @export
 xpssSplitFile <- function(x, by = NULL, type = "seperated", attachSplit = FALSE){
     
+  functiontype <- "SB"
+  x <- applyMetaCheck(x)
+  
     # Exception
     if(!is.element(type, c("seperated", "layered"))){
         stop("type has to be 'seperated' or 'layered'")

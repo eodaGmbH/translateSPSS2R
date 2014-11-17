@@ -1,41 +1,42 @@
-#' Indicates range of varlist
+#' Transforms variables to cases
 #'
-#' Creates a list of variables within a specific range
+#' Creates a transfromed xpssFrame.
 #'
-#' @usage xpssVarsToCases(x, from, idVar = NULL, indexVar = NULL, nullArg = "keep", countVar = NULL, varLabels = list(id = NULL, index = NULL, count = NULL))
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
-#' @param from variable that opens the span
-#' @param idVar Should an id-Variable be created?
-#' @param indexVar Should an index-Variable be created?
-#' @param nullArg Can be either "keep" or "drop"
-#' @param countVar Should a counter be created?
-#' @param varLabels Should be labels for the id-, index- and count variable setted?
-#' @return Returns the transformed xpssFrame
+#' @usage xpssVarsToCases(x, from, idVar = NULL, indexVar = NULL, nullArg = "keep", 
+#' countVar = NULL, varLabels = list(id = NULL, index = NULL, count = NULL))
+#' @param x as a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param from variable that opens the span.
+#' @param idVar determines whether an id-variable should be created.
+#' @param indexVar dtermines whether an index-variable should be created.
+#' @param nullArg Can be either "keep" or "drop".
+#' @param countVar determines whether a counter should be created?
+#' @param varLabels determines whether labels for id-, index- and count variables are set.
+#' @return Returns the transformed xpssFrame.
 #' @author Andreas Wygrabek
 #' @examples 
+#' # load data
 #' data(fromXPSS)
-#' xpssVarsToCases(fromXPSS, from = list(c("newVar", "V7_1, V7_2")), idVar = "myID", indexVar = "myIndex", nullArg = "drop", countVar = "Counter")
+#'
+#' # write V7_1 and V7_2 in newvar
+#' xpssVarsToCases(fromXPSS, from = list(c("newVar", "V7_1, V7_2")), 
+#' idVar = "myID", indexVar = "myIndex", nullArg = "drop", countVar = "Counter")
 #' @export
 xpssVarsToCases <- function(x, from, idVar = NULL, indexVar = NULL, nullArg = "keep", countVar = NULL, varLabels = list(id = NULL, 
                                                                                                                       index = NULL,
                                                                                                                         count = NULL)){
 options(warn = -1)
-library(plyr)
-library(tidyr)
-
-# Exceptions
-stopifnot(is.data.frame(x) | is.data.table(x) | "xpssFrame" %in% class(x))
-class(x) <- c("xpssFrame","data.frame","DM")
 
 ####################################################################
 ####################### Meta - Checks ##############################
 ####################################################################
 
+functiontype <- "DM"
 x <- applyMetaCheck(x)
 
 ####################################################################
 ####################################################################
 ####################################################################
+
 
 if(length(from) < 1){
     stop("Argument from is required")

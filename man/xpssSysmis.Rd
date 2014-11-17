@@ -14,16 +14,18 @@ xpssSysmis (x, variable = NULL)
 atomic numeric with the length of the data. Returns the amount of system missing values of the variable.
 }
 \description{
-R Implementation of the SPSS \code{Sysmis} Function
+R implementation of the SPSS \code{Sysmis} Function
 }
 \details{
-Performs a missing value operation. Displays only the amount of system missing values of the variable.
-Instead of looking after all missing values only system-missings get inspected.
+Performs a missing value operation. Displays only the amount of system missing values of the variable instead of looking after all missing values only system-missings get inspected.
 
 \code{variable} is limited to one variable.
 }
 \examples{
+# load data
 data(fromXPSS)
+
+# locate sysmis in variable V7_2
 xpssSysmis(fromXPSS, variable="V7_2")
 }
 \author{

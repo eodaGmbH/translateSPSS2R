@@ -8,13 +8,13 @@ xpssNvalid (x, variables = NULL)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
 
-\item{variables}{atomic character or character vector with the name of the variables.}
+\item{variables}{atomic character or character vector with the names of the variables.}
 }
 \value{
 atomic numeric with the length of the data. Returns the amount of valid values of the variables.
 }
 \description{
-R Implementation of the SPSS \code{Nvalid} Function
+R Implementation of the SPSS \code{Nvalid} function.
 }
 \details{
 Performs a missing value operation. As opposite of \code{xpssNmiss}, \code{xpssNvalid} visualizies only the valid values of integer vectors or character vectors.
@@ -22,7 +22,10 @@ Performs a missing value operation. As opposite of \code{xpssNmiss}, \code{xpssN
 \code{variables} variables have to be same type.
 }
 \examples{
+# load data
 data(fromXPSS)
+
+# display the amount of valid observations in variable V6 and V7_2
 xpssNvalid(fromXPSS, variables=c("V6","V7_2"))
 }
 \author{

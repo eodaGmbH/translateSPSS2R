@@ -1,6 +1,6 @@
 #' Displays the value of the variable cases.
 #'
-#' R Implementation of the SPSS \code{Value} Function
+#' R implementation of the SPSS \code{Value} function.
 #'
 #' Performs a missing value operation. Adds the user-defined missing values of the variables in the existing dataset.
 #'
@@ -8,21 +8,35 @@
 #'
 #' @usage xpssValue(x, variables = NULL)
 #' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
-#' @param variables atomic character or character vector with the name of the variables.
+#' @param variables atomic character or character vector with the names of the variables.
 #' @return A "xpssFrame" object or (data frame) with implemented user-defined missing values. 
 #' @author Bastian Wiessner
 #' @seealso Related Functions \code{\link{xpssMissing}} , \code{\link{xpssNmiss}} , \code{\link{xpssNvalid}} , \code{\link{xpssSysmis}}
 #' @examples
+#' # load data
 #' data(fromXPSS)
-#' temp <- xpssValue(fromXPSS, variables="V7_2")
 #' 
+#' # add user defined values for variable V7_2  
+#' xpssValue(fromXPSS, variables="V7_2")
+#'
+#' # add user defined values for variable V6 and V7_2   
 #' temp <- xpssValue(fromXPSS, variables=c("V6","V7_2"))
 #' 
 #' @export
 
 xpssValue <- function(x, variables = NULL){
   
-  stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+  ####################################################################
+  ####################### Meta - Checks ##############################
+  ####################################################################
+  
+  functiontype <- "DM"
+  x <- applyMetaCheck(x)
+  
+  ####################################################################
+  ####################################################################
+  ####################################################################
+  
   
   attBack <- attributesBackup(x)
   

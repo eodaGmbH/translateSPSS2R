@@ -1,25 +1,38 @@
 #' Displays the amount of missing values in variables.
 #'
-#' R Implementation of the SPSS \code{Nmiss} Function
+#' R implementation of the SPSS \code{Nmiss} function
 #'
-#' Performs a missing value operation. \code{xpssNmiss} displays the amount of system- or user-defined missing values of the variables. \cr User-defined and system-defind missings values get handled as one type of missing value.
+#' Performs a missing value operation. \code{xpssNmiss} displays the amount of system- and user-defined missing values of the variables. \cr User-defined and system-defind missings values get handled as one type of missing value.
 #'
 #' @usage xpssNmiss(x, variables = NULL)
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param variables atomic character or character vector with the name of the variables.
+#' @param variables atomic character or character vector with the names of the variables.
 #' @return atomic numeric with the length of the data. Returns the amount of
 #' system- or user-defined missing values of the variables.
 #' @author Bastian Wiessner
 #' @seealso Related Functions \code{\link{xpssMissing}} , \code{\link{xpssNvalid}} , \code{\link{xpssSysmis}} ,\code{\link{xpssValue}}
 #' @examples
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # display the amount of user- and system-defined missing values in variable V6 and V7_2
 #' xpssNmiss(fromXPSS, variables=c("V6","V7_2"))
 #' @export
 
 
 xpssNmiss <- function(x, variables = NULL){
   
-  stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+  ####################################################################
+  ####################### Meta - Checks ##############################
+  ####################################################################
+  
+  functiontype <- "DM"
+  x <- applyMetaCheck(x)
+  
+  ####################################################################
+  ####################################################################
+  ####################################################################
+  
   
   LOGMAT <- matrix(0, ncol = length(variables), nrow = nrow(x))
   

@@ -6,27 +6,27 @@
 span(x, from = NULL, to = NULL, addDF = FALSE)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame, data.table object, or input data of class "xpssFrame".}
 
-\item{from}{variable that opens the span}
+\item{from}{the variable that opens the span.}
 
-\item{to}{variable that closes the span}
+\item{to}{the variable that closes the span.}
 
-\item{addDF}{Should the name of the input data be used?}
+\item{addDF}{if the name of the input data should be used?}
 }
 \value{
-Returns a varlist with the name of the variables which a within the range of the span indicator.
+Returns a varlist with the name of the variables which are within the range of the span indicator.
 }
 \description{
-Creates a list of variables within a specific range
+Creates a list of variables within a specific range.
 }
 \examples{
-foo <- matrix(data = c(1:15),
-nrow = 3,
-ncol = 5,
-dimnames = list(c(1,2,3),c("A","B","C","D","E")))
-span(foo, from = "C", to = "E",addDF = FALSE)
-span(foo, from = "C", to = "E",addDF = TRUE)
+# load data
+data(fromXPSS)
+# span from V1 to V5
+span(x=fromXPSS,from="V1",to="V5",addDF=FALSE)
+# span from V3 to V1 and add the name of the data object.
+span(x=fromXPSS,from="V3",to="V1",addDF=TRUE)
 }
 \author{
 Andreas Wygrabek

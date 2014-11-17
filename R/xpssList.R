@@ -1,30 +1,36 @@
 #' Displays the content of variables.
 #'
-#' R Implementation of the SPSS \code{LIST} Function
+#' R implementation of the SPSS \code{LIST} Function
 #'
-#' LIST displays the content of selected variables. It's possible to display a sequenz with the \code{cases} argument.
+#' LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.
 #'
-#' @usage xpssList(x, variables = "", cases = FALSE,from = NULL, to = NULL, by = NULL)
+#' @usage xpssList(x, variables = colnames(x), cases = list(from = 1, to = nrow(x), by = 1)) 
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}. 
-#' @param variables atomic character or character vector with the name of the variables.
-#' @param cases Not documented yet
-#' @param from Not documented yet
-#' @param to Not documented yet
-#' @param by Not documented yet
-#' @return If cases is not specified the return is the length of the data.
+#' @param variables atomic character or character vector with the names of the variables.
+#' @param cases list containing the arguments from, to, by.
+#' @param from atomic numeric, determine the begin of the sequence.
+#' @param to atomic numeric, determine the end of the sequence.
+#' @param by atomic numeric, determine the increment of the sequence.
+#' @return A data.frame with case values for specified variables in the dataset. If cases and variables are not specified, List return the complete dataset. If cases are specified the output is a user-defined sequence.
 #' @author Bastian Wiessner
 #' @examples
+#' # load data
 #' data(fromXPSS)
 #' 
+#' # display the complete data
 #' xpssList(x=fromXPSS)
 #' 
+#' # display only variable V1
 #' xpssList(x=fromXPSS, 
 #'    variables = "V1")
 #' 
+#' # display only variable V1 V2
 #' xpssList(x=fromXPSS, 
 #'    variables = c("V1","V2"))
 #' 
+#' 
+#' # display variable V1 V2 and cases 2 till 18 by 2
 #' xpssList(x=fromXPSS, 
 #'    variables = span(fromXPSS,
 #'                  from="V1",
@@ -41,35 +47,27 @@ xpssList <- function(x,
                                   to = nrow(x),
                                   by = 1)) 
 {
-  stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+ 
+  functiontype <- "SB"
+  x <- applyMetaCheck(x)
 
-  if(is.null(cases$from))
-  {
-    cases$from  <-1
-  }     
-  if(is.null(cases$to)) {
-    cases$to <- nrow(x)
-  }
-  if(is.null(cases$by))  {
-    cases$by <- 1
-  }
-  
   if(!is.numeric(cases$from) || !is.numeric(cases$to) || !is.numeric(cases$by))  {
-    stop("the arguments for from, to and by have to numeric")
+    stop("the arguments from, to and by have to numeric")
   }
   if(cases$to > nrow(x)) {
-    stop("to argument is bigger then the dataset")
+    stop("argument to is bigger than the dataset")
   }
   
     pos <- seq(cases$from,cases$to,cases$by)
     erg <- data.frame(1:length(pos))
     if(length(variables) == 1){      
       erg <- as.data.frame(x[,variables][pos],stringsAsFactors=F)
-      names(erg) <- attr(x[,variables], "varname")
+      names(erg) <- names(x[which(colnames(x)%in%variables)])
+      
     }else{
       for(i in 1:length(variables)){
         erg[[i]] <-   as.data.frame(x[,variables[i]][pos])
-        names(erg[[i]]) <- attr(x[,variables[i]], "varname")
+        names(erg[[i]]) <- colnames(x[i])
       }
     }
   return(erg) 

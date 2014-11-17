@@ -1,24 +1,35 @@
-#' Selecting Cases by Condition
+#' Selecting cases by condition
 #'
-#' xpssAny can be perceived as a wrapper function for \%in\% applicable on more than one variable.
+#' xpssAny can be perceived as a wrapper function for \code{\link{\%in\%}} applicable on more than one variable.
 #'
 #' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
-#' @param st Value to search for OR variable where to search in. 
-#' @param nd Values to search for OR variables to search in. 
-#' @return The functions returns a logical vector.
+#' @param st atomic numeric or atomic character with a single value to search for OR variable where to search in. 
+#' @param nd atomic numeric or atomic character, respecetively as numeric vector or character vector with values to search for OR variables to search in. 
+#' @return A logical vector with matched conditions.
 #' @author Andreas Wygrabek
+#' @seealso \code{\link{xpssCount}} \code{\link{\%in\%}} \code{\link{is.element}}
 #' @examples
+#' 
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # search 310 in V7_1 and V7_2
 #' xpssAny(fromXPSS, 310, c("V7_1", "V7_2"))
+#' 
+#' # check whether V7_1 contains 310 or 320 or 170
 #' xpssAny(fromXPSS, "V7_1", c(310,320,170))
 #'
+#' # search for Auto in V1 and V7_2
 #' xpssAny(fromXPSS, "Audi", c("V1", "V7_2"))
+#' 
+#' # check whether V1 contains Audi  
 #' xpssAny(fromXPSS, "V1", c("Audi"))
 #' @export
 xpssAny <- function(x, st = NULL, nd = NULL) {
     
-    
-    stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+    functiontype  <- "SB"
+    x <- applyMetaCheck(x)
+  
     temp <- data.frame(1:length(x=x[,1]))
     
     if(length(st)>1)

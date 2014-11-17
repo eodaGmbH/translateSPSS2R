@@ -12,13 +12,13 @@ xpssDescriptives(x, variables = NULL, missing = "variable",
 
 \item{variables}{atomic character or character vector with the name of the variables.}
 
-\item{missing}{method that indicates what should happen when the data contains NAs. Default is \code{"variable"}.}
+\item{missing}{atomic character which specifiy the missing method. The method indicates what should happen when the data contains NAs. Default is \code{"variable"}.}
 
-\item{statistics}{specificing which statistics should be performed, as an atomic character or character vector. Default are \code{"mean"}, \code{"max"}, \code{"min"}, \code{"stddev"}.}
+\item{statistics}{atomic chracter or character vector which determine the descriptiv statistics. Default are \code{"mean"}, \code{"max"}, \code{"min"}, \code{"stddev"}.}
 
-\item{save}{adds the z-score of each variable to \code{x}.}
+\item{save}{logical indicator. TRUE adds the z-score of each variable to \code{x}. Default is FALSE.}
 
-\item{ztrans}{specifies variables for z-transformation and name of z-transformed variables. Read Details for further information.}
+\item{ztrans}{list which specifies variables for z-transformation and name of z-transformed variables. Read Details for further information.}
 }
 \value{
 The output is a list object with the estimated descriptive statistic parameters. Every list object contains one variable with the specific outcomes, e.g. statistic values.
@@ -34,9 +34,9 @@ The xpssDescriptives function provides a set of descriptive statistic tools.
 \strong{\code{missing:}}
 \tabular{rlll}{
 
-\tab \code{variable} \tab removes user-, and system-missing data explicit for every variable.
+\tab \code{variable} \tab removes user-, and system-missing data explicitly for every variable.
 \cr \tab \code{listwise} \tab performs a listwise-deletion.
-\cr \tab \code{include} \tab includes all user-defined missing values.} \cr
+\cr \tab \code{include} \tab includes all user-defined missing values.}
 
 \strong{\code{statistics:}}
 \tabular{rlll}{
@@ -55,24 +55,25 @@ The xpssDescriptives function provides a set of descriptive statistic tools.
 \code{ztrans} input, is a list with elements varname and zname.  \code{varname} and  \code{zname} are either atomic characters or character vectors. \cr It is necessary that either both parameters are filled or blank.
 }
 \examples{
+# load data
 data(fromXPSS)
-#simple descriptiv statistics
+
+# default statistics for variable V5
 xpssDescriptives(x=fromXPSS,
                  variables="V5")
 
-#additionally with ztransformed values
+# default statistics for variable V7_1 including z-scores
 xpssDescriptives(x=fromXPSS,
                  variables="V7_1",
                  save = TRUE)
 
-#additionally with custom ztransformed values
+# default statistics for variable V7_2 including z-scores saved in a user-defined variable
 xpssDescriptives(x=fromXPSS,
                  variables="V7_2",
                  save = TRUE,
                  ztrans = list(varname = "V7_2",
                                zname = "myZname"))
-
-#addiontally with custom paramters values
+# user-defined statistics for variable V7_2 including z-scores saved in a user-defined variable
 xpssDescriptives(x=fromXPSS,
                  variables="V7_2",
                  statistics=c("kurtosis",

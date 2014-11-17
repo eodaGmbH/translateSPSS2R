@@ -1,9 +1,8 @@
 #' Displays if a variable contains system-missing values
 #'
-#' R Implementation of the SPSS \code{Sysmis} Function
+#' R implementation of the SPSS \code{Sysmis} Function
 #'
-#' Performs a missing value operation. Displays only the amount of system missing values of the variable.
-#' Instead of looking after all missing values only system-missings get inspected.
+#' Performs a missing value operation. Displays only the amount of system missing values of the variable instead of looking after all missing values only system-missings get inspected.
 #'
 #' \code{variable} is limited to one variable.
 #'
@@ -15,13 +14,18 @@
 #' @author Bastian Wiessner
 #' @seealso Related Functions \code{\link{xpssMissing}} , \code{\link{xpssNmiss}} , \code{\link{xpssNvalid}} ,\code{\link{xpssValue}}
 #' @examples
+#' 
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # locate sysmis in variable V7_2
 #' xpssSysmis(fromXPSS, variable="V7_2")
 #' @export
 
 xpssSysmis <- function(x, variable = NULL){
   
-  stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+  functiontype  <- "SB"
+  x <- applyMetaCheck(x)
 
     if(length(variable) == 1)
     {

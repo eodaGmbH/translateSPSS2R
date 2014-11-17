@@ -8,26 +8,24 @@ xpssLag(x, move = 0, value = NA)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
 
-\item{move}{Either a positive or negative integer value that defines the cases to move. The algebraic sign indicates the direction.}
+\item{move}{atomic integer, either positive or negative that defines the cases to move. The algebraic sign indicates the direction.}
 
-\item{value}{The value that replaces the skipped cases.}
+\item{value}{atomic numeric or atomic character value that replaces the skipped cases.}
 }
 \value{
-Output is the shifted, respectively laged input vector. \cr Length of the new laged vector is identical with the length of the input vector.
+Output is the shifted, respectively "lagged" input vector. \cr Length of the new lagged vector is identical with the length of the input vector.
 }
 \description{
 xpssLag shifts the dataset forward or backward by a given number of observations.
 }
 \details{
-Creates shifted data dependent upon in which direction the data got moved. \cr A positive indicator refers a shift to the right side, a negative indicator refers a shift of the data to the left side. Empty cases get filled with NA.
+Creates shifted data dependent upon the direction in which the data got moved. \cr A positive indicator refers a shift to the right side, a negative indicator refers a shift of the data to the left side. Empty cases get filled with NA.
 }
 \examples{
-foo <- matrix(data = c(1:12),
-             nrow = 6,
-             ncol = 2,
-             dimnames = list(c(1,2,3,4,5,6),c("A","B")))
-foo <- as.data.frame(foo)
-xpssLag(foo$B, move = 2, value = NA)
+# load data
+data(fromXPSS)
+# shit variable V5 by 2
+xpssLag(x=fromXPSS$V6, move = 2, value = NA)
 }
 \author{
 Andreas Wygrabek

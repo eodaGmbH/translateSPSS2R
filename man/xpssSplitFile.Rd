@@ -8,21 +8,17 @@ xpssSplitFile(x, by = NULL, type = "seperated", attachSplit = FALSE)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
 
-\item{by}{the factor variable which splits the data frame}
+\item{by}{factor variable which splits the data frame.}
 
-\item{type}{the results from an analysis function applied on a splitted data frame can be presented either in a seperated or an layered design}
+\item{type}{character vector containing, either seperated or layered. Specifies the results from an analysis function applied on a splitted data frame. Default is \code{"seperated"} design.}
 
-\item{attachSplit}{Should the splitted data be attached to the object as an attribute?}
+\item{attachSplit}{logical. Indicating if the splitted data should get attached to the object as an attribute. Default is \code{"FALSE"}.}
 }
 \value{
-The function return the input data with modified attributes
+The function return the input data with modified attributes.
 }
 \description{
-R Implementation of the SPSS \code{filter} argument
-}
-\examples{
-data(fromXPSS)
-xpssSplitFile(fromXPSS, "V6", "layered", attachSplit = FALSE)
+R implementation of the SPSS \code{SPLIT FILE} argument
 }
 \author{
 Andreas Wygrabek

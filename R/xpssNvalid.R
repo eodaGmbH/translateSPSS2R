@@ -1,6 +1,6 @@
 #' Displays the amount of valid values in variables.
 #'
-#' R Implementation of the SPSS \code{Nvalid} Function
+#' R Implementation of the SPSS \code{Nvalid} function.
 #'
 #' Performs a missing value operation. As opposite of \code{xpssNmiss}, \code{xpssNvalid} visualizies only the valid values of integer vectors or character vectors.
 #'
@@ -9,19 +9,33 @@
 #' @usage xpssNvalid (x, variables = NULL)
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param variables atomic character or character vector with the name of the variables.
+#' @param variables atomic character or character vector with the names of the variables.
 #' @return atomic numeric with the length of the data. Returns the amount of valid values of the variables.
 #' @author Bastian Wiessner
 #' @seealso Related Functions \code{\link{xpssMissing}} , \code{\link{xpssNmiss}} , \code{\link{xpssSysmis}} ,\code{\link{xpssValue}}
 #' @examples
+#' 
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # display the amount of valid observations in variable V6 and V7_2
 #' xpssNvalid(fromXPSS, variables=c("V6","V7_2"))
 #' @export
 
 xpssNvalid <- function(x, variables = NULL){
     
-    stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
-    
+  ####################################################################
+  ####################### Meta - Checks ##############################
+  ####################################################################
+  
+  functiontype <- "DM"
+  x <- applyMetaCheck(x)
+  
+  ####################################################################
+  ####################################################################
+  ####################################################################
+  
+  
     LOGMAT <- matrix(0, ncol = length(variables), nrow = nrow(x))
     
     NUM <- sapply(x[,variables], function(x){

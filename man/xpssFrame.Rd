@@ -6,31 +6,41 @@
 xpssFrame(x, as.data.table = FALSE, ...)
 }
 \arguments{
-\item{x}{character string with the name of the file.}
+\item{x}{as character string with the name of the file.}
 
-\item{as.data.table}{a logical indicating whether you want to return the input data in data.table format.
+\item{as.data.table}{logical. Indicating whether you want to return the input data in data.table format.
 Otherwise a data.frame returns. Default is FALSE.}
 
 \item{\dots}{Arguments to pass on read.spss() from foreign.}
 }
 \description{
-Creates numbers of new Variables
+xpssFrame creates a dataset as an xpssFrame object from a local file.
 }
 \details{
 \code{x} the input data should be of the format \emph{.csv, .sav or .xlsx}.
 
-The SPSS Variables are stored at the variable itself. A variable can have the following attributes:
-value.labels, defined.MIS, MIS, varname, variable.label
+The SPSS variables are stored in the variable itself. A variable can have the following attributes:
+\code{defined.MIS}, \code{MIS}, \code{value.labels}, \code{variable.label}, \code{varname}
+ \tabular{rlll}{
+ \tab Attribute \tab Type \tab Contain \cr
+\tab \code{defined.MIS} \tab Atomic numerics or atomic characters, respectively a numeric vector or character vector \tab Values which specify missing values \cr
+\tab \code{MIS} \tab list with user-defined missings \tab POS contain the position of the user-defined missing, VAL the value of the user defined-missing
+\cr
+\tab \code{value.labels}  \tab Named numeric or named character \tab  Value and label for a specific variable\cr
+\tab \code{variable.label} \tab Atomic character \tab Label of the variable\cr
+\tab \code{varname} \tab Atomic character \tab Name of the variable in the datasheet\cr
+}
 }
 \examples{
 \dontrun{
-daten <- xpssFrame("Testdata_1.sav")
+# create xpssFrame Object
+data <- xpssFrame(x="Testdata_1.sav")
 }
 }
 \author{
 Andreas Wygrabek
 }
 \seealso{
-\code{\link{read.spss}}
+\code{\link{read.spss}} \code{\link{as.xpssFrame}}
 }
 

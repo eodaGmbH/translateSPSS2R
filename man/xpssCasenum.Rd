@@ -9,24 +9,25 @@ xpssCasenum(x)
 \item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 }
 \value{
-Returns an sequential atomic numeric or numeric vector.
+Returns a sequential atomic numeric or numeric vector.
 }
 \description{
-R Implementation of the SPSS \code{$CASENUM} system variable.
+R implementation of the SPSS \code{$CASENUM} system variable. xpssCasenum counts the number of cases within a variable, or respectively the number of observations in the dataset.
 }
 \details{
-The xpssCasenum counts the number of cases within a variable, respectively the number of observations in the dataset.
-
-This statement can be used as ID-Variable.
+xpssCasenum fit well as ID-Variable.
 }
 \examples{
+# load data
 data(fromXPSS)
+
+# create id variable
 fromXPSS$id <- xpssCasenum(fromXPSS)
 }
 \author{
 Bastian Wiessner
 }
 \seealso{
-Related Functions \code{\link{xpssDate}} , \code{\link{xpssDate11}}
+Related Functions \code{\link{xpssCount}} , \code{\link{xpssDate}} , \code{\link{xpssDate11}}
 }
 

@@ -1,19 +1,29 @@
 #' Creates a xpssFrame Object
 #'
-#' Creates numbers of new Variables
+#' xpssFrame creates a dataset as an xpssFrame object from a local file.
 #'
 #' \code{x} the input data should be of the format \emph{.csv, .sav or .xlsx}.
 #' 
-#' @param x character string with the name of the file.
-#' @param as.data.table a logical indicating whether you want to return the input data in data.table format. 
+#' @param x as character string with the name of the file.
+#' @param as.data.table logical. Indicating whether you want to return the input data in data.table format. 
 #' Otherwise a data.frame returns. Default is FALSE.
 #' @param \dots Arguments to pass on read.spss() from foreign.
-#' @details The SPSS Variables are stored at the variable itself. A variable can have the following attributes: 
-#' value.labels, defined.MIS, MIS, varname, variable.label
+#' @details The SPSS variables are stored in the variable itself. A variable can have the following attributes: 
+#' \code{defined.MIS}, \code{MIS}, \code{value.labels}, \code{variable.label}, \code{varname}
+#'  \tabular{rlll}{
+#'  \tab Attribute \tab Type \tab Contain \cr
+#' \tab \code{defined.MIS} \tab Atomic numerics or atomic characters, respectively a numeric vector or character vector \tab Values which specify missing values \cr
+#' \tab \code{MIS} \tab list with user-defined missings \tab POS contain the position of the user-defined missing, VAL the value of the user defined-missing
+#' \cr
+#' \tab \code{value.labels}  \tab Named numeric or named character \tab  Value and label for a specific variable\cr
+#' \tab \code{variable.label} \tab Atomic character \tab Label of the variable\cr
+#' \tab \code{varname} \tab Atomic character \tab Name of the variable in the datasheet\cr
+#'}
 #' @author Andreas Wygrabek
-#' @seealso \code{\link{read.spss}}
+#' @seealso \code{\link{read.spss}} \code{\link{as.xpssFrame}}
 #' @examples  \dontrun{
-#' daten <- xpssFrame("Testdata_1.sav")
+#' # create xpssFrame Object
+#' data <- xpssFrame(x="Testdata_1.sav")
 #' }
 #' 
 #' @export
@@ -21,28 +31,53 @@ xpssFrame <- function(x, as.data.table = FALSE, ...){
     
     require("foreign", quietly = TRUE)
     require("data.table", quietly = TRUE)
-    
+
     if (!(is.character(x))){
         stop("Input has to be a string")}
-
     data <- suppressWarnings(read.spss(x, ...))
     data <- as.data.table(data)
     classBackUp <- sapply(data,class)
     
     # ------ Matrix mit Missing-Positionen und Missing-Werten
     for(xxx in colnames(data)){
-    missings <- eval(parse(text=paste("attributes(data)$missings$",xxx,"$value", sep = "")))
-    
-    # Es können Missings definiert sein, die nicht als Werte im Datensatz auftreten. Die definierten Werte werden zunächst als Attribut an die Variable gehangen
-    eval(parse(text = paste("attr(data$",xxx,",'defined.MIS') <- missings",sep = ""))) 
-    
-    # Das Objekt missings wird nun dazu verwendet, eine Matrix mit den Positionen von Missing-Werten in den vorliegenden Daten zu erstellen
+      
+      ### extension for missing types! differences between range and singlevalue
+   
+      # Es können Missings definiert sein, die nicht als Werte im Datensatz auftreten. Die definierten Werte werden zunächst als Attribut an die Variable gehangen
+      missings <- eval(parse(text=paste("attributes(data)$missings$",xxx,"$value", sep = "")))
+      
+      if(is.element(eval(parse(text=paste("attributes(data)$missings$",xxx ,"$type", sep = ""))),"range")) {
+        # if missing type is range
+        eval(parse(text = paste("attr(data$",xxx,",'defined.MIS')$range <- c(from=missings[[1]],to=missings[[2]])",sep = ""))) 
+        
+      } else {
+        # if no range
+        eval(parse(text = paste("attr(data$",xxx,",'defined.MIS')$values <- missings",sep = ""))) 
+        # Das Objekt missings wird nun dazu verwendet, eine Matrix mit den Positionen von Missing-Werten in den vorliegenden Daten zu erstellen
+      } 
     
     if(length(missings > 0)){
-    
-    eval(parse(text = paste("POS <- which(is.element(data$",xxx,", missings))", sep = "")))
-    eval(parse(text = paste("VAL <- data$",xxx,"[POS]", sep = "")))
-    eval(parse(text = paste("missings <- cbind(POS, VAL)", sep = "")))
+      
+      if(is.element(eval(parse(text=paste("attributes(data)$missings$",xxx ,"$type", sep = ""))),"range")) {
+        misses <- vector()
+        k <- 1
+        for(j in 1:length(eval(parse(text=paste("data$",xxx, sep = ""))))){
+          if((is.na(eval(parse(text=paste("data$",xxx, sep = "")))[j]) == FALSE) && (eval(parse(text=paste("attributes(data$",xxx,")$defined.MIS$range[[1]]", sep = ""))) <= eval(parse(text=paste("data$",xxx, sep = "")))[j]) && (eval(parse(text=paste("data$",xxx, sep = "")))[j] <= eval(parse(text=paste("attributes(data$",xxx,")$defined.MIS$range[[2]]", sep = "")))))
+          {            
+            misses[[k]] <- j
+            k <- k+1
+          }
+        }
+        POS <- misses
+        eval(parse(text = paste("VAL <- data$",xxx,"[POS]", sep = "")))
+        eval(parse(text = paste("missings <- cbind(POS, VAL)", sep = "")))
+        
+     } else {
+        
+        eval(parse(text = paste("POS <- which(is.element(data$",xxx,", missings))", sep = "")))
+        eval(parse(text = paste("VAL <- data$",xxx,"[POS]", sep = "")))
+        eval(parse(text = paste("missings <- cbind(POS, VAL)", sep = "")))
+      }
 
     
     eval(parse(text = paste("attr(data$",xxx,",'MIS') <- missings",sep = ""))) 
@@ -108,10 +143,9 @@ xpssFrame <- function(x, as.data.table = FALSE, ...){
     }
     
     # Schreiben des Variablenlabel als Attribut an die jeweilige Variable
-    attributes(backup_varLabs) <- NULL
       if(exists("backup_varLabs")){
           for(i in colnames(data)){
-              eval(parse(text = paste("attr(data$",i,", 'variable.label') <- backup_varLabs[which('",i,"' == colnames(data))]", sep = "")))
+              eval(parse(text = paste("attr(data$",i,", 'variable.label') <- backup_varLabs[which('",i,"' == colnames(data))][[i]]", sep = "")))
           }
       }
     

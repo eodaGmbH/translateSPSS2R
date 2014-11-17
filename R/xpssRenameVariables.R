@@ -1,39 +1,40 @@
 #' Renaming Variables
 #'
-#' xpssRenameVariables renames Variables within an exisiting data.frame or xpssFrame object.
+#' R implementation of the SPSS \code{RENAME VARIABLES} function. xpssRenameVariables renames variables within an exisiting data.frame or xpssFrame object.
 #'
-#' Modifies names of one or more variables within a selected dataset.
+#' Modifies names of one or more variables within a selected dataset. The arguments oldVarNames and newVarNames must have the same length.
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param oldVarNames Character vector naming the variables in the data set to rename.
-#' @param newVarNames Character vector with the new variable names. Has to be the same length as oldVarNames.
-#' @return The functions returns the data x with new variable names.
+#' @param oldVarNames atomic character or character vector with the names of the variables to rename.
+#' @param newVarNames atomic character or character vector with the new variable names. 
+#' @return Returns the data with the renamed.
 #' @author Andreas Wygrabek
 #' @examples 
-#' foo <- matrix(data = c(1:9), 
-#' nrow = 3,
-#' ncol = 3,
-#' dimnames = list(c(1,2,3),c("B","C","D")))
-#' foo <- as.data.frame(foo)
-#' foo <- as.xpssFrame(foo)
-#' xpssRenameVariables(foo, c("B", "C", "D"), c("A", "B", "C"))
+#' # load data
+#' data(fromXPSS)
+#' 
+#' # rename variables
+#' xpssRenameVariables(fromXPSS, 
+#' oldVarNames= c("V1", "V2", "V3"), 
+#' newVarNames= c("Manufacturer", " Car Type", "Country"))
 #' @export
 xpssRenameVariables <- function(x, oldVarNames = NULL, newVarNames = NULL){
 
-  stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
-
-  class(x) <- c("xpssFrame","data.frame","DM")
   ####################################################################
   ####################### Meta - Checks ##############################
   ####################################################################
-  #x <- checkTemporary(x)
   
-  
+  functiontype <- "DM"
   x <- applyMetaCheck(x)
   
   ####################################################################
   ####################################################################
   ####################################################################
+  for(i in 1:length(oldVarNames)) {
+    if(!(is.element(oldVarNames[[i]],names(x)))) {
+      stop("The selected variable has to be in the dataset")
+    }
+  }
   
   oldVarNames <- c(oldVarNames)
   newVarNames <- c(newVarNames)

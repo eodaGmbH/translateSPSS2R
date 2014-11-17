@@ -10,27 +10,26 @@ xpssTtest(x, variables = NULL, t_test = "testval", testval = NULL,
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
 
-\item{variables}{atomic character or character vektor with the name of the variables.}
+\item{variables}{atomic character or character vektor with the names of the variables.}
 
-\item{t_test}{defines the type of t-test. Default is \code{testval}, a one-sample ttest.
+\item{t_test}{atomic character definies the type of t-test. Default is \code{testval}, a one-sample ttest.
 Optional arguments are \code{groups} for an independent-sample test and \code{pairs} for an paires-sample test}
 
-\item{testval}{determines the value of mean difference.}
+\item{testval}{atomic numeric, indicates the value of mean difference.}
 
-\item{criteria}{specifies the confidence interval for the mean differences. Default
-is "0.95", optionally a customized value between 0 and 1 can be used.}
+\item{criteria}{atomic numeric specifies the confidence interval for the mean differences. Default
+is \code{"0.95"}, optionally a customized value between 0 and 1 can be used.}
 
-\item{groupvar}{atomic character with the name of the variables which shall be used for grouping.}
+\item{groupvar}{atomic character with the name of the variable which shall be used for grouping.}
 
-\item{groups}{specifies one variable which get grouped for an independentsample t-test.}
+\item{groups}{factor variable which specify the variables grouped for an independentsample t-test.}
 
-\item{withvars}{atomic characters or character vektor with the name of the
-paired variables which shall be used for compare the means. Optionally
-the argument with can be chosen to compare the means of 2 pairs.}
+\item{withvars}{atomic characters or character vector with the name of the paired variables which shall be used for compare the means. Optionally
+the argument \code{with} can be chosen to compare the means of 2 pairs.}
 
-\item{paired}{logical, indicating if the comparing should be pair based or not.}
+\item{paired}{logical. Indicating whether the comparison should be pair based or not.}
 
-\item{missing}{method which indicates what should happen when the data contains NAs. Default is \code{analysi}s".
+\item{missing}{atomic character determines the method which indicates what should happen when the data contains NAs. Default is analysis.
 Optionally \code{include} oder \code{listwise} can be used.}
 }
 \value{
@@ -46,82 +45,51 @@ returns a list depending upon the t-test.
 \tab \code{null.value} \tab value of null hypothesis. \cr
 \tab \code{alternative} \tab value of alternative hypothesis. \cr
 \tab \code{method} \tab character string with the name of the t-test. \cr
-\tab \code{data.name} \tab name of the data.} \cr \cr
+\tab \code{data.name} \tab name of the data.}
 
 The independent t-test includes additonally: \cr
 \tabular{rlll}{
 
-\tab \code{anova} \tab anova of the groups.} \cr \cr
+\tab \code{anova} \tab anova of the groups.}
 
 The paired t-test includes additonally: \cr
 \tabular{rlll}{
 
-\tab \code{corr} \tab correlation of the pairs.} \cr \cr
+\tab \code{corr} \tab correlation of the pairs.}
 }
 \description{
-R Implementation of the SPSS \code{T-TEST} Function
+R implementation of the SPSS \code{T-TEST} function.
 }
 \details{
-Performs a student T-Test. The \code{xpssT.test} compares the mean by calculating Students-t of the selected distributions.
+Performs a Student's T-Test. The \code{xpssTtest} compares the mean by calculating Students-t of the selected distributions.
 
-It is possible to check the samples
+It is possible to check the samples.
 
 \enumerate{
 \item against a specific value (one-sample) -> \code{testval}
-\item in difference of groups (independend-sample)-> \code{groups}
+\item in difference of groups (independent-sample)-> \code{groups}
 \item in difference of variables (paired-sample) -> \code{pairs}
  }
 
 Simple statistics will be printed with every t-test.
 At the one-sample test, the mean difference will be visualized with the statistics \cr
 At the independend-sample test, the mean differnce and ANOVA will be visualized with the statistics \cr
-At the paired-sample test, the mean diference and a Correlation statistic will be visualizied witht he statistics \cr
+At the paired-sample test, the mean diference and a correlation statistic will be visualizied with the statistics \cr
 }
 \examples{
+# load data
 data(fromXPSS)
 
-temp <- xpssTtest(fromXPSS,
+
+# one-sample t-test
+xpssTtest(fromXPSS,
                    variables = "V7_2",
                    t_test = "testval",
                    testval= 50,
                    criteria = 0.65)
 
-temp <- xpssTtest(fromXPSS,
-                   variables = "V7_2",
-                   t_test = "groups",
-                   groupvar = "V3",
-                   groups = c(1,
-                              2),
-                   missing = "analysis",
-                   criteria = 0.99)
-
-temp <- xpssTtest(fromXPSS,
-                   t_test = "pairs",
-                   variables = c("V5",
-                                 "V7_1"),
-                   withvars = "V7_2",
-                   missing = "include",
-                   criteria = 0.99)
-
-temp <- xpssTtest(fromXPSS,
-                   t_test = "pairs",
-                   variables=c("V5",
-                               "V6"),
-                   withvars = c("V7_2",
-                                "V7_1"),
-                   paired = TRUE,
-                   missing = "listwise")
-
-temp <- xpssTtest(fromXPSS,
-                   t_test = "pairs",
-                   variables=c("V5",
-                               "V6",
-                               "V7_1",
-                               "V7_2"),
-                   missing = "analysis",
-                   criteria = 0.99)
-
-temp <- xpssTtest(fromXPSS,
+# paired sample t-test
+xpssTtest(fromXPSS,
                    t_test = "pairs",
                    variables=c("V5",
                                "V6",
@@ -130,6 +98,15 @@ temp <- xpssTtest(fromXPSS,
                    paired = T,
                    missing = "analysis",
                    criteria = 0.85)
+
+# independent sample t-test
+xpssTtest(fromXPSS,
+                   variables = "V7_2",
+                   t_test = "groups",
+                   groupvar = "V3",
+                   groups = c(1, 2),
+                   missing = "analysis",
+                   criteria = 0.99)
 }
 \author{
 Bastian Wiessner

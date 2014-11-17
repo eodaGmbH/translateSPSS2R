@@ -8,28 +8,33 @@ xpssSelectIf(x, cond = NULL)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
 
-\item{cond}{logical expression for subsetting the data}
+\item{cond}{logical expression for subsetting the data.}
 }
 \value{
-Output is a subset of the actual dataset under the condition of the logical expression.
+Returns a subset of the actual dataset under the condition of the logical expression.
 }
 \description{
-xpssSelectIf permanently selects cases for analysis based on logical conditions.
+R implementation of the SPSS \code{SELECT IF} argument. xpssSelectIf permanently selects cases for analysis based on logical conditions.
 }
 \details{
-The conditions to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators, arithmetic operations.
+The condition to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators, arithmetic operations.
 
-\strong{NOTE:} For temporary case selection, specify a TEMPORARY command before SELECT IF.
+\strong{NOTE:} For temporary case selection, specify \code{\link{xpssTemporary}} before \code{SELECT IF}.
 }
 \examples{
-#Select all Cases which match 1 in V3
-
+# load data
 data(fromXPSS)
+
+# Select all ases which match 1 in V3
 temp <- xpssSelectIf(x=fromXPSS, cond = "V3 == 1")
 
+# Select all cases which match 1 in V3 and are greater than 200 in V7_1
 temp <- xpssSelectIf(x=fromXPSS, cond="V4 == 1 & V7_1 < 200")
 }
 \author{
 Andreas Wygrabek
+}
+\seealso{
+Related Functions \code{\link{xpssDoIf}}, \code{\link{xpssFilter}}, \code{\link{xpssTemporary}}
 }
 

@@ -2,16 +2,13 @@
 #'
 #' Applies attributes stored by attributesBackup
 #'
+#' @usage applyAttributes(x, attributesToApply = NULL)
 #' @param x a data.frame, data.table object or input data of class xpssFrame. 
 #' @param attributesToApply to applied attributes
 #' @return Object with attributes from backup
 #' @author Andreas Wygrabek
-#' @examples
-#' data(fromXPSS)
-#' myAtt <- attributesBackup(fromXPSS)
-#' NEW_fromXPSS <- fromXPSS[order(fromXPSS[,5]),]
-#' applyAttributes(NEW_fromXPSS, myAtt)
-#' @export
+#' @keywords internal
+
 applyAttributes <- function(x, attributesToApply = NULL){
     
     
@@ -41,11 +38,15 @@ applyAttributes <- function(x, attributesToApply = NULL){
 
     # Apply local attributes
     for(i in 1:ncol(x)){
-        if(!is.null(attributes(x[,i])$varname)){
+      # second exception needed for dataframes
+        if((!is.null(attributes(x[,i])$varname)) && !is.null(names(attributesToApply$local))){
         attributes(x[,i]) <- attributesToApply$local[[which(names(attributesToApply$local) == attributes(x[,i])$varname)]]
         } else if(names(x)[i] %in% names(attributesToApply$local)){
             attributes(x[,i]) <- attributesToApply$local[[which(names(attributesToApply$local) %in% names(x)[i])]] 
-        }
+            ### needed condition for xpssFrame
+            } else if(colnames(x)[i] %in% colnames(attributesToApply$local)){
+              attributes(x[,i]) <- attributesToApply$local[,which(colnames(attributesToApply$local) %in% colnames(x)[i])]
+            }
     }
     
     return(x)

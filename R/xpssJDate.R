@@ -1,6 +1,6 @@
 #' Days since 14. Oct 1582
 #'
-#' Count of the number of days since October 14, 1582 (the first day of the Gregorian calendar).
+#' Count the number of days since October 14, 1582 (the first day of the Gregorian calendar).
 #'
 #' @usage xpssJDate()
 #' @return Returns days since 14 Oct 1582

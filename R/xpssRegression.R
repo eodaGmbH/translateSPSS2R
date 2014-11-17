@@ -46,11 +46,12 @@ enter <- function(...){
 
 #' Calculates a linear Regression
 #'
-#' REGRESSION calculates linear regressions with associated statistics and plots. REGRESSION also calculates collinearity diagnostics, predicted values, residuals, measures of fit and influence, and several statistics based on these measures.
+#' R Implementation of the SPSS \code{REGRESSION} Function.xpssRegression calculates linear regressions with associated statistics and plots. 
 #'
 #' Implementation from SPSS Regression in R
 #'
-#' @usage xpssRegression(x, variables = NULL, dependent, method = enter(), missing = "listwise", statistics = c("COEFF", "OUTS", "R", "ANOVA"), origin = FALSE)
+#' @usage xpssRegression(x, variables = NULL, dependent, method = enter(), 
+#' missing = "listwise", statistics = c("COEFF", "OUTS", "R", "ANOVA"), origin = FALSE)
 #' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
 #' @param variables vector with independent Variables as characters
 #' @param dependent dependent Variable as character
@@ -80,8 +81,20 @@ xpssRegression <- function(x,
 		origin = FALSE
 )
 {
-	#stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+  
 	
+  ####################################################################
+  ####################### Meta - Checks ##############################
+  ####################################################################
+  
+  functiontype <- "AN"
+  x <- applyMetaCheck(x)
+  
+  ####################################################################
+  ####################################################################
+  ####################################################################
+  
+  
 	options(warn = -1)
 	
 	method <- substitute(method)

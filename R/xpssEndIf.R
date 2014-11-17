@@ -1,28 +1,33 @@
-#' Creates a subset of cases 
+#' Ends a DO IF - END IF subset
 #'
-#' xpssEndIf determines the end of the analysis based on logical conditions via xpssDoIf.
-#'
-#' \code{\link{xpssEndIf}} restores the original data, after \code{\link{xpssDoIf}} subsetted the data. All changes which were made until \code{\link{xpssEndIf}} will be taken over, the excluded data will be untouched!\cr \cr
+#' R implementation of the SPSS \code{END IF} argument.
 #' 
-#'  \strong{NOTE:} For temporary case selection, specify \code{\link{xpssTemporary}} before \code{\link{xpssDoIf}}.
+#'  xpssEndIf determines the end of the analysis based on logical conditions via \code{\link{xpssDoIf}}.  \code{xpssEndIf} merge the excluded data with the actual dataset, after \code{xpssDoIf} subsetting the data. All changes which were made until \code{xpssEndIf} will be taken over, the excluded data will remain untouched!\cr \cr
+#' 
+#'  \strong{NOTE:} For temporary case selection, specify \code{xpssTemporary} before \code{xpssDoIf}.
 #'
 #' @usage xpssEndIf(x)
 #' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
-#' @return Output is a  the original dataset.
+#' @return Output is the original dataset.
 #' @author Andreas Wygrabek
 #' @examples
+#' # load data
 #' data(fromXPSS)
-#' # Select all cases which match 1 in V3
+#' 
+#' # Select all cases matching 1 in V3
 #' temp <- xpssDoIf(x=fromXPSS, cond = "V3 == 1")
+#' 
 #' # Recode all selected cases
-#' temp <- xpssRecode(x=temp,varin="V5",rec="lo:78 = 1; else = 2")
+#' temp <- xpssRecode(x=temp,variables="V5",rec="lo:78 = 1; else = 2")
+#' 
 #' # End DoIf Subsetting, restore dataset with applied changes
 #' temp <- xpssEndIf(x=temp)
 #' 
 #' @export
 xpssEndIf <- function(x){
     
-    stopifnot(is.data.frame(x) | is.data.table(x) | "xpssFrame" %in% class(x))
+  functiontype <- "ME"
+  x <- applyMetaCheck(x)
     
     # Set DO_IF attribute to TRUE
     attributes(x)$DO_IF <- FALSE

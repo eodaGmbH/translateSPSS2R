@@ -8,21 +8,23 @@ xpssString(x, varname = NULL, fill = NA)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
 
-\item{varname}{atomic character or character vector with the name of the variables which should be created.}
+\item{varname}{atomic character or character vector with the names of the variables which should be created.}
 
-\item{fill}{values to fill the Variables. By default the value is NA for all new variables. It is possible to assign each new variable an own value to fill with.}
+\item{fill}{atomic numeric or atomic character values to fill the variables. By default the value is NA for all new variables. It is possible to assign each new variable an own value to fill with.}
 }
 \value{
 Returns the input data extended by the new variables
 }
 \description{
-Creates new string variables, which get appended at the end of the dataset.
+R implementation of the SPSS \code{STRING} function. Creates new string variables, which get appended at the end of the dataset.
 }
 \details{
 xpssString creates new string variables, which get appended at the end of the dataset. The new variables are as long as the selected dataset. By default the new variables are blank and get filled with NA, otherwise every case for the selected variable gets filled with the filled value.
 }
 \examples{
+# load data
 data(fromXPSS)
+# create variable D and E, containing "placeholder" and NA
 xpssString(fromXPSS, varname = c("D","E"), fill = c("placeholder",NA))
 }
 \author{

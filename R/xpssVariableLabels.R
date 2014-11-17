@@ -1,37 +1,40 @@
 #' Modifies variable labels
 #'
-#' Changing the label of a variable. In the structure of xpss-data the variable label is an attribute of each variable.
+#' R implementation of the SPSS \code{VARIABLE LABEL} function. Changing the label of a variable. In the structure of xpss-data the variable label is an attribute of each variable.
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
-#' @param variables Variable(s) to change the label. Given as a character string
-#' @param labels Labels for the specified variables in  variables. Given as a character string. The labels are associated in order of appearence
-#' to  variables.   
-#' @return Input Data with modified attribute variable label
+#' @param variables atomic character or character vector with the names of the variable(s).
+#' @param labels atomic character of character vector with labels for the specified variables in variables. The labels are associated in order of appearence
+#' of the variables.   
+#' @return Input Data with modified attribute variable label.
 #' @author Andreas Wygrabek
 #' @seealso \code{\link{attributes}} \code{link{attr}}
 #' @examples
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # add variable label for variable V4 and V7_1
 #' daten <- xpssVariableLabels(fromXPSS, c("V4", "V7_1"), c("Label1", "Label2"))
 #' @export
 xpssVariableLabels <- function(x,  variables = NULL, labels = NULL){
     
-  if((!is.data.frame(x) & !is.data.table(x)) | !("xpssFrame" %in% class(x))){
-    stop("Object has to be from class data.frame, data.table or xpssFrame")
-  }
-  class(x) <- c("xpssFrame","data.frame","DM")
   ####################################################################
   ####################### Meta - Checks ##############################
   ####################################################################
-  #x <- checkTemporary(x)
   
-  
+  functiontype <- "DM"
   x <- applyMetaCheck(x)
   
   ####################################################################
   ####################################################################
   ####################################################################
   
+  
     myList <- as.list( variables)
+  
+    if(!(is.element(variables,names(x)))) {
+      stop("The selected variable has to be in the dataset")
+    }
     
     if(length( variables) != length(labels)){
         stop("Length of  variables and labels has to be the same")

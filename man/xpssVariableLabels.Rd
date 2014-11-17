@@ -8,19 +8,22 @@ xpssVariableLabels(x, variables = NULL, labels = NULL)
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
 
-\item{variables}{Variable(s) to change the label. Given as a character string}
+\item{variables}{atomic character or character vector with the names of the variable(s).}
 
-\item{labels}{Labels for the specified variables in  variables. Given as a character string. The labels are associated in order of appearence
-to  variables.}
+\item{labels}{atomic character of character vector with labels for the specified variables in variables. The labels are associated in order of appearence
+of the variables.}
 }
 \value{
-Input Data with modified attribute variable label
+Input Data with modified attribute variable label.
 }
 \description{
-Changing the label of a variable. In the structure of xpss-data the variable label is an attribute of each variable.
+R implementation of the SPSS \code{VARIABLE LABEL} function. Changing the label of a variable. In the structure of xpss-data the variable label is an attribute of each variable.
 }
 \examples{
+# load data
 data(fromXPSS)
+
+# add variable label for variable V4 and V7_1
 daten <- xpssVariableLabels(fromXPSS, c("V4", "V7_1"), c("Label1", "Label2"))
 }
 \author{

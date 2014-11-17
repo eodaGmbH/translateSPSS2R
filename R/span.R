@@ -1,23 +1,23 @@
 #' Indicates range of varlist
 #'
-#' Creates a list of variables within a specific range
+#' Creates a list of variables within a specific range.
 #'
 #' @usage span(x, from = NULL, to = NULL, addDF = FALSE)
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
-#' @param from variable that opens the span
-#' @param to variable that closes the span
-#' @param addDF Should the name of the input data be used?
-#' @return Returns a varlist with the name of the variables which a within the range of the span indicator. 
+#' @param x a (non-empty) data.frame, data.table object, or input data of class "xpssFrame". 
+#' @param from  the variable that opens the span.
+#' @param to the variable that closes the span.
+#' @param addDF if the name of the input data should be used?
+#' @return Returns a varlist with the name of the variables which are within the range of the span indicator. 
 #' @author Andreas Wygrabek
 #' @examples 
-#' foo <- matrix(data = c(1:15), 
-#' nrow = 3,
-#' ncol = 5,
-#' dimnames = list(c(1,2,3),c("A","B","C","D","E")))
-#' span(foo, from = "C", to = "E",addDF = FALSE)
-#' span(foo, from = "C", to = "E",addDF = TRUE)
+#' # load data
+#' data(fromXPSS)
+#' # span from V1 to V5
+#' span(x=fromXPSS,from="V1",to="V5",addDF=FALSE)
+#' # span from V3 to V1 and add the name of the data object.
+#' span(x=fromXPSS,from="V3",to="V1",addDF=TRUE)
 #' @export
-span <- function(x = data, from = NULL, to = NULL, addDF = FALSE){
+span <- function(x = NULL, from = NULL, to = NULL, addDF = FALSE){
 
     if(!(is.character(from) & is.character(to))){
         stop("from/to has to be character")

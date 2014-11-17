@@ -1,14 +1,14 @@
 #' Modifies value labels
 #'
-#' xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
+#' R implementation of the SPSS \code{VALUE LABEL} function.xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
-#' @param variables atomic character or character vector with the name of the variables.
-#' @param values atomic numeric or numeric vector containing the value of the variable.
-#' @param labels character string containing a variable's label.
-#' @param datevariables atomic date or date vector with the name of the date variables.
-#' @param datevalues atomic date or date vector containing the value of the date, the value has to be like the old date format.
-#' @param datelabels character string containing a date's label.
+#' @param variables atomic character or character vector with the names of the variables.
+#' @param values atomic numeric or numeric vector containing the values of the variable.
+#' @param labels atomic character or character vector containing the variable labels.
+#' @param datevariables atomic date or date vector with the names of the date variables.
+#' @param datevalues atomic date or date vector containing the value of the date, the values has to be like the old date format.
+#' @param datelabels atomic character or character vector containing the date labels.
 #' @details The SPSS variables are stored at the variable itself. 
 #' \cr In contrast to \code{\link{xpssAddValueLabels}} , \code{\link{xpssValueLabels}} does erase existing value labels. \cr If the value label for a specific variable already exists, all value labels for that variable get overwritten. \cr If the value label for a specific variable does not exist, the value label gets created and all existing value labels for that variable get deleted. 
 #' \cr\cr A variable can have the following attributes: 
@@ -17,8 +17,10 @@
 #' @seealso \code{\link{read.spss}}
 #' @examples
 #' 
+#' # load data
 #' data(fromXPSS)
 #' 
+#' # add "Label1" with value 1 to variable V1
 #' temp <- xpssValueLabels(fromXPSS, 
 #'                            variables = "V1", 
 #'                            value = 1 ,
@@ -29,12 +31,30 @@
 xpssValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL,
                             datevariables = NULL, datevalues = NULL, datelabels = NULL){
     
-   if((!is.data.frame(x) & !is.data.table(x)) | !("xpssFrame" %in% class(x))){
-        stop("Object has to be from class data.frame, data.table or xpssFrame")
-    }
+  ####################################################################
+  ####################### Meta - Checks ##############################
+  ####################################################################
+  
+  functiontype <- "DM"
+  x <- applyMetaCheck(x)
+  
+  ####################################################################
+  ####################################################################
+  ####################################################################
+  for(i in 1:length(variables)) {
+    if(length(variables>0) && (!(is.element(variables[[i]],names(x))))) {
+      stop("The selected variables has to be in the dataset")
+    }  
+  }
+  for(i in 1:length(datevariables)) {
+    if(length(datevariables>0) && (!(is.element(datevariables[[i]],names(x))))) {
+      stop("The selected datevariables has to be in the dataset")
+    }  
+  }
+  
     
     if(length(values) != length(labels)){
-        stop("Vectors values and labels don´t have the same length")
+        stop("Vectors values and labels dont have the same length")
     }
     
     if("NA" %in% labels){
@@ -42,25 +62,10 @@ xpssValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL,
     }
     if(!is.null(values))
     {
-      if(class(values) != "numeric"){
-        stop("Only numeric values are allowed for the argument values")
+      if(class(values) != "numeric" && class(values) != "character"){
+        stop("Only numeric or character values are allowed for the argument values")
       }
     } 
-   
-   class(x) <- c("xpssFrame","data.frame","DM")
-   ####################################################################
-   ####################### Meta - Checks ##############################
-   ####################################################################
-   #x <- checkTemporary(x)
-   
-   
-   x <- applyMetaCheck(x)
-   
-   ####################################################################
-   ####################################################################
-   ####################################################################
-   
-   
    if(length(variables) > 0) {
        for(i in 1:length(variables)){
          
@@ -87,7 +92,7 @@ xpssValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL,
    
    
    ### DeMerge
-   ## Filter is set & Function is a Datamanagement Function
+   ## Filter is set and Function is a Datamanagement Function
    x <- applyAttributeDemerge(x)
    
    return(x)

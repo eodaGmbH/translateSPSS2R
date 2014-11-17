@@ -3,41 +3,47 @@
 \alias{xpssList}
 \title{Displays the content of variables.}
 \usage{
-xpssList(x, variables = "", cases = FALSE,from = NULL, to = NULL, by = NULL)
+xpssList(x, variables = colnames(x), cases = list(from = 1, to = nrow(x), by = 1))
 }
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}.}
 
-\item{variables}{atomic character or character vector with the name of the variables.}
+\item{variables}{atomic character or character vector with the names of the variables.}
 
-\item{cases}{Not documented yet}
+\item{cases}{list containing the arguments from, to, by.}
 
-\item{from}{Not documented yet}
+\item{from}{atomic numeric, determine the begin of the sequence.}
 
-\item{to}{Not documented yet}
+\item{to}{atomic numeric, determine the end of the sequence.}
 
-\item{by}{Not documented yet}
+\item{by}{atomic numeric, determine the increment of the sequence.}
 }
 \value{
-If cases is not specified the return is the length of the data.
+A data.frame with case values for specified variables in the dataset. If cases and variables are not specified, List return the complete dataset. If cases are specified the output is a user-defined sequence.
 }
 \description{
-R Implementation of the SPSS \code{LIST} Function
+R implementation of the SPSS \code{LIST} Function
 }
 \details{
-LIST displays the content of selected variables. It's possible to display a sequenz with the \code{cases} argument.
+LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.
 }
 \examples{
+# load data
 data(fromXPSS)
 
+# display the complete data
 xpssList(x=fromXPSS)
 
+# display only variable V1
 xpssList(x=fromXPSS,
    variables = "V1")
 
+# display only variable V1 V2
 xpssList(x=fromXPSS,
    variables = c("V1","V2"))
 
+
+# display variable V1 V2 and cases 2 till 18 by 2
 xpssList(x=fromXPSS,
    variables = span(fromXPSS,
                  from="V1",

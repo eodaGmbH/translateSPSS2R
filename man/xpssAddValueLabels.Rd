@@ -11,37 +11,44 @@ xpssAddValueLabels(x, variables = NULL, values = NULL, labels = NULL,
 
 \item{variables}{atomic character or character vector with the name of the variables.}
 
-\item{values}{atomic numeric or numeric vector containing the value of the variable.}
+\item{values}{atomic numeric or numeric vector, respectively as an atomic character or character vector containing the value of the variable.}
 
-\item{labels}{character string containing a variable's label.}
+\item{labels}{atomic numeric or numeric vector, respectively as an atomic character or character vector containing the label of the variable.}
 
 \item{datevariables}{atomic date or date vector with the name of the date variables.}
 
 \item{datevalues}{atomic date or date vector containing the value of the date, the value has to be like the old date format.}
 
-\item{datelabels}{character string containing a date's label.}
+\item{datelabels}{atomic numeric or numeric vector, respectively as an atomic character or character vector containing a variable label.}
+}
+\value{
+An xpssFrame object with modified value labels.
 }
 \description{
-xpssAddValueLabels appends value labels for specific variables. The values of the label get stored in attributes of the variable.
+R implementation of the SPSS \code{ADD VALUE LABELS} function. \code{xpssAddValueLabels} appends value labels for specific variables. Those values labels get stored in the attributes of the selected variable.
 }
 \details{
 The values labels are stored in the variable itself.
-\cr In contrast to \code{\link{xpssValueLabels}} , \code{\link{xpssAddValueLabels}} does not erase existing value labels. \cr If the value label for a specific variable already exists, this value label gets overwritten. \cr If the value label for a specific variable does not exist, the value label gets created, without deleting the existing value labels for that variable.
+\cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label gets overwritten. \cr If the value label for a specific variable does not exist, the value label gets created without deleting the existing value labels for that variable.
 }
 \examples{
+# load data
 data(fromXPSS)
 
-temp <- xpssValueLabels(fromXPSS,
+# create a value label for variable V1
+fromXPSS <- xpssValueLabels(fromXPSS,
                            variables = "V1",
                            value = 1 ,
                            label = "Label1")
 
-temp <- xpssAddValueLabels(temp,
+# add another value label for variable V1
+fromXPSS <- xpssAddValueLabels(fromXPSS,
                            variables = "V1",
                            value = 2 ,
                            label = "Label2")
 
-attributes(temp$V1)$value.labels
+# show value labels for variable V1
+attributes(fromXPSS$V1)$value.labels
 }
 \author{
 Bastian Wiessner

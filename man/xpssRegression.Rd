@@ -3,7 +3,8 @@
 \alias{xpssRegression}
 \title{Calculates a linear Regression}
 \usage{
-xpssRegression(x, variables = NULL, dependent, method = enter(), missing = "listwise", statistics = c("COEFF", "OUTS", "R", "ANOVA"), origin = FALSE)
+xpssRegression(x, variables = NULL, dependent, method = enter(),
+missing = "listwise", statistics = c("COEFF", "OUTS", "R", "ANOVA"), origin = FALSE)
 }
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
@@ -24,7 +25,7 @@ xpssRegression(x, variables = NULL, dependent, method = enter(), missing = "list
 returns a list of lists, each applied method is its own list with regression, anova and beta-coeffizients as elements
 }
 \description{
-REGRESSION calculates linear regressions with associated statistics and plots. REGRESSION also calculates collinearity diagnostics, predicted values, residuals, measures of fit and influence, and several statistics based on these measures.
+R Implementation of the SPSS \code{REGRESSION} Function.xpssRegression calculates linear regressions with associated statistics and plots.
 }
 \details{
 Implementation from SPSS Regression in R

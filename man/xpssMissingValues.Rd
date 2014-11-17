@@ -3,43 +3,59 @@
 \alias{xpssMissingValues}
 \title{Defines missing values for variables.}
 \usage{
-xpssMissingValues(x, variables = NULL, as.missing = list(range = c(from=NULL,to=NULL),singlevalues = NULL), append = FALSE)
+xpssMissingValues(x, variables = NULL,
+as.missing = list(range = c(from=NULL,to=NULL),singlevalues = NULL),
+append = FALSE)
 }
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
 
-\item{variables}{one or more variables given as character.}
+\item{variables}{atomic character or character vector with the names of the variables.}
 
-\item{as.missing}{numeric list of values to define missing values.}
+\item{as.missing}{numeric list containing range and singlevalues.}
 
-\item{append}{logical indicator, which specifies if the existing missings should get overwritten or not.}
+\item{append}{logical. Indicating, if the existing missings should get overwritten or not.}
+
+\item{range}{numeric vector containing a missing range from i to n.}
+
+\item{singlevalues}{atomic numeric or numeric vectors containing singlevalues which determine missing values.}
 }
 \value{
 a data frame with \code{NAs} located at the position where the specified values in as.missing used to be. In the attributes of the object the position and the value itself is stored.
 }
 \description{
-Defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
+R implementation of the SPSS \code{MISSING VALUES} function. xpssMissingValues defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables. Defines values as missing and replace them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
 }
 \details{
-xpssMissingValues sepcifies values for missing data for the selected variables. Those variables which match the terms of beeing a missing data get treated as \code{NA}. Variables which contain \code{NA}, receive in most cases a special treatment in data management, case selection, and descriptive, respectively inductive statistics.
-Defines missing values for variables.
+xpssMissingValues specifies values for missing data for the selected variables. Those variables which match the terms of beeing a missing data get treated as \code{NA}. In most cases, variables which contain \code{NA} receive a special treatment in data management, case selection, and descriptive, respectively inductive statistics.
+User-missing values and system-missing values get treated as exactly one kind of missing data. The only difference in those missing values are that system missings get automatically assigned by the program when no legal value can be produced (e.g. character input at a numeric varibale, failed datatransformation) and user-defined missings, which are missing user data (e.g. the respondent forgot to answer, or skipped the question). \cr \cr Common is that this empty spaces are filled with \emph{-9 till -999} (for e.g. refusal to respond, inability to respond, Non-contact).
 
-Defines values as missing and replace them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
+The \code{as.missing} statement indicates the handling of values which are matched by the as.missing statement. Input format is a list with the arguments \code{range} to determine a range of values with the arguments \code{from} and \code{to} as NA or \code{singlevalues} to specify one more singlevalues as missing.
 
-xpssMissingValues sepcifies values for missing data for the selected variables. Those variables which match the terms of beeing a missing data get treated as \code{NA}. Variables which contain \code{NA}, receive in most cases a special treatment in data management, case selection, and descriptive, respectively inductive statistics.
-\cr \cr User-missing values and system-missing values get treated as exactly one kind of missing data. The only difference in those missing values are that system missings get automatically assigned by the program when no legal value can be produced (e.g. character input at a numeric varibale, failed datatransformation) and user-defined missings, which are missing user data (e.g. the respondent forgot to answer, or skipped the question). \cr \cr Common is that this empty spaces are filled with \emph{-9 till -999} (for e.g. refusal to respond, inability to respond, Non-contact). \cr \cr
-
-The \code{as.missing} statement indicates the handling of values which are matched by the as.missing statement, \cr
-\tabular{rlll}{
-
-\tab \code{singlevalues} \tab  specifies atomic missings \cr
-\tab \code{range}  \tab defines a vector from x to y, which sets all matched values to NA.} \cr
-
-\strong{NOTE:} The special arguments \code{lo} and  \code{hi} can be used to determine the lowest and highest value of a numeric value. \cr
+\strong{NOTE:} The special arguments \code{lo} and  \code{hi} can be used to determine the lowest and highest value of a numeric value, wheter a missing \code{range} gets indexed.
 }
 \examples{
+# load data
 data(fromXPSS)
-temp <- xpssMissingValues(fromXPSS, variable = "V6", as.missing = list(range=c(from="lo",to=45)))
+
+# declare the lowest value till 45 in variable V6 as missing
+fromXPSS <- xpssMissingValues(fromXPSS,
+variable = "V6",
+as.missing = list(range=c(from="lo",
+to=45)))
+
+# declare 1 and 2 in variable V3 as missing
+fromXPSS <- xpssMissingValues(fromXPSS,
+variable = "V3",
+as.missing = list(singlevalues=c(1,
+2)))
+
+# declare the lowest value and 50 till the highest value in variable V6 as missing
+fromXPSS <- xpssMissingValues(fromXPSS,
+variable = "V6",
+as.missing = list(singlevalues="lo",
+range=c(from="50",
+to="hi")))
 }
 \author{
 Andreas Wygrabek

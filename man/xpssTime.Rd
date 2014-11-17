@@ -9,7 +9,7 @@ xpssTime()
 Returns minutes since 14 Oct 1582
 }
 \description{
-Count of the number of minutes since October 14, 1582 (the first day of the Gregorian calendar).
+R implementation of the SPSS \code{$TIME} function. Count of the number of minutes since October 14, 1582 (the first day of the Gregorian calendar).
 }
 \author{
 Bastian Wiessner

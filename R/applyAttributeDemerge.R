@@ -8,6 +8,7 @@
 #' @return Output is the input data demerged on the basis of the attributes of the actual dataset.
 #' @author Bastian Wiessner
 #' @keywords internal
+
 applyAttributeDemerge <- function(x) {
   
   # if function is data management function
@@ -34,8 +35,6 @@ applyAttributeDemerge <- function(x) {
         x <- applyAttributes(x, attBack)
       }
     } 
-    
-    class(x) <- c("xpssFrame","data.frame")
     
   return(x)
 }

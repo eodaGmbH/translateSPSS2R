@@ -7,9 +7,9 @@
 #' \strong{\code{missing:}} 
 #' \tabular{rlll}{
 #' 
-#'\tab \code{variable} \tab removes user-, and system-missing data explicit for every variable. 
+#'\tab \code{variable} \tab removes user-, and system-missing data explicitly for every variable. 
 #'\cr \tab \code{listwise} \tab performs a listwise-deletion.
-#'\cr \tab \code{include} \tab includes all user-defined missing values.} \cr
+#'\cr \tab \code{include} \tab includes all user-defined missing values.} 
 #' 
 #' \strong{\code{statistics:}}
 #'\tabular{rlll}{
@@ -29,10 +29,10 @@
 #'  
 #' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
 #' @param variables atomic character or character vector with the name of the variables.
-#' @param missing method that indicates what should happen when the data contains NAs. Default is \code{"variable"}.
-#' @param statistics specificing which statistics should be performed, as an atomic character or character vector. Default are \code{"mean"}, \code{"max"}, \code{"min"}, \code{"stddev"}.
-#' @param save adds the z-score of each variable to \code{x}.
-#' @param ztrans specifies variables for z-transformation and name of z-transformed variables. Read Details for further information.
+#' @param missing atomic character which specifiy the missing method. The method indicates what should happen when the data contains NAs. Default is \code{"variable"}.
+#' @param statistics atomic chracter or character vector which determine the descriptiv statistics. Default are \code{"mean"}, \code{"max"}, \code{"min"}, \code{"stddev"}.
+#' @param save logical indicator. TRUE adds the z-score of each variable to \code{x}. Default is FALSE.
+#' @param ztrans list which specifies variables for z-transformation and name of z-transformed variables. Read Details for further information.
 #' 
 #' @return The output is a list object with the estimated descriptive statistic parameters. Every list object contains one variable with the specific outcomes, e.g. statistic values. 
 #' 
@@ -40,24 +40,26 @@
 #' 
 #' @author Bastian Wiessner
 #' @examples
+#'
+#' # load data
 #' data(fromXPSS)
-#' #simple descriptiv statistics
+#' 
+#' # default statistics for variable V5
 #' xpssDescriptives(x=fromXPSS,
 #'                  variables="V5")
-#' 
-#' #additionally with ztransformed values
+#'
+#' # default statistics for variable V7_1 including z-scores
 #' xpssDescriptives(x=fromXPSS,
 #'                  variables="V7_1",
 #'                  save = TRUE)
 #' 
-#' #additionally with custom ztransformed values
+#' # default statistics for variable V7_2 including z-scores saved in a user-defined variable
 #' xpssDescriptives(x=fromXPSS,
 #'                  variables="V7_2",
 #'                  save = TRUE,
 #'                  ztrans = list(varname = "V7_2", 
 #'                                zname = "myZname"))
-#' 
-#' #addiontally with custom paramters values
+#' # user-defined statistics for variable V7_2 including z-scores saved in a user-defined variable
 #' xpssDescriptives(x=fromXPSS,
 #'                  variables="V7_2", 
 #'                  statistics=c("kurtosis",
@@ -68,7 +70,7 @@
 #'                  save = TRUE,
 #'                  ztrans = list(varname = "V7_2", 
 #'                                zname = "myZname"))
-#' 
+
 #' @export
 xpssDescriptives <-  function(x, 
                               variables = NULL,
@@ -85,30 +87,29 @@ xpssDescriptives <-  function(x,
     require("plyr")
     require("e1071")
   
- #   class(x) <- c("xpssFrame","data.frame","AN")
+    names(ztrans) <- c("varname", "zname")
+    
     ####################################################################
     ####################### Meta - Checks ##############################
     ####################################################################
     ### Globale Zuweisung um TEMPORARY = FALSE zu setzen
-    
-     if(attributes(x)$TEMPORARY == TRUE){
-         attribut_backup <- attributesBackup(x)
-         dateiname <- eval(paste0(deparse(substitute(x))), envir = .GlobalEnv)
-         assign(x=dateiname,value=attributes(x)$ORIGIN,envir=.GlobalEnv)
-         eval(parse(text = paste0("attributes(", dateiname,")$TEMPORARY <- FALSE")), envir = .GlobalEnv)
-         eval(parse(text = paste0("attributes(", dateiname,")$SELECT_IF <- FALSE")), envir = .GlobalEnv)
-         eval(parse(text = paste0("class(", dateiname,") <- c('data.frame','xpssFrame')")), envir = .GlobalEnv)
-         eval(parse(text = paste0("attributes(", dateiname,")$ORIGIN <- NULL")), envir = .GlobalEnv)
-                  
-# eval(parse(text = paste0("attributes(", dateiname,")$SELECT_IF <- FALSE")), envir = .GlobalEnv)
-#          
-     }
 
+    functiontype <- "AN"
+    dataname <- eval(paste0(deparse(substitute(x))), envir = .GlobalEnv)
+    x <- applyMetaCheck(x)
+    options(warn=-1)
     ####################################################################
     ####################################################################
     ####################################################################
   
-  #stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
+    if(is.null(variables))
+    {
+      stop("argument variables is missing, no default available")
+    }
+    if(!(is.element(variables,names(x)))) {
+      stop("The selected variable has to be in the dataset")
+    }
+    
   for(i in 1:length(variables))
   {
     if(class(x[,variables[i]]) != "numeric"){  
@@ -116,18 +117,15 @@ xpssDescriptives <-  function(x,
     }
   } 
 
-if(is.null(variables))
-{
-  stop("argument variables is missing, no default available")
-}
+
 if(missing != "variable" && missing != "listwise" && missing != "include")  {
   stop("wrong 'missing' argument. Only the arguments 'variable', 'listwise', and 'include' are valid.")
 }
-if((statistics != "all") && (statistics != "n") && (statistics != "mean") && (statistics != "min") && (statistics != "max") && 
+if((statistics != "all") && (statistics != "default")&& (statistics != "n") && (statistics != "mean") && (statistics != "min") && (statistics != "max") && 
      (statistics != "stddev") && (statistics !="kurtosis") && (statistics != "range") && (statistics !="semean") && 
      (statistics != "skewness") && (statistics != "sum") && (statistics != "variance"))
 {
-  stop("unknown statics command, only the following paramters are valid: 'all', 'kurtosis', 'mean', 'max', 'min', 'range', 'semean', 'skewness', 'stddev', 'sum', 'variance'")
+  stop("unknown statics command, only the following paramters are valid: 'all', 'default', 'kurtosis', 'mean', 'max', 'min', 'range', 'semean', 'skewness', 'stddev', 'sum', 'variance'")
 }
 
 if(!is.null(ztrans$zname) && is.null(ztrans$varname) || is.null(ztrans$zname) && !is.null(ztrans$varname))
@@ -151,15 +149,13 @@ if(!is.logical(save))
       descr[[i]] <- na.omit(x[,variables[i]])
     }
   }
-  
   if("listwise" %in% missing)
   {
     if(length(variables) >1){
       descr <- as.list(na.omit(x[,variables]))  
     } else {
       descr <- list(na.omit(x[,variables]))
-    }
-    
+    } 
   } 
   if("include" %in% missing)
   {
@@ -172,9 +168,6 @@ if(!is.logical(save))
   }  
  names(descr) <- variables
 
-  
- 
-
   #----------------- Z - Transform -----------------------------------#
    
   for(i in 1:length(variables))
@@ -184,15 +177,18 @@ if(!is.logical(save))
       names(descr)[length(descr)] <- paste("Z",variables[i], sep = "")
     }
   }
-i <- 1
-  if((save==T) && (length(ztrans$varname) == (length(ztrans$zname))) && ((!is.null(ztrans$varname)) && (!is.null(ztrans$zname)))) {
+if(!is.null(ztrans$varname)) {
+  if(is.element(ztrans$varname,variables)) {
+    if((save==T) && (length(ztrans$varname) == (length(ztrans$zname))) && ((!is.null(ztrans$varname)) && (!is.null(ztrans$zname)))) {
       for(i in 1:length((intersect(ztrans$varname, variables))))
-        {
-          varnames <- names(descr)[which(names(descr)%in% ztrans$varname)]
-          varnames <- paste("Z",varnames, sep = "")
-          names(descr)[which(names(descr) %in% varnames[i])] <- ztrans$zname[i]           
+      {
+        varnames <- names(descr)[which(names(descr)%in% ztrans$varname)]
+        varnames <- paste("Z",varnames, sep = "")
+        names(descr)[which(names(descr) %in% varnames[i])] <- ztrans$zname[i]           
       }
+    }
   }
+}
   
 
   #------------------ Statistic FUnctions----------------------------------------------#
@@ -252,11 +248,7 @@ tempseskewness <- NULL
     if("variance" %in% statistics)  {
       tempvariance <- var( descr[[i]])    
     } 
-    if("all" %in% statistics)
-    {
-    #  temp <- data.frame(0)
-    #  temp <- count(!is.na(x[,variables]))
-      
+    if("all" %in% statistics)    {
       tempn <- length(descr[[i]])
       tempmean <- mean(descr[[i]])
       tempmin <- min(descr[[i]])
@@ -271,6 +263,13 @@ tempseskewness <- NULL
       tempsum  <-  sum( descr[[i]])
       tempvariance  <- var( descr[[i]])
     } 
+    if("default" %in% statistics) {
+      tempn <- length(descr[[i]])
+      tempmean <- mean(descr[[i]])
+      tempmin <- min(descr[[i]])
+      tempmax <- max(descr[[i]])
+      tempstddev <- sd( descr[[i]])
+    }
      descr[[i]] <- list("n" = tempn,
                         "mean" = tempmean,
                         "min" = tempmin, 
@@ -285,11 +284,10 @@ tempseskewness <- NULL
                         "sum" = tempsum,
                         "variance" = tempvariance)
     }
-   
    for(i in 1:length(variables)){
      pos <- which(F==lapply(descr[[i]], is.null))
      descr[[i]] <- descr[[i]][pos]
     }
-  
+options(warn=0)
 return(descr)  
 }

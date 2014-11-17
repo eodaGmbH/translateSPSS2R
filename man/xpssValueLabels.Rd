@@ -9,20 +9,20 @@ xpssValueLabels(x, variables = NULL, values = NULL, labels = NULL,
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
 
-\item{variables}{atomic character or character vector with the name of the variables.}
+\item{variables}{atomic character or character vector with the names of the variables.}
 
-\item{values}{atomic numeric or numeric vector containing the value of the variable.}
+\item{values}{atomic numeric or numeric vector containing the values of the variable.}
 
-\item{labels}{character string containing a variable's label.}
+\item{labels}{atomic character or character vector containing the variable labels.}
 
-\item{datevariables}{atomic date or date vector with the name of the date variables.}
+\item{datevariables}{atomic date or date vector with the names of the date variables.}
 
-\item{datevalues}{atomic date or date vector containing the value of the date, the value has to be like the old date format.}
+\item{datevalues}{atomic date or date vector containing the value of the date, the values has to be like the old date format.}
 
-\item{datelabels}{character string containing a date's label.}
+\item{datelabels}{atomic character or character vector containing the date labels.}
 }
 \description{
-xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
+R implementation of the SPSS \code{VALUE LABEL} function.xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
 }
 \details{
 The SPSS variables are stored at the variable itself.
@@ -31,8 +31,10 @@ The SPSS variables are stored at the variable itself.
 value.labels, defined.MIS, MIS, varname, variable.label
 }
 \examples{
+# load data
 data(fromXPSS)
 
+# add "Label1" with value 1 to variable V1
 temp <- xpssValueLabels(fromXPSS,
                            variables = "V1",
                            value = 1 ,

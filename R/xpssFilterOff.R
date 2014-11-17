@@ -1,17 +1,41 @@
-#' Displays the content of variables.
+#' Ends a FILTER subset 
 #'
-#' R Implementation of the SPSS \code{LIST} Function
+#' R implementation of the SPSS \code{FILTER OFF} Function.
 #'
-#' LIST displays the content of selected variables. It's possible to display a sequenz with the \code{cases} argument.
+#'  xpssFilterOff terminates the filtering and merges the excluded data with the actual subset of the dataset.
+#' \cr\cr \strong{Important:} 
+#' \cr All changes are used on the complete dataset, except for the function beeing an \emph{data exploring} or \emph{data analyzing} function. \cr \cr
+#'  \tabular{rlll}{
+#'  \tab Type of Function \tab Example Function \tab Dataset Usage \cr
+#' \tab Data Management  \tab \code{\link{xpssSelectIf}} \tab Uses the complete dataset\cr
+#' \tab Data Modifing \tab \code{\link{xpssRecode}} \tab Uses the complete dataset\cr
+#' \tab Data Exploring \tab \code{\link{xpssDescriptives}} \tab Uses the working dataset only\cr
+#' \tab Data Analyzing \tab \code{\link{xpssRegression}} \tab Uses the working dataset only\cr
+#'}
+#' \strong{NOTE:} For temporary case selection, specify \code{xpssTemporary} before \code{xpssDoIf}.
 #'
 #' @usage xpssFilterOff(x)
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}. 
-#' @return If cases is not specified the return is the length of the data.
-#' @author Bastian Wiessner
+#' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
+#' @return Output is the original dataset.
+#' @author Andreas Wygrabek
 #' @examples
-#' lala <- 1
+#' # load data
+#' data(fromXPSS)
+#' 
+#' # Select all cases which match 1 in V3
+#' temp <- xpssDoIf(x=fromXPSS, cond = "V3 == 1")
+#' 
+#' # Recode all selected cases
+#' temp <- xpssRecode(x=temp,variables="V5",rec="lo:78 = 1; else = 2")
+#' 
+#' # End DoIf Subsetting, restore dataset with applied changes
+#' temp <- xpssEndIf(x=temp)
+#' 
 #' @export
 xpssFilterOff <- function(x){
+  
+  functiontype <- "ME"
+  x <- applyMetaCheck(x)
     
   if(attributes(x)$FILTER == FALSE){
       stop("Filter not activated")

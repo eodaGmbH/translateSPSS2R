@@ -1,40 +1,40 @@
-#' samples the a dataset
+#' Creates a sample
 #'
-#' Takes a sample from a xpssFrame, data frame or matrix
+#' R mplementation of the SPSS \code{SAMPLE} argument. Takes a sample from a xpssFrame object, data frame or matrix.
 #'
-#' sample takes a sample of the specified size from the elements of x using either with or without replacement.
+#' xpssSample takes a sample of the specified size from the elements of x either with or without replacement. The subset get specified by pct or n. 
 #' 
-#' \code{pct} specifies a percentage of value which should be kept, allowed value range is from 1 to 0.01.
+#' \code{pct} specifies a percentage value, for the amount of data which should be kept, allowed value range is from 0.01 to 1.
 #' \code{n} indicates the amount of values to keep. \code{n} has to be lower then \code{from}.
 #' \code{from} determines the basis for n. \code{from} has to be higher then \code{n}.
 #'
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param pct Percentage to keep
-#' @param n Number of cases to keep
-#' @param from Basis for n
-#' @return a subset of the actual dataset. The subset get specified by pct or n. 
+#' @param pct atomic numeric, determines the percentage to keep.
+#' @param n atomic numeric, specifies the number of cases to keep.
+#' @param from atomic numeric, indicates the Basis for n.
+#' @return Returns a subset of the actual dataset. 
 #' @author Andreas Wygrabek
 #' @seealso \code{\link{sample}}
 #' @examples
+#' # load data
 #' data(fromXPSS)
+#' 
+#' # draw a sample, with 50% percent of the original data
 #' xpssSample(fromXPSS, pct = 0.5)
 #' @export
 xpssSample <- function(x, pct = NULL, n = NULL, from = NULL){
     
-    stopifnot(n<from)
-  
-    stopifnot(is.data.frame(x) | is.data.table(x) | class(x) == "xpssFrame")
-    
-      class(x) <- c("xpssFrame","data.frame","DM")  
-
-    
     ####################################################################
     ####################### Meta - Checks ##############################
     ####################################################################
+    
+    functiontype <- "DM"
     x <- applyMetaCheck(x)
+    
     ####################################################################
     ####################################################################
     ####################################################################
+    
     
     
     attr_backup <- attributesBackup(x)
@@ -48,13 +48,34 @@ xpssSample <- function(x, pct = NULL, n = NULL, from = NULL){
       {
         stop("from is longer than the dataset, chose a basis value which is smaller or has a equal length of the dataset")
       } 
+      if(is.null(n)) 
+      {
+        stop("if from is set, n has to be set, too")
+      }
     }
-    if(!is.null(from)){
+    if(!is.null(n)){
       if(length(x[[1]]) <= n)
       {
         stop("n is longer than the dataset, chose a basis value which has a smaller length of the dataset")
-      } 
+      }
+      if(is.null(from)) 
+      {
+        stop("if n is set, from has to be set, too")
+      }
     }
+    if(!is.null(pct)) {
+      if((pct < 0) || (pct>1))
+      {
+        stop("pct value range is limited from 0 to 1")
+      }  
+    }
+    if(!is.null(n) && !is.null(from)) {
+      if(n > from)
+      {
+        stop(" n < from is not true")
+      }
+    }
+     
       # Wenn pct
       if(!is.null(pct)){
         if(is.data.frame(x) | is.matrix(x)){
@@ -152,12 +173,12 @@ xpssSample <- function(x, pct = NULL, n = NULL, from = NULL){
     ### DeMerge
     ## Filter is set & Function is a Datamanagement Function
     
-    if(attributes(out)$FILTER != FALSE) {
+    if(length(attributes(out)$FILTER)>0 && attributes(out)$FILTER != FALSE) {
       pos <- which(!(eval(parse(text = paste("out$",(attributes(x)$FILTER),sep="")))))
       attributes(out)$FILTERED_DATA <- out[pos,]
       pos <- which(eval(parse(text = paste("out$",(attributes(x)$FILTER),sep=""))))
       out <-  out[pos,]      
-    } else { ## dunno if needed
+    } else { 
       x <- applyAttributeDemerge(x)
     }
 

@@ -16,13 +16,8 @@ Object with attributes from backup
 \description{
 Applies attributes stored by attributesBackup
 }
-\examples{
-data(fromXPSS)
-myAtt <- attributesBackup(fromXPSS)
-NEW_fromXPSS <- fromXPSS[order(fromXPSS[,5]),]
-applyAttributes(NEW_fromXPSS, myAtt)
-}
 \author{
 Andreas Wygrabek
 }
+\keyword{internal}
 
