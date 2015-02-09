@@ -1,11 +1,11 @@
-Package: translateR
+Package: translateSPSS2R
 Type: Package
 Title: Toolset for translating SPSS-Syntax to R-Code
 Version: 0.1
 Date: 2015-01-06
 Authors@R: as.person(c(
     "Andreas Wygrabek  <Andreas.Wygrabek@eoda.de> [aut, cre]",
-    "Bastian Wieﬂner <Bastian.Wiessner@eoda.de> [aut]"
+    "Bastian Wie?ner <Bastian.Wiessner@eoda.de> [aut]"
     ))
 Maintainer: Andreas Wygrabek  <Andreas.Wygrabek@eoda.de>
 Description: Package with translated commands of SPSS. The usage is oriented
@@ -15,12 +15,13 @@ Description: Package with translated commands of SPSS. The usage is oriented
 License: GPL-3
 LazyData: true
 Depends:
-    R (>= 3.1.2)
+    R (>= 3.1.1)
 Imports:
     car (>= 2.0),
     data.table (>= 1.9.4),
     e1071 (>= 1.6-3),
     foreign (>= 0.8),
+    Hmisc (>= 3.14-5),
     plyr (>= 1.8.1),
     stringr (>= 0.6.2),
     tidyr (>= 0.1),
