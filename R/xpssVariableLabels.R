@@ -8,7 +8,7 @@
 #' of the variables.   
 #' @return Input Data with modified attribute variable label.
 #' @author Andreas Wygrabek
-#' @seealso \code{\link{attributes}} \code{link{attr}}
+#' @seealso \code{\link{attributes}} \code{\link{attr}} \code{\link{xpssValueLabels}}
 #' @examples
 #' # load data
 #' data(fromXPSS)

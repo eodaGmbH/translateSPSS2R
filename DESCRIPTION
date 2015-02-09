@@ -2,23 +2,26 @@ Package: translateR
 Type: Package
 Title: Toolset for translating SPSS-Syntax to R-Code
 Version: 0.1
-Date: 2014-10-17
-Maintainer: Andreas Wygrabek <Andreas.Wygrabek@eoda.de>
-Author: eoda GmbH
-Authors: c(person("Andreas", "Wygrabek", role = c("aut", "cre"),
-    email = "Andreas.Wygrabek@eoda.de"),
-    person("Bastian", "Wiessner", role = "aut"))
-Description: Package with translated commands from SPSS. The usage is oriented
+Date: 2015-01-06
+Authors@R: as.person(c(
+    "Andreas Wygrabek  <Andreas.Wygrabek@eoda.de> [aut, cre]",
+    "Bastian Wieﬂner <Bastian.Wiessner@eoda.de> [aut]"
+    ))
+Maintainer: Andreas Wygrabek  <Andreas.Wygrabek@eoda.de>
+Description: Package with translated commands of SPSS. The usage is oriented
     on the handling of the SPSS-Syntax. Mainly the package has two purposes.
     First it facilitates SPSS-Users to change over to R. Second it facilitates
     migration projects from SPSS to R.
 License: GPL-3
+LazyData: true
 Depends:
-    R (>= 3.1.1),
-    data.table (>= 1.9.4),
-    foreign (>= 0.8),
-    e1071 (>= 1.6-3),
-    plyr (>= 1.8.1),
+    R (>= 3.1.2)
+Imports:
     car (>= 2.0),
+    data.table (>= 1.9.4),
+    e1071 (>= 1.6-3),
+    foreign (>= 0.8),
+    plyr (>= 1.8.1),
     stringr (>= 0.6.2),
-    tidyr (>= 0.1)
+    tidyr (>= 0.1),
+    zoo (>= 1.7-11)

@@ -35,7 +35,6 @@ xpssNumeric <- function(x, varname = NULL, fill = NA){
     if (length(fill) == 1){
     attributes(x$porsche)
             for(i in 1:length(varname)){
-                x <- mydataframe
                 eval(parse(text = paste("x$",varname[i]," <- ", fill, sep = "")))
                 eval(parse(text = paste("attr(x$",varname[i],",'varname') <- ",'varname[i]',sep="")))
                 eval(parse(text = paste("attr(x$",varname[i],",'variable.label') <- ",'varname[i]',sep="")))

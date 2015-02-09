@@ -58,13 +58,16 @@ xpssMissingValues <- function(x, variables = NULL, as.missing = list(range = c(f
   ####################################################################
   ####################################################################
   ####################################################################
-
   
+  # resett variables
+  for(i in 1:length(variables)){
+    x <-value(x,variables)  
+  } 
       LEN <- length(variables)
         for(i in 1:length(variables)){
         VAR <- paste("x$",variables[i], sep = "")
         evalVAR <- eval(parse(text = paste(VAR)))
-                
+        
         
         #abfangen der special characters
         if(!is.null(as.missing$range)) {

@@ -58,9 +58,29 @@ as.xpssFrame  <- function(x) {
   return(x)
 }
 
+#' Coerces data.frames to xpssFrame objects
+#'
+#' Function to check if an object is an xpssFrame, or coerce it to one if possible.
+#'
+#' @usage as.xpssFrame(x)
+#' @usage is.xpssFrame(x)
+#' @param x any (non-empty) R object. 
+#' @author Bastian Wiessner
+#' @return \code{as.xpssFrame} returns an xpssFrame, with the essential attributes \code{DO_IF}, \code{FILTER}, \code{SPLIT_FILE}, \code{TEMPORORY} and \code{WEIGHTS} for the actual dataset and additional variable.label and varname attributes for every variable in the dataset. 
+#' \cr \cr \code{is.xpssFrame} returns TRUE if its argument is a xpssFrame (that is, has "xpssFrame" amongst its classes) and FALSE otherwise. 
+#' @examples
+#' # example data.frame
+#' temp <- data.frame(x=1:5, y = 2:6, z=c("a","b","c","d","e"))
+#' # coerce to xpssFrame
+#' temp <- as.xpssFrame(temp)
+#' # check if it is an xpssFrame
+#' is.xpssFrame(temp)
+#' @keywords internal
 #' @export
 is.xpssFrame  <- function(x) {
      if(is.element("xpssFrame",class(x)) && (!is.null(attributes(x)$FILTER)) && (!is.null(attributes(x)$TEMPORARY)) && (!is.null(attributes(x)$SPLIT_FILE)) && (!is.null(attributes(x)$DO_IF)) && (!is.null(attributes(x)$SELECT_IF)) && (!is.null(attributes(x)$WEIGHTS))) {
        return(T)
+     } else{
+       return(F)
      }
 }

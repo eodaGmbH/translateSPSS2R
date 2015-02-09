@@ -12,9 +12,9 @@
 #' @details The SPSS variables are stored at the variable itself. 
 #' \cr In contrast to \code{\link{xpssAddValueLabels}} , \code{\link{xpssValueLabels}} does erase existing value labels. \cr If the value label for a specific variable already exists, all value labels for that variable get overwritten. \cr If the value label for a specific variable does not exist, the value label gets created and all existing value labels for that variable get deleted. 
 #' \cr\cr A variable can have the following attributes: 
-#' value.labels, defined.MIS, MIS, varname, variable.label
+#' \code{value.labels}, \code{defined.MIS}, \code{MIS}, \code{varname}, \code{variable.label}
 #' @author Andreas Wygrabek
-#' @seealso \code{\link{read.spss}}
+#' @seealso \code{\link{xpssAddValueLabels}} \code{\link{xpssVariableLabels}}
 #' @examples
 #' 
 #' # load data

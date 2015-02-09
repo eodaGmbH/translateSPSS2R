@@ -21,6 +21,7 @@
 #'}
 #' @author Andreas Wygrabek
 #' @seealso \code{\link{read.spss}} \code{\link{as.xpssFrame}}
+#' @importFrom foreign read.spss
 #' @examples  \dontrun{
 #' # create xpssFrame Object
 #' data <- xpssFrame(x="Testdata_1.sav")
@@ -28,9 +29,6 @@
 #' 
 #' @export
 xpssFrame <- function(x, as.data.table = FALSE, ...){
-    
-    require("foreign", quietly = TRUE)
-    require("data.table", quietly = TRUE)
 
     if (!(is.character(x))){
         stop("Input has to be a string")}
@@ -96,6 +94,8 @@ xpssFrame <- function(x, as.data.table = FALSE, ...){
         print(paste("Not every number is labelled in", i, sep = " "))
         
     } else {
+      # to supress note
+      valLab <- character()
         # --- Herausschreiben der value label und der numerischen Werte
     eval(parse(text = paste("valLab <- names(attributes(data)$label.table$",i,")", sep = "")))
     eval(parse(text = paste("numbers <- attributes(data)$label.table$",i, sep = "")))

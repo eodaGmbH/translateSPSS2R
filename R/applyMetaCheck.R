@@ -7,6 +7,7 @@
 #' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
 #' @return Output is the input data merged on the basis of the condition in the attributes of the actual dataset.
 #' @author Bastian Wiessner
+#' @importFrom data.table is.data.table
 #' @keywords internal
 #' @export
 

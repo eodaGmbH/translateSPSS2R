@@ -104,7 +104,7 @@ xpssRegression <- function(x,
   
   #include
   if(missing == "include") {
-    x <- xpssValue(x, variables)
+    x <- value(x, variables)
   }
 	
 	#listwise

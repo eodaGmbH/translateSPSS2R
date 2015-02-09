@@ -13,7 +13,6 @@
 #' @examples
 #' data(fromXPSS)
 #' data <- xpssSelectIf(fromXPSS, cond = "V3 == 1")
-#' @keywords internal
 attributesBackup <- function(x) {
   
   if(!is.data.frame(x) && !("xpssFrame" %in% class(x))){

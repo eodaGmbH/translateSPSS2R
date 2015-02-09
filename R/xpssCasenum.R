@@ -9,6 +9,7 @@
 #' @return Returns a sequential atomic numeric or numeric vector.
 #' @author Bastian Wiessner
 #' @seealso Related Functions \code{\link{xpssCount}} , \code{\link{xpssDate}} , \code{\link{xpssDate11}}
+#' @importFrom data.table is.data.table
 #' @examples
 #' # load data
 #' data(fromXPSS)

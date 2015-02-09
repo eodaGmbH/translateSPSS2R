@@ -42,7 +42,7 @@ xpssCount <- function(x,
   functiontype <- "SB"
   x <- applyMetaCheck(x)
   
-  x <- xpssValue(x)
+  x <- value(x)
   
   #abfangen der special characters
   mintemp  <- maxtemp<- vector()

@@ -57,6 +57,8 @@
 #' 
 #' @author Bastian Wiessner
 #' 
+#' @importFrom car leveneTest
+#' 
 #' @examples
 #' # load data
 #' data(fromXPSS)
@@ -100,9 +102,6 @@ xpssTtest <- function(x,
                       paired = FALSE,
                       missing = "analysis") 
 {
-  
-  library(car)
-  library(plyr)
   
   t.val <- list(variables[[1]]) 
   t.with <- list(withvars[[1]])
@@ -243,13 +242,13 @@ xpssTtest <- function(x,
   } 
   if("include" %in% missing)  {    
     if(is.null(withvars))    {
-      x[,variables] <- xpssValue(x,variables)      
+      x[,variables] <- value(x,variables)      
       for(i in 1:length(variables))      {
         logvec[[i]] <- is.na(x[,variables[i]])  
         t.val[[i]] <- x[,variables[i]]
       }
     } else {
-      temp <- xpssValue(x,variables)
+      temp <- value(x,variables)
       
       pos <- which(names(temp) %in% variables)
       
@@ -258,7 +257,7 @@ xpssTtest <- function(x,
         t.val[[i]] <- temp[,pos[i]]
       }
       
-      temp <- xpssValue(x,withvars)
+      temp <- value(x,withvars)
       pos <- which(names(temp) %in% withvars)
       for(i in 1:length(withvars)) {
         logvec_withvars[[i]] <- is.na(temp[,pos[i]])  

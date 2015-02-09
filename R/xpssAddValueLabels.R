@@ -11,6 +11,8 @@
 #' @param datelabels atomic numeric or numeric vector, respectively as an atomic character or character vector containing a variable label. 
 #' @details The values labels are stored in the variable itself. 
 #' \cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label gets overwritten. \cr If the value label for a specific variable does not exist, the value label gets created without deleting the existing value labels for that variable.
+#' #' \cr\cr A variable can have the following attributes: 
+#' \code{value.labels}, \code{defined.MIS}, \code{MIS}, \code{varname}, \code{variable.label}
 #' @return An xpssFrame object with modified value labels.
 #' @author Bastian Wiessner
 #' @seealso \code{\link{read.spss}} \code{\link{xpssValueLabels}} \code{\link{xpssVariableLabels}} 

@@ -1,0 +1,142 @@
+#'  Sorting variables
+#'
+#'  R implementation of the SPSS \code{SORT VARIABLES} function.
+#'
+#' @usage xpssSortVariables(x, by = NULL, order = "A")
+#' @param x dataframe to sort
+#' @param by argument to sort by  
+#' @param order Up or Down / A or D
+#'
+#' @return Returns \code{x} sorted by the \code{by} argument. 
+#' 
+#' @details \code{x} can be sorted based on the following \code{by} arguments. 
+#'  \itemize{
+#'  \item \emph{NAME.} Sort by variable names. Primary sort is alphabetical. Trailing digits are sorted numerically 
+#'  \item \emph{TYPE.} Sort variables by type (numeric or string). Sort string variables by width.
+#'  \item \emph{FORMAT.} Sort variables by format (Date, String, ...).
+#'  \item \emph{LABEL.} Sort variables alphabetical by variable labels.
+#'  \item \emph{VALUES.} Sort variables by value lables. 
+#'  \item \emph{MISSING.} Sort variables by missing values.
+#'  \item \emph{MEASURE.} Sort variables by scale level (Order: nominal, ordinal, scale).
+#'  \item \emph{ROLE.} Sort variables by role (For example: input, goal, both, non).
+#'  \item \emph{COLUMNS.} Sort variables by column width.
+#'  \item \emph{ALIGNMENT.} Sort variables by alignment (left, right, center).
+#'  \item \emph{ATTRIBUTE name.} Sort variables by values of the specified custom variable attribute name.
+#'  }
+#'  
+#'
+#' @author Benjamin Piest
+#' @seealso \code{\link{sort}} \code{\link{group_by}}
+#' @examples 
+#'
+#'data(fromXPSS)
+#'
+#'# Returns variables in alphabetical order (A-Z).
+#' xpssSortVariables(fromXPSS, by = "NAME")
+#' 
+#'# Returns variables in alphabetical order (Z-A).
+#' xpssSortVariables(fromXPSS, by = "NAME", order = "D")
+#' 
+#'# Same output as above.
+#' xpssSortVariables(fromXPSS, by = "NAME", order = "D")
+#' 
+#' # Returns variables ordered by type (numeric-string). Shorter string variables come before longer string variables.
+#' xpssSortVariables(fromXPSS, by = "TYPE", order = "A")
+#' 
+#' # Returns variables ordered by type (string-numeric). Longer string variables come before shorter string variables.
+#' xpssSortVariables(fromXPSS, by = "TYPE", order = "D")
+#' 
+#' # Returns variables ordered by column width (short-long)
+#' xpssSortVariables(fromXPSS, by = "COLUMNS", order = "A")
+#' 
+#' # Returns variables ordered by column width (long-short)
+#' xpssSortVariables(fromXPSS, by = "COLUMNS", order = "D")
+#' 
+#' @export 
+
+
+
+
+xpssSortVariables <- function(x, by = NULL, order = "A"){
+  
+  if(order == "UP"){order="A"}
+  if(order == "DOWN"){order="D"}
+  
+# ------------------ Sorting by NAME-------------------------------
+#Zahlem müssen noch nach spss Standard sortiert werden 2 vor 10
+  
+  if(by == "NAME" & order == "A"){
+    x <- x[, sort(names(x), F)]
+  }
+  if(by == "NAME" & order == "D"){
+    x <- x[, sort(names(x), T)]
+  }
+
+# ------------------ Sorting by TYPE-------------------------------
+if(by == "TYPE" & order == "A"){
+  for(i in 1:ncol(x)){
+    if(class(x[[i]])=="integer"){
+      x[[i]] <- as.numeric(x[[i]])
+    }
+    if(class(x[[i]])=="character"){
+      x[[i]] <- as.factor(x[[i]])
+    }
+    x1 <- x[,sapply(x,class)=="numeric"]
+    x2 <- x[,sapply(x,class)=="factor"]
+  }
+  x1 <- x1[names(sort(sapply(data.frame(sapply(x1,str_length)),max,na.rm=T),F))]
+  x2 <- x2[names(sort(sapply(data.frame(sapply(x2,str_length)),max,na.rm=T),F))]
+  x <- data.frame(x1,x2)
+}
+  
+if(by == "TYPE" & order == "D"){
+    for(i in 1:ncol(x)){
+      if(class(x[[i]])=="integer"){
+        x[[i]] <- as.numeric(x[[i]])
+      }
+      if(class(x[[i]])=="character"){
+        x[[i]] <- as.factor(x[[i]])
+      }
+      x1 <- x[,sapply(x,class)=="numeric"]
+      x2 <- x[,sapply(x,class)=="factor"]
+    }
+    x1 <- x1[names(sort(sapply(data.frame(sapply(x1,str_length)),max,na.rm=T),T))]
+    x2 <- x2[names(sort(sapply(data.frame(sapply(x2,str_length)),max,na.rm=T),T))]
+    x <- data.frame(x2,x1)
+}
+
+# ------------------ Sorting by COLUMNS -------------------------------
+
+if(by == "COLUMNS" & order == "A"){
+  x <- x[names(sort(sapply(data.frame(sapply(x,str_length)),max,na.rm=T),F))]
+}
+
+if(by == "COLUMNS" & order == "D"){
+  x <- x[names(sort(sapply(data.frame(sapply(x,str_length)),max,na.rm=T),T))]
+}
+
+# ------------------ Sorting by variable.label -------------------------------
+
+if(by == "LABEL" & order == "A"){
+  var.label <- 1:length(x)
+  for(i in 1:length(x)){
+    var.label[i] <- lapply(x, attributes)[[i]][["variable.label"]]
+  }
+  var.label <- matrix(var.label,1,10)
+  colnames(var.label) <- names(x)
+  x <- x[names(sort(var.label[1,],F))]
+}
+
+if(by == "LABEL" & order == "D"){
+  var.label <- 1:length(x)
+  for(i in 1:length(x)){
+    var.label[i] <- lapply(x, attributes)[[i]][["variable.label"]]
+  }
+  var.label <- matrix(var.label,1,10)
+  colnames(var.label) <- names(x)
+  x <- x[names(sort(var.label[1,],T))]
+}
+
+  return(x)
+}
+

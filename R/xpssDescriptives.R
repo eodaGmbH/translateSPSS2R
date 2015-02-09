@@ -5,21 +5,24 @@
 #' The xpssDescriptives function provides a set of descriptive statistic tools. 
 #' 
 #' \strong{\code{missing:}} 
-#' \tabular{rlll}{
+#' \tabular{rll}{
 #' 
 #'\tab \code{variable} \tab removes user-, and system-missing data explicitly for every variable. 
 #'\cr \tab \code{listwise} \tab performs a listwise-deletion.
 #'\cr \tab \code{include} \tab includes all user-defined missing values.} 
 #' 
 #' \strong{\code{statistics:}}
-#'\tabular{rlll}{
+#' \tabular{rll}{
 #' 
 #'\tab \code{kurtosis} \tab calculates the bulge of the variable. 
-#'\cr \tab \code{mean} \tab calculates the arithmetic mean, respectively the midpoint of the variable.
 #'\cr \tab \code{max} \tab displays the maximum of the variable. 
+#'\cr \tab \code{mean} \tab calculates the arithmetic mean, respectively the midpoint of the variable.
 #'\cr \tab \code{min} \tab displays the minimum of the variable. 
 #'\cr \tab \code{range} \tab displays the span between the minimum and the maximum value. 
-#'\cr \tab \code{semean} \tab displays the standard deviation of the arithmetic mean. 
+#'\cr \tab \code{kurtosis} \tab calculates the bulge of the variable. 
+#'\cr \tab \code{sekurtosis} \tab calculates the standrard error of the bulge of the variable. 
+#'\cr \tab \code{semean} \tab displays the standard error of the arithmetic mean. 
+#'\cr \tab \code{seskewness} \tab calculates the standrard error of the inclination of the variable. 
 #'\cr \tab \code{skewness} \tab calculates the inclination of the variable. 
 #'\cr \tab \code{stddev} \tab  displays the standard deviation of the variable. 
 #'\cr \tab \code{sum} \tab calculates the sum of each observation within the variable. 
@@ -39,6 +42,7 @@
 #' If the parameter \code{save} is TRUE, a matrix with z-transformed values will be appended at the end of the list. If \code{ztrans} is blank, the name of the matrix will be Z*varname*. Otherwise whether \code{ztrans} is not empty the user specified description in \code{zname} will be the name of the z-transformed matrix of the variable \code{varname}.
 #' 
 #' @author Bastian Wiessner
+#' @importFrom e1071 kurtosis skewness
 #' @examples
 #'
 #' # load data
@@ -83,10 +87,7 @@ xpssDescriptives <-  function(x,
                               ztrans = list(varname=NULL,
                                             zname=NULL))
 {
-  
-    require("plyr")
-    require("e1071")
-  
+
     names(ztrans) <- c("varname", "zname")
     
     ####################################################################
@@ -159,7 +160,7 @@ if(!is.logical(save))
   } 
   if("include" %in% missing)
   {
-    temp <- xpssValue(x,variables)
+    temp <- value(x,variables)
     pos <- which(colnames(temp) %in% variables)
     for(i in 1:length(variables))
     {
@@ -204,9 +205,6 @@ tempsekurtosis <- NULL
 tempseskewness <- NULL
   tempsum <- NULL
   tempvariance <- NULL
-
- # temp <- data.frame(0)
- 
   
   for(i in 1:length(variables))
   {
@@ -288,6 +286,8 @@ tempseskewness <- NULL
      pos <- which(F==lapply(descr[[i]], is.null))
      descr[[i]] <- descr[[i]][pos]
     }
+
 options(warn=0)
+descr <- noquote(descr)
 return(descr)  
 }

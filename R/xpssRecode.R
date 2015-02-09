@@ -31,7 +31,7 @@
 #' @param varout atomic character or character vector with the names of new variables.
 #' @return A xpssFrame with the recoded variables.
 #' @author Andreas Wygrabek
-#' @export 
+#' @importFrom stringr str_detect str_extract str_split
 #' @examples 
 #' # load data
 #' data(fromXPSS)
@@ -54,7 +54,7 @@
 #'                    variables = c("V6_kl3","V7_2"),
 #'                    rec = "sysmis = 99",
 #'                    varout =c("V6_new","V7_new"))
-#'          
+#' @export 
 #' 
 xpssRecode <- function(x, variables = NULL, rec = NULL, varout = NULL){
 
@@ -100,7 +100,7 @@ express  <- str_split(str_replace_all(rec,pattern=" ",""),"=")
 
 if("sysmis" %in% express[[1]]) {
   for(i in 1:length(variables)) {
-    x <- xpssValue(x,variables=variables[[i]])  
+    x <- value(x,variables=variables[[i]])  
   }
 }
 

@@ -14,8 +14,10 @@
 xpssDate <- function(){
 
   (today <- Sys.Date())
-  today <- format(today, "%d-%b-%y")  # with month as a word
+  today <- format(today, "%y-%b-%d")  # with month as a word
   today <- toupper(today)
   
   return(today)
 }
+
+as.POSIXct

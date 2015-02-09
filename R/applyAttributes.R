@@ -7,7 +7,7 @@
 #' @param attributesToApply to applied attributes
 #' @return Object with attributes from backup
 #' @author Andreas Wygrabek
-#' @keywords internal
+
 
 applyAttributes <- function(x, attributesToApply = NULL){
     

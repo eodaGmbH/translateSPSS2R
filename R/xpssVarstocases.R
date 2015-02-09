@@ -7,12 +7,14 @@
 #' @param x as a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
 #' @param from variable that opens the span.
 #' @param idVar determines whether an id-variable should be created.
-#' @param indexVar dtermines whether an index-variable should be created.
+#' @param indexVar determines whether an index-variable should be created.
 #' @param nullArg Can be either "keep" or "drop".
 #' @param countVar determines whether a counter should be created?
 #' @param varLabels determines whether labels for id-, index- and count variables are set.
 #' @return Returns the transformed xpssFrame.
 #' @author Andreas Wygrabek
+#' @importFrom plyr ldply llply
+#' @importFrom tidyr gather
 #' @examples 
 #' # load data
 #' data(fromXPSS)
