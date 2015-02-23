@@ -120,7 +120,7 @@
 xpssCompute <- function(x, variables = NULL, fun = NULL,...){
   
   if("computeMax" %in% fun || "computeMean" %in% fun || "computeMedian" %in% fun || "computeMin" %in% fun || "computeSd" %in% fun || "computeVariance" %in% fun){
-    if(length(variables<2)){
+    if(length(variables)<2){
       stop("For the following operations are at least two variables needed: computeMax, computeMean, computeMedian, computeMin, computeSd, computeVariance")
     }
   }
