@@ -108,7 +108,7 @@ xpssDescriptives <-  function(x,
       stop("argument variables is missing, no default available")
     }
     if(!(is.element(variables,names(x)))) {
-      stop("The selected variable has to be in the dataset")
+      stop("The selected variables have to be in the dataset")
     }
     
   for(i in 1:length(variables))
@@ -160,7 +160,7 @@ if(!is.logical(save))
   } 
   if("include" %in% missing)
   {
-    temp <- value(x,variables)
+    temp <- computeValue(x,variables)
     pos <- which(colnames(temp) %in% variables)
     for(i in 1:length(variables))
     {

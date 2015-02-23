@@ -21,10 +21,10 @@ R Implementation of the SPSS \code{DATE.MOYR} Function. \code{computeDate_moyr} 
 An character string as Date. Returns a date value corresponding to the indicated month, and year. The arguments must resolve to integers or numerics, with month between 1 and 12, and year a four-digit integer value.
 }
 \examples{
-# 10-2012
-computeDate_moyr(month=10, year=2012)
-# 05-1999
-computeDate_moyr(month=5, year=1999)
+# "05-12-2006"
+xpssCompute(x=5, fun="computeDate_moyr", year=2006)
+# "10-10-2010"
+xpssCompute(x=10, fun="computeDate_moyr",year=2010)
 }
 \author{
 Bastian Wiessner

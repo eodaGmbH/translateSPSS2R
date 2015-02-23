@@ -22,9 +22,9 @@ The input format of date's with timeparameter's is YYYY-MM-DD HH:MM:SS. All para
 }
 \examples{
 # Time difference of 2 hours
-computeCtime_hours("2013-09-14 12:12:12","2013-09-14 10:10:10")
+xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_hours", date="2013-09-14 10:10:10")
 # Time difference of 182 hours
-computeCtime_hours("2013-09-14 12:12:12","2013-09-06 22:10:10")
+xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_hours", date="2013-09-06 22:10:10")
 }
 \author{
 Bastian Wiessner

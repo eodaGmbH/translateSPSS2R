@@ -1,10 +1,10 @@
 #' Moves cases of variables
 #'
-#' xpssLag shifts the dataset forward or backward by a given number of observations.
+#' computeLag shifts the dataset forward or backward by a given number of observations.
 #' 
 #' Creates shifted data dependent upon the direction in which the data got moved. \cr A positive indicator refers a shift to the right side, a negative indicator refers a shift of the data to the left side. Empty cases get filled with NA.
 #'
-#' @usage xpssLag(x, move = 0, value = NA)
+#' @usage computeLag(x, move = 0, value = NA)
 #' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
 #' @param move atomic integer, either positive or negative that defines the cases to move. The algebraic sign indicates the direction. 
 #' @param value atomic numeric or atomic character value that replaces the skipped cases.
@@ -15,10 +15,10 @@
 #' # load data
 #' data(fromXPSS)
 #' # shit variable V5 by 2
-#' xpssLag(x=fromXPSS$V6, move = 2, value = NA)
-#' 
+#' computeLag(x=fromXPSS$V6, move = 2, value = NA)
+#' @keywords internal
 #' @export
-xpssLag <- function(x, move = 0, value = NA){ 
+computeLag <- function(x, move = 0, value = NA){ 
     
   #functiontype  <- "SB"
   #x <- applyMetaCheck(x)

@@ -23,8 +23,8 @@ Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.RPAD} F
 The value of length represents the number of characters and must be a positive integer. If the optional argument \code{fill} is not specified, \code{x} is padded with blank spaces.
 }
 \examples{
-computeChar_rpad("My Friend",15)
-computeChar_rpad("My Friend",15,"Hello ") # Muss noch angepasst werden, wenn Funktion fertig ist
+xpssCompute(x="My Friend", fun="computeChar_rpad", length=15)
+xpssCompute(x="My Friend", fun="computeChar_rpad", length=15, fill = "Hello")
 }
 \author{
 Bastian Wiessner

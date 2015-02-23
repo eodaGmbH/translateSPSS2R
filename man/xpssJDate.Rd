@@ -12,6 +12,9 @@ Returns days since 14 Oct 1582
 \description{
 Count the number of days since October 14, 1582 (the first day of the Gregorian calendar).
 }
+\examples{
+xpssJDate()
+}
 \author{
 Bastian Wiessner
 }

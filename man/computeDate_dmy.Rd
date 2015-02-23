@@ -24,9 +24,9 @@ An character string as Date. Returns a date value corresponding to the indicated
 }
 \examples{
 # "05-12-2006"
-computeDate_dmy(day=5,month=12,year=2006)
+xpssCompute(x=5, fun="computeDate_dmy", month=12,year=2006)
 # "10-10-2010"
-computeDate_dmy(day=10,month=10,year=2010)
+xpssCompute(x=10, fun="computeDate_dmy", month=10,year=2010)
 }
 \author{
 Bastian Wiessner

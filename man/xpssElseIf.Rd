@@ -28,16 +28,15 @@ In a different way to SPSS. Not only data management functions like \code{xpssRe
 \examples{
 # load data
 data(fromXPSS)
-\dontrun{
-# Select all cases which match 1 in V3
+#' # Select all cases which match 1 in V3
 temp <- xpssDoIf(x=fromXPSS, cond = "V3 == 1")
 # Recode all selected cases within V5
 temp <- xpssRecode(x=temp,variables="V5",rec="lo:78 = 1; else = 2")
 # Select all cases which match 2 in V3
-temp <- xpssElseIf(x=fromXPSS, cond = "V3 == 1")
+temp <- xpssElseIf(x=temp, cond = "V3 == 1")
 # Recode all selected cases within V5
 temp <- xpssRecode(x=temp,variables="V5",rec="lo:78 = 11; else = 22")
-temp <- xpssEndIf(x=temp)}
+temp <- xpssEndIf(x=temp)
 }
 \author{
 Bastian Wiessner

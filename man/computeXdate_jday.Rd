@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.JDAY} Function. \code{computeXdate_jday
 computeXdate_jday caluclates the date of year out of the date string, the other date and time componentes will be omitted.
 }
 \examples{
-# 046
-computeXdate_jday("2015-02-15 20:22:20")
-# 293
-computeXdate_jday("2022-10-20 21:22:12")
+# "046"
+xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_jday")
+# "293"
+xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_jday")
 }
 \author{
 Bastian Wiessner

@@ -105,7 +105,7 @@ xpssMeans <- function(x,
     # include
     if(is.element(missing,"include")){
       # select the variables
-      temp <- value(x,variables)
+      temp <- computeValue(x,variables)
       # get the position of the variables
       pos <- which(colnames(temp) %in% variables)
       for(i in 1:length(variables))
@@ -115,7 +115,7 @@ xpssMeans <- function(x,
       }
       if(!(is.null(by))){
         # select the variables
-        temp <- value(x,by)
+        temp <- computeValue(x,by)
         # get the position of the variables
         pos <- which(colnames(temp) %in% by)
         for(i in 1:length(by))
@@ -130,7 +130,7 @@ xpssMeans <- function(x,
     #dependent - include user-missing only for control vars
     if(is.element(missing,"dependent")){
       # select the variables
-      temp <- value(x,variables)
+      temp <- computeValue(x,variables)
       # get the position of the variables
       pos <- which(colnames(temp) %in% variables)
       for(i in 1:length(variables))
@@ -261,8 +261,8 @@ xpssMeans <- function(x,
   # counter for output
   if(is.null(by)){
     for(i in 1:length(variables)){
-      valids <- sum(nvalid(x=x,variables=variables[i]))
-      misses <- sum(nmiss(x=x,variables=variables[i]))
+      valids <- sum(computeNvalid(x=x,variables=variables[i]))
+      misses <- sum(computeNmiss(x=x,variables=variables[i]))
       summ= cbind("valid_obs."=valids, 
             "percent"=paste0((valids/length(x[,variables[i]])*100),"%"),
             "missing obs."=misses,
@@ -271,7 +271,7 @@ xpssMeans <- function(x,
             "percent"="100%")
       cells <- tinput[,eval(parse(text=express))]
       # generate a anova
-      if(is.null(statistics)){
+      if(!(is.null(statistics))){
         message("anova can not be calculated without control variable")  
       }
       # generate output
@@ -296,15 +296,29 @@ xpssMeans <- function(x,
               "percent"="100%")
         # calculate the cellstatistcs by the pasted express
         cells <- tinput[,eval(parse(text=express)),by=get(by[[j]])]
+        # sort ascending
+        cells <- cells[order(cells$get)]
         # generate a anova
-        if(is.element(statistics,"anova")){
-          stats <- summary(aov(get(variables[i])~get(by[[j]]),x))  
-        }
+        if(!(is.null(statistics))){ 
+          if(is.element(statistics,"anova")){
+            model <- lm(x[,variables[i]] ~ x[,by[j]])
+            stats <- aov(model)
+            attributes(stats$terms)$term.labels <- attributes(x[,variables[i]])$variable.label
+            stats <- summary(stats)            
+            eta <- c("eta²"=summary.lm(model)$r.squared,"eta"=sqrt(summary.lm(model)$r.squared))
+            out[[k]] <- list("summary" = summ, "cells"=cells,"anova"=stats,"measure_of_association"=eta)
+            k <- k+1
+          }  
+        } else{
+          out[[k]] <- list("summary" = summ, "cells"=cells)
+          k <- k+1
+        }        
         # generate output
-        out[[k]] <- list("summary" = summ, "cells"=cells,"stats"=stats)
-        k <- k+1
+        
       }
     }
   }
+  names(out) <- variables
+  out <- noquote(out)
   return(out)
 }

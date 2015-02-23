@@ -17,38 +17,20 @@
 #' @seealso \code{\link{max}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeMax")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeMax")
-#' # numeric matrix input, output is NA
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-#' xpssCompute(x = x3,fun = "computeMax")
-#' # numeric matrix input, output is MAX
-#' x4 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-#' xpssCompute(x = x3,fun = "computeMax", na.rm = T)
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeMax")
+#' 
 #' @export
 #' 
 
 computeMax <- function(x,...){
-  out <- x
   if(is.matrix(x)){
+    out <- x
     for(i in 1:nrow(x)){
       out[i,] <- max(x[i,],...)  
     }
-    out <-  out[,1]  
+    out <-  as.numeric(out[,1])  
   }  
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeMax needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeMax needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
   return(out)
 }
 
@@ -71,20 +53,9 @@ computeMax <- function(x,...){
 #' @seealso \code{\link{mean}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeMean")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' # optional with na remove
-#' xpssCompute(x = x2,fun = "computeMean",na.rm=T)
-#' # numeric matrix input, output is NA
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-#' xpssCompute(x = x3,fun = "computeMax")
-#' # numeric matrix input, output is Mean
-#' x4 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-#' xpssCompute(x = x3,fun = "computeMax", na.rm = T)
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeMean")
+#' 
 #' @export
 #' 
 
@@ -94,18 +65,9 @@ computeMean <- function(x,...){
     for(i in 1:nrow(x)){
       out[i,] <- mean(x[i,],...)  
     }
-    out <-  out[,1]
+    out <-  as.numeric(out[,1])
   }
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeMean needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeMean needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  
-  return(out)
+    return(out)
 }
 
 
@@ -128,17 +90,8 @@ computeMean <- function(x,...){
 #' @seealso \code{\link{median}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeMedian")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' # optional with na remove
-#' xpssCompute(x = x2,fun = "computeMedian",na.rm=T)
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeMedian")
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeMedian")
 #' @export
 
 computeMedian <- function(x,...){
@@ -147,15 +100,7 @@ computeMedian <- function(x,...){
     for(i in 1:nrow(x)){
       out[i,] <- median(x[i,],...)  
     }
-    out <-  out[,1]
-  }
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeMedian needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeMedian needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
+    out <-  as.numeric(out[,1])
   }
   return(out)
 }
@@ -180,17 +125,8 @@ computeMedian <- function(x,...){
 #' @seealso \code{\link{min}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeMin")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' # optional with na remove
-#' xpssCompute(x = x2,fun = "computeMin",na.rm=T)
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeMin")
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeMin")
 #' @export
 
 computeMin <- function(x,...){
@@ -199,15 +135,7 @@ computeMin <- function(x,...){
     for(i in 1:nrow(x)){
       out[i,] <- min(x[i,],...)  
     }
-    out <-  out[,1]
-  }
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeMin needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeMin needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
+    out <-  as.numeric(out[,1])
   }
   return(out)
 }
@@ -233,17 +161,8 @@ computeMin <- function(x,...){
 #' @seealso \code{\link{sd}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeSd")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' # optional with na remove
-#' xpssCompute(x = x2,fun = "computeSd",na.rm=T)
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeSd")
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeSd")
 #' @export
 
 computeSd <- function(x,...){
@@ -252,16 +171,8 @@ computeSd <- function(x,...){
     for(i in 1:nrow(x)){
       out[i,] <- sd(x[i,],...)  
     }
-    out <-  out[,1]
-  }
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeSd needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeSd needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
+    out <-  as.numeric(out[,1])
+}
   return(out)
 }
 
@@ -286,17 +197,8 @@ computeSd <- function(x,...){
 #' @seealso \code{\link{var}}
 #' @keywords internal
 #' @examples
-#' data(fromXPSS)
-#' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeVariance")
 #' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' # optional with na remove
-#' xpssCompute(x = x2,fun = "computeVariance",na.rm=T)
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeVariance")
+#' xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeVariance")
 #' @export
 
 computeVariance <- function(x,...){
@@ -305,15 +207,7 @@ computeVariance <- function(x,...){
     for(i in 1:nrow(x)){
       out[i,] <-  var(x[i,],...)  
     }
-    out <-  out[,1]
-  }
-  if(is.vector(x) & is.atomic(x)){
-    message("NOTE: computeVariance needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
-  }
-  if(is.atomic(x) & (!(is.vector(x))) & (!(is.matrix(x)))){
-    message("NOTE: computeVariance needs atleast two variables seperated by coloumn to work correctly")
-    out <- x
+    out <-  as.numeric(out[,1])
   }
   return(out)
 }

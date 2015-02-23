@@ -9,7 +9,6 @@
 #' }
 #' 
 #' @docType package
-#' @aliases translateSPSS2R
 #' @name translateSPSS2R-package
 #' @param Package: translateSPSS2R
 #' @param Type: Package

@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.MDAY} Function. \code{computeXdate_mday
 computeXdate_mday extract the day component out of the date string, the other date and time componentes will be omitted.
 }
 \examples{
-# 046
-computeXdate_mday("2015-02-15 20:22:20")
-# 293
-computeXdate_mday("2022-10-20 21:22:12")
+# "15"
+xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_mday")
+# "20"
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_mday")
 }
 \author{
 Bastian Wiessner

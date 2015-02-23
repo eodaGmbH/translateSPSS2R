@@ -5,8 +5,31 @@
 #' @usage applyAttributes(x, attributesToApply = NULL)
 #' @param x a data.frame, data.table object or input data of class xpssFrame. 
 #' @param attributesToApply to applied attributes
-#' @return Object with attributes from backup
+#' @return Object with attributes from \code{\link{attributesBackup}}
+#' @seealso \code{\link{attributes}} \code{\link{attr}}
 #' @author Andreas Wygrabek
+#' @examples
+#' #load data
+#' data(fromXPSS)
+#' #  display dataset attribtues
+#' attributes(fromXPSS)
+#' #  display attribtues of variable V7_2
+#' attributes(fromXPSS$V7_2)
+#' # save attributes
+#' x <- attributesBackup(fromXPSS)
+#' # reorder data
+#' fromXPSS <- fromXPSS[order(fromXPSS$V2),] 
+#' #  display dataset attribtues; still there
+#' attributes(fromXPSS)
+#' #  display attribtues of variable V7_2; missing
+#' attributes(fromXPSS$V7_2)
+#' # add missing attributes
+#' fromXPSS <- applyAttributes(fromXPSS, x)
+#' #  display dataset attribtues
+#' attributes(fromXPSS)
+#' #  display attribtues of variable V7_2
+#' attributes(fromXPSS$V7_2)
+#' @export
 
 
 applyAttributes <- function(x, attributesToApply = NULL){

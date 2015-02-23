@@ -5,6 +5,8 @@
 #' @usage xpssJDate()
 #' @return Returns days since 14 Oct 1582
 #' @author Bastian Wiessner
+#' @examples
+#' xpssJDate()
 #' @export
 
 xpssJDate <- function(){
@@ -15,6 +17,4 @@ xpssJDate <- function(){
   
   return(x)
 }
-
-
 

@@ -16,16 +16,8 @@ returns a numeric, numeric vector or matrix with the logarithm naturalis values 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{LN} Function.
 }
 \examples{
-data(fromXPSS)
 # atomic numeric input
-x1 <- fromXPSS$V5
-xpssCompute(x = x1,fun = "computeLn")
-# numeric vector input
-x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-xpssCompute(x = x2,fun = "computeLn")
-# numeric matrix input
-x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-xpssCompute(x = x3,fun = "computeLn")
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeLn")
 }
 \author{
 Bastian Wiessner

@@ -20,19 +20,19 @@ Numeric. Position of the first occurence of the \code{pattern}
 Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.INDEX} Function.
 }
 \details{
-\code{computeChar_index(x="Hello little user", pattern="user")} Returns a number indicating the character position of the first occurrence of the first letter of 'user' in 'Hello little user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
+\code{computeChar_index(x="Hello user", pattern="user")} Returns a number indicating the character position of the first occurrence of the first letter of 'user' in 'Hello user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
 }
 \examples{
 # Returns the position of the first letter of letter in
 # "there is no letter in word", "letter". Here 13
-computeChar_index("there is no letter in word","letter")
+xpssCompute(x="there is no letter in word", fun="computeChar_index", pattern="letter")
 
 # Returns NA. The word "string" does not exist.
-computeChar_index("there is no letter in word","string")
+xpssCompute(x="there is no letter in word", fun="computeChar_index", pattern="string")
 
 # x as a vector
-x <- c("fruits are sweet", "fruits are sour", "fruits are salty")
-computeChar_index(x,"sweet")
+xpssCompute(x=c("fruits are sweet", "fruits are sour","fruits are salty"),
+fun="computeChar_index", pattern="sweet")
 }
 \author{
 Bastian Wiessner

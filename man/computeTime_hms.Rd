@@ -21,9 +21,9 @@ R Implementation of the SPSS \code{TIME.HMS} Function. \code{computeTime_hms} is
 }
 \examples{
 # 4:10:23
-computeTime_hms(hour=4,minute=10,second=23)
+xpssCompute(x=4, fun="computeTime_hms", minute= 10, second=23)
 # 14:34:01
-computeTime_hms(hour=14,minute=34,second=1)
+xpssCompute(x=14, fun="computeTime_hms", minute= 34, second=1)
 }
 \author{
 Bastian Wiessner

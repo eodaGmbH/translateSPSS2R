@@ -242,13 +242,13 @@ xpssTtest <- function(x,
   } 
   if("include" %in% missing)  {    
     if(is.null(withvars))    {
-      x[,variables] <- value(x,variables)      
+      x[,variables] <- computeValue(x,variables)      
       for(i in 1:length(variables))      {
         logvec[[i]] <- is.na(x[,variables[i]])  
         t.val[[i]] <- x[,variables[i]]
       }
     } else {
-      temp <- value(x,variables)
+      temp <- computeValue(x,variables)
       
       pos <- which(names(temp) %in% variables)
       
@@ -257,7 +257,7 @@ xpssTtest <- function(x,
         t.val[[i]] <- temp[,pos[i]]
       }
       
-      temp <- value(x,withvars)
+      temp <- computeValue(x,withvars)
       pos <- which(names(temp) %in% withvars)
       for(i in 1:length(withvars)) {
         logvec_withvars[[i]] <- is.na(temp[,pos[i]])  

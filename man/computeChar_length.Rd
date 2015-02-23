@@ -16,14 +16,11 @@ Numeric. Returns the length of \code{x} in characters, with any trailing blanks 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.LENGTH} Function.
 }
 \examples{
-computeChar_length("            please remove trailing blanks")
+xpssCompute(x="            please remove trailing blanks",fun="computeChar_length")
 
-computeChar_length("please remove trailing blanks")
+xpssCompute(x="please remove trailing blanks",fun="computeChar_length")
 
-x <- c("please","remove","trailing","blanks")
-computeChar_length(x)
-
-sum(computeChar_length(x))+3
+xpssCompute(x=c("please","remove","trailing","blanks"),fun="computeChar_length")
 }
 \author{
 Bastian Wiessner

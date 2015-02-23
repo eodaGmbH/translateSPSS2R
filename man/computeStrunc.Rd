@@ -18,7 +18,7 @@ String. Returns \code{x} truncated to \code{length} (in bytes) and trimmed of re
 Helper Function for xpssCompute. R Implementation of the SPSS \code{STRUNC} Function.
 }
 \examples{
-computeStrunc("Hello    ",7)
+xpssCompute(x="Hello    ", fun="computeStrunc", length=7)
 }
 \author{
 Bastian Wiessner

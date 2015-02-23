@@ -2,7 +2,6 @@
 % Please edit documentation in R/translate2R.R
 \docType{package}
 \name{translateSPSS2R-package}
-\alias{translateSPSS2R}
 \alias{translateSPSS2R-package}
 \title{Dokumentation}
 \arguments{

@@ -19,19 +19,8 @@ If the data contains missing values, it is possible to specify an na remove comm
 Helper Function for xpssCompute. R Implementation of the SPSS \code{MAX} Function.
 }
 \examples{
-data(fromXPSS)
-# atomic numeric input
-x1 <- fromXPSS$V5
-xpssCompute(x = x1,fun = "computeMax")
 # numeric vector input
-x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-xpssCompute(x = x2,fun = "computeMax")
-# numeric matrix input, output is NA
-x3 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-xpssCompute(x = x3,fun = "computeMax")
-# numeric matrix input, output is MAX
-x4 <- rbind(fromXPSS$V7_2,fromXPSS$V4)
-xpssCompute(x = x3,fun = "computeMax", na.rm = T)
+xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeMax")
 }
 \author{
 Bastian Wiessner

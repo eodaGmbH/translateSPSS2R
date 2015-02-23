@@ -23,10 +23,10 @@ R Implementation of the SPSS \code{DATE.MDY} Function. \code{computeDate_mdy} is
 An character string as Date. Returns a date value corresponding to the indicated day, month, and year. The arguments must resolve to integers or numerics, with day between 1 and 31, month between 1 and 12, and year a four-digit integer value.
 }
 \examples{
-# 12-10-2012
-computeDate_mdy(month=12,day=10,year=2012)
-# 01-30-2012
-computeDate_mdy(month=1,day=30,year=2012)
+# "05-12-2006"
+xpssCompute(x=5, fun="computeDate_dmy", day=12,year=2006)
+# "10-10-2010"
+xpssCompute(x=10, fun="computeDate_dmy", day=10,year=2010)
 }
 \author{
 Bastian Wiessner

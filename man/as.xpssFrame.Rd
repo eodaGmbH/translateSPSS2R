@@ -5,6 +5,7 @@
 \title{Coerces data.frames to xpssFrame objects}
 \usage{
 as.xpssFrame(x)
+is.xpssFrame(x)
 }
 \arguments{
 \item{x}{any (non-empty) R object.}
@@ -17,8 +18,14 @@ as.xpssFrame(x)
 Function to check if an object is an xpssFrame, or coerce it to one if possible.
 }
 \examples{
-# example data.frame
+# load data
+data(fromXPSS)
+# check if it is an xpssFrame
+is.xpssFrame(fromXPSS)
+#c create example data.frame
 temp <- data.frame(x=1:5, y = 2:6, z=c("a","b","c","d","e"))
+# check if it is an xpssFrame
+is.xpssFrame(temp)
 # coerce to xpssFrame
 temp <- as.xpssFrame(temp)
 # check if it is an xpssFrame

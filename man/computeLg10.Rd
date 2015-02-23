@@ -16,16 +16,8 @@ returns a numeric, numeric vector or matrix with the logarithm base 10 values of
 Helper Function for xpssCompute. R Implementation of the SPSS \code{LG10} Function.
 }
 \examples{
-data(fromXPSS)
 # atomic numeric input
-x1 <- fromXPSS$V5
-xpssCompute(x = x1,fun = "computeLg10")
-# numeric vector input
-x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-xpssCompute(x = x2,fun = "computeLg10")
-# numeric matrix input
-x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-xpssCompute(x = x3,fun = "computeLg10")
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeLg10")
 }
 \author{
 Bastian Wiessner

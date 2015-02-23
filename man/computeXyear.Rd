@@ -20,9 +20,9 @@ computeXyear extracts the year on basis of the given date string.
 }
 \examples{
 # 2015
-computeXyear("2015-02-15 20:11:20")
+xpssCompute(x="2015-02-15 20:11:20",fun="computeXyear")
 # 2022
-computeXyear("2022-10-20 21:22:12")
+xpssCompute(x="2022-10-20 21:22:12",fun="computeXyear")
 }
 \author{
 Bastian Wiessner

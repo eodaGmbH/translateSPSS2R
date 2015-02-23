@@ -20,9 +20,9 @@ computeXdate_time extract the time components out of the date string, the other 
 }
 \examples{
 # 20:11:20
-computeXdate_time("2015-02-15 20:11:20")
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_time")
 # 21:22:12
-computeXdate_time("2022-10-20 21:22:12")
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_time")
 }
 \author{
 Bastian Wiessner

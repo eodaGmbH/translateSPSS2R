@@ -100,7 +100,7 @@ express  <- str_split(str_replace_all(rec,pattern=" ",""),"=")
 
 if("sysmis" %in% express[[1]]) {
   for(i in 1:length(variables)) {
-    x <- value(x,variables=variables[[i]])  
+    x <- computeValue(x,variables=variables[[i]])  
   }
 }
 

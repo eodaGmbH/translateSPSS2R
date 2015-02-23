@@ -19,17 +19,8 @@ If the data contains missing values, it is possible to specify an na remove comm
 Helper Function for xpssCompute. R Implementation of the SPSS \code{SD} Function.
 }
 \examples{
-data(fromXPSS)
-# atomic numeric input
-x1 <- fromXPSS$V5
-xpssCompute(x = x1,fun = "computeSd")
 # numeric vector input
-x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-# optional with na remove
-xpssCompute(x = x2,fun = "computeSd",na.rm=T)
-# numeric matrix input
-x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-xpssCompute(x = x3,fun = "computeSd")
+xpssCompute(x = fromXPSS, variables = c("V5","V7_1"),fun = "computeSd")
 }
 \author{
 Bastian Wiessner

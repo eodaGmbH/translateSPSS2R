@@ -23,7 +23,7 @@ Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.RINDEX}
 \code{computeChar_index(x="Hello little user", pattern="user")} Returns a number indicating the character position of the last occurrence of the first letter of 'user' in 'Hello little user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
 }
 \examples{
-computeChar_rindex("At the end i?m looking for a good end","end")
+xpssCompute(x="At the end i'm looking for a good end", fun="computeChar_rindex", pattern="end")
 }
 \author{
 Bastian Wiessner

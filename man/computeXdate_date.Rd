@@ -20,9 +20,9 @@ computeXdate_date extract the complete date out of the date string, the time com
 }
 \examples{
 # 2015-02-15
-computeXdate_date("2015-02-15 20:22:20")
+xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_date")
 # 2022-02-20
-computeXdate_date("2022-02-20 21:22:12")
+xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_date")
 }
 \author{
 Bastian Wiessner

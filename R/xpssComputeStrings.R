@@ -13,7 +13,7 @@
 #' @param split numeric. Number of parts pattern to divide to.  
 #'
 #' @return Numeric. Position of the first occurence of the \code{pattern}
-#' @details \code{computeChar_index(x="Hello little user", pattern="user")} Returns a number indicating the character position of the first occurrence of the first letter of 'user' in 'Hello little user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
+#' @details \code{computeChar_index(x="Hello user", pattern="user")} Returns a number indicating the character position of the first occurrence of the first letter of 'user' in 'Hello user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
 #'
 #' @author Bastian Wiessner
 #' @seealso \code{\link{str_locate_all}}
@@ -23,17 +23,16 @@
 #'
 #' # Returns the position of the first letter of letter in 
 #' # "there is no letter in word", "letter". Here 13
-#' computeChar_index("there is no letter in word","letter")
+#' xpssCompute(x="there is no letter in word", fun="computeChar_index", pattern="letter")
 #'
 #' # Returns NA. The word "string" does not exist.
-#' computeChar_index("there is no letter in word","string")
+#' xpssCompute(x="there is no letter in word", fun="computeChar_index", pattern="string")
 #' 
 #' # x as a vector
-#' x <- c("fruits are sweet", "fruits are sour", "fruits are salty")
-#' computeChar_index(x,"sweet")
+#' xpssCompute(x=c("fruits are sweet", "fruits are sour","fruits are salty"), 
+#' fun="computeChar_index", pattern="sweet")
 #' @keywords internal 
 #' @export 
-
 
 computeChar_index <- function(x,pattern = NULL, split = 0){
   if(!(is.numeric(split))){
@@ -59,29 +58,35 @@ computeChar_index <- function(x,pattern = NULL, split = 0){
       # create placeholder
       splitpattern <- vector()
       # loop over the amount of parts
-      
       for(i in 1:split_length) {
-        
         # create patterns
         splitpattern[[i]] <- str_sub(pattern, start = start_string, end = start_string+split-1)
-      #  increment the start by length 
+        #  increment the start by length 
         start_string <- start_string+split
       }
-      # create outputvar
-      out <- unlist(str_locate_all(string=x,pattern=splitpattern))
+      for(i in 1:length(splitpattern)){
+        if(i==1){
+          out <- min(str_locate(x,splitpattern[i]),na.rm=T)  
+        } else{
+          if(sum(as.numeric(grepl(pattern=splitpattern[i],x=x)))>=1 & min(str_locate(x,splitpattern[i]),na.rm=T)<out){
+            out <- min(str_locate(x,splitpattern[i]))
+          }
+        }
+      }
+      
       if(length(out) == 0){
-        out <- 0
+        out <- NA
       } else {
         out <- min(out)
       }
-      } else {
+    } else {
       stop("Rest has to be 0")
     }
   } else {
     # find first position of the pattern in string
     out <- unlist(str_locate_all(string=x,pattern=pattern))
     if(length(out) == 0){
-      out <- 0
+      out <- NA
     } else {
       out <- min(out)
     }
@@ -110,8 +115,9 @@ computeChar_index <- function(x,pattern = NULL, split = 0){
 #' @keywords internal
 #' @examples 
 #'
-#' computeChar_lpad("My Friend",15)
-#' computeChar_lpad("My Friend",15,"Hello ") # Muss noch angepasst werden, wenn Funktion fertig ist
+#' xpssCompute(x="My Friend",fun="computeChar_lpad",length=15)
+#' 
+#' xpssCompute(x="My Friend",fun="computeChar_lpad",length=15, fill="Hello ")
 #'
 #' @export 
 
@@ -126,16 +132,16 @@ computeChar_lpad <- function(x, length = NULL, fill = NULL){
   if(is.null(fill)){
     
     replicates <- length-str_length(x)
-      for(i in 1:replicates){
+    for(i in 1:replicates){
       fill <- paste0(" ",fill)
     }
     out <- paste0(fill,out)
   } else{
     out <- ""
-   for(i in 1:trunc(length/str_length(fill))){
+    for(i in 1:trunc(length/str_length(fill))){
       out <- paste0(fill,out)  
     }
-   if(length>str_length(out)){
+    if(length>str_length(out)){
       remain <- length-str_length(out)
       fill <- substr(x,start = 1,stop = remain)
       out <- paste0(out,fill)
@@ -163,21 +169,19 @@ computeChar_lpad <- function(x, length = NULL, fill = NULL){
 #' @keywords internal
 #' @examples 
 #'
-#' computeChar_length("            please remove trailing blanks")
+#'
+#' xpssCompute(x="            please remove trailing blanks",fun="computeChar_length")
+#'
+#' xpssCompute(x="please remove trailing blanks",fun="computeChar_length")
 #' 
-#' computeChar_length("please remove trailing blanks")
-#' 
-#' x <- c("please","remove","trailing","blanks")
-#' computeChar_length(x)
-#' 
-#' sum(computeChar_length(x))+3
+#' xpssCompute(x=c("please","remove","trailing","blanks"),fun="computeChar_length")
 #' @keywords internal
 #' @export 
 
 
 computeChar_length <- function(x){
   x <- str_trim(x)
- out <- str_length(x)
+  out <- str_length(x)
   return(out)
 }
 
@@ -201,13 +205,8 @@ computeChar_length <- function(x){
 #' @examples 
 #'  
 #'#Returns 1 cause the letter "R" fills one byte.
-#' computeChar_mblen("'R' is great!",2)
+#' xpssCompute(x="R is great!", fun="computeChar_mblen", pos=2)
 #' 
-#'#Returns 3 cause the asian sign "???" fills three bytes.
-#' computeChar_mblen("???R???????????????????????????!",5)
-#' 
-#' string <- c("'R' is great!","???R???????????????????????????!","'R'??? ??????!","'R'????????????!")
-#' computeChar_mblen(string,6)
 #' @keywords internal
 #' @export 
 
@@ -221,7 +220,7 @@ computeChar_mblen <- function(x,pos = NULL){
   }
   out <- substr(x,start=pos,stop=pos)
   out <- nchar(x=out,type="bytes")  
-return(out)
+  return(out)
 }
 
 # 5. CHAR.RINDEX -------------------------------------------------------------
@@ -244,7 +243,7 @@ return(out)
 #' @keywords internal
 #' @examples 
 #'
-#' computeChar_rindex("At the end i?m looking for a good end","end")
+#' xpssCompute(x="At the end i'm looking for a good end", fun="computeChar_rindex", pattern="end")
 #'
 #' @export 
 
@@ -297,7 +296,7 @@ computeChar_rindex <- function(x,pattern = NULL, split = 0){
           }
         }
       }
-
+      
     } else {
       stop("Rest has to be 0")
     }
@@ -337,8 +336,9 @@ computeChar_rindex <- function(x,pattern = NULL, split = 0){
 #' @keywords internal
 #' @examples 
 #'
-#' computeChar_rpad("My Friend",15)
-#' computeChar_rpad("My Friend",15,"Hello ") # Muss noch angepasst werden, wenn Funktion fertig ist
+#' xpssCompute(x="My Friend", fun="computeChar_rpad", length=15)
+#' xpssCompute(x="My Friend", fun="computeChar_rpad", length=15, fill = "Hello")
+#' 
 #'
 #' @export 
 
@@ -381,7 +381,7 @@ computeChar_rpad <- function(x, length = NULL, fill = NULL){
 #'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CONCAT} Function. 
 #'
 #' @usage computeConcat (x, sep = "")
-#' @param x character or character vector.
+#' @param x input data.
 #' @param sep atomic character element which splits the input data. Default is "".
 #'
 #'
@@ -391,20 +391,27 @@ computeChar_rpad <- function(x, length = NULL, fill = NULL){
 #' @keywords internal
 #' @examples 
 #' 
-#' x <- c("this","is","a","vector")
-#' computeConcat(x)
+#' data(fromXPSS)
+#' xpssCompute(x = fromXPSS, variables = c("V1","V2"), fun="computeConcat")
 #'
 #' @export 
 
-computeConcat <- function(x, sep = ""){
-  
+computeConcat <- function(x,sep=""){
+  x <- as.data.frame(x)
   out <- character()
-  for(i in 1:length(x)){
-    out <- paste(out,x[[i]],sep="")
-    if(i < length(x)) {
-      out <- paste(out," ")  
+  for(i in 1:nrow(x)){ 
+    temp <- x[[1]][i]
+    temp <- paste(temp,sep)
+    for(j in 2:ncol(x)){
+      if(ncol(x)==j){
+        temp <- paste(temp,x[[j]][i],collapse= " ")  
+      } else{
+        temp <- paste(temp,x[[j]][i], sep,collapse= " ")  
+      }
     }
-  }  
+    out[i] <- temp#paste(x[[1]][i],x[[2]][i],collapse= " ")
+  }
+  out <- unlist(out)
   return(out)
 }
 
@@ -417,9 +424,6 @@ computeConcat <- function(x, sep = ""){
 #'
 #' @usage computeLength (x)
 #' @param x character or character vector.
-#'
-#'
-#'
 #' @return Numeric. Returns the length of \code{x} in bytes, including all trailing blanks. 
 #'
 #' @author Bastian Wiessner
@@ -427,9 +431,9 @@ computeConcat <- function(x, sep = ""){
 #' @keywords internal
 #' @examples 
 #'
-#' computeLength("trailing blanks matter")
-#' computeLength("trailing blanks matter          ")
-#' computeLength("        trailing blanks matter")
+#' xpssCompute(x="trailing blanks matter",fun="computeLength")
+#' xpssCompute(x="trailing blanks matter                      ",fun="computeLength")
+#' xpssCompute(x="                      trailing blanks matter",fun="computeLength")
 #' 
 #' @export 
 
@@ -457,9 +461,8 @@ computeLength <- function(x){
 #' @keywords internal
 #' @examples 
 #'
-#' computeLower("MAKE ME small PLEASE")
+#' xpssCompute(x="MAKE ME small PLEASE", fun="computeLower")
 #'
-#' computeLower("From BIG 2 small")
 #' @export 
 
 
@@ -487,7 +490,7 @@ computeLower <- function(x){
 #' @keywords internal
 #' @examples 
 #'
-#' \dontrun{beispiel <- beispiel()}
+#' xpssCompute(x="           inputstring", fun="computeLtrim")
 #'
 #' @export 
 
@@ -497,7 +500,7 @@ computeLtrim <- function(x,trim = NULL){
       stop("trim argument is limited to one value")
     }  
   }
-  if(trim == " ") {
+  if(is.null(trim)) {
     out <- str_trim(x,side="left")  
   } else {
     out <- character()
@@ -531,12 +534,12 @@ computeLtrim <- function(x,trim = NULL){
 #' @param count number of occurencees of pattern to replace
 #' @return String. Returns a character vector
 #' @author Bastian Wiessner
-#' @seealso \code{\link{str_replace}}\code{\link{str_replace_all}}\code{\link{grep}}
+#' @seealso \code{\link{str_replace}} \code{\link{str_replace_all}} \code{\link{str_sub<-}}
 #' @importFrom stringr str_replace_all str_locate_all str_sub<-
 #' @keywords internal
 #' @examples 
 #'
-#' computeReplace("Makfts sftnsft","ft","e")
+#' xpssCompute(x="Makfts sftnsft", fun="computeReplace",pattern="ft",match="e")
 #'
 #' @export 
 
@@ -546,7 +549,7 @@ computeReplace <- function(x,pattern=NULL,match=NULL, count = NULL){
     stop("pattern and match cant be null")
   }
   if(is.null(count)){
-   out <-  str_replace_all(string=x,pattern=pattern,replacement=match)      
+    out <-  str_replace_all(string=x,pattern=pattern,replacement=match)      
   }else {
     position <- str_locate_all(string=x,pattern)
     for(i in 1:count){
@@ -577,7 +580,7 @@ computeReplace <- function(x,pattern=NULL,match=NULL, count = NULL){
 #' @keywords internal
 #' @examples 
 #'
-#' \dontrun{beispiel <- beispiel()}
+#' xpssCompute(x="inputstring          ", fun="computeLtrim")
 #'
 #' @export 
 
@@ -628,7 +631,7 @@ computeRtrim <- function(x,trim = NULL){
 #' @keywords internal
 #' @examples 
 #'
-#' computeStrunc("Hello    ",7)
+#' xpssCompute(x="Hello    ", fun="computeStrunc", length=7)
 #'
 #' @export 
 
@@ -664,11 +667,8 @@ computeStrunc <- function(x, length = NULL){
 #' @keywords internal
 #' @examples 
 #'
-#' computeUpcase("make it big")
+#' xpssCompute(x="make it big", fun="computeUpcase")
 #' 
-#' small <- c("make","all","big")
-#' computeUpcase(small)
-#'
 #' @export 
 
 
@@ -676,6 +676,5 @@ computeUpcase <- function(x){
   out <- toupper(x)
   return(out)
 }
-
 
 

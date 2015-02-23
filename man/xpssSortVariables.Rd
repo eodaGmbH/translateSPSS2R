@@ -47,10 +47,12 @@ xpssSortVariables(fromXPSS, by = "NAME", order = "D")
 # Same output as above.
 xpssSortVariables(fromXPSS, by = "NAME", order = "D")
 
-# Returns variables ordered by type (numeric-string). Shorter string variables come before longer string variables.
+# Returns variables ordered by type (numeric-string).
+# Shorter string variables come before longer string variables.
 xpssSortVariables(fromXPSS, by = "TYPE", order = "A")
 
-# Returns variables ordered by type (string-numeric). Longer string variables come before shorter string variables.
+# Returns variables ordered by type (string-numeric).
+# Longer string variables come before shorter string variables.
 xpssSortVariables(fromXPSS, by = "TYPE", order = "D")
 
 # Returns variables ordered by column width (short-long)
@@ -63,6 +65,6 @@ xpssSortVariables(fromXPSS, by = "COLUMNS", order = "D")
 Benjamin Piest
 }
 \seealso{
-\code{\link{sort}} \code{\link{group_by}}
+\code{\link{sort}}
 }
 

@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.MINUTE} Function. \code{computeXdate_mi
 computeXdate_minute extract the minute component out of the date string, the other date and time componentes will be omitted.
 }
 \examples{
-# 11
-computeXdate_minute("2015-02-15 20:11:20")
 # 22
-computeXdate_minute("2022-10-20 21:22:12")
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_minute")
+# 11
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_minute")
 }
 \author{
 Bastian Wiessner

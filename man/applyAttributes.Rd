@@ -12,12 +12,37 @@ applyAttributes(x, attributesToApply = NULL)
 \item{attributesToApply}{to applied attributes}
 }
 \value{
-Object with attributes from backup
+Object with attributes from \code{\link{attributesBackup}}
 }
 \description{
 Applies attributes stored by attributesBackup
 }
+\examples{
+#load data
+data(fromXPSS)
+#  display dataset attribtues
+attributes(fromXPSS)
+#  display attribtues of variable V7_2
+attributes(fromXPSS$V7_2)
+# save attributes
+x <- attributesBackup(fromXPSS)
+# reorder data
+fromXPSS <- fromXPSS[order(fromXPSS$V2),]
+#  display dataset attribtues; still there
+attributes(fromXPSS)
+#  display attribtues of variable V7_2; missing
+attributes(fromXPSS$V7_2)
+# add missing attributes
+fromXPSS <- applyAttributes(fromXPSS, x)
+#  display dataset attribtues
+attributes(fromXPSS)
+#  display attribtues of variable V7_2
+attributes(fromXPSS$V7_2)
+}
 \author{
 Andreas Wygrabek
+}
+\seealso{
+\code{\link{attributes}} \code{\link{attr}}
 }
 

@@ -8,8 +8,6 @@ attributesBackup(x)
 }
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
-
-\item{cond}{logical expression for subsetting the data}
 }
 \value{
 Output is a subset of the actual dataset under the condiftion of the logical expression.
@@ -23,10 +21,32 @@ The conditions to select cases are specified in a logical expression. These logi
 \strong{NOTE:} For temporary case selection, specify a TEMPORARY command before SELECT IF.
 }
 \examples{
+#load data
 data(fromXPSS)
-data <- xpssSelectIf(fromXPSS, cond = "V3 == 1")
+#  display dataset attribtues
+attributes(fromXPSS)
+#  display attribtues of variable V7_2
+attributes(fromXPSS$V7_2)
+# save attributes
+x <- attributesBackup(fromXPSS)
+# reorder data
+fromXPSS <- fromXPSS[order(fromXPSS$V2),]
+#  display dataset attribtues; still there
+attributes(fromXPSS)
+#  display attribtues of variable V7_2; missing
+attributes(fromXPSS$V7_2)
+# add missing attributes
+fromXPSS <- applyAttributes(fromXPSS, x)
+#  display dataset attribtues
+attributes(fromXPSS)
+#  display attribtues of variable V7_2
+attributes(fromXPSS$V7_2)
 }
 \author{
 Bastian Wiessner
+#'
+}
+\seealso{
+\code{\link{attributes}} \code{\link{attr}}
 }
 

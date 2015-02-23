@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.QUARTER} Function. \code{computeXdate_q
 computeXdate_quarter calculates the quarter component out of the date string, the other date and time componentes will be omitted.
 }
 \examples{
-# 11
-computeXdate_quarter("2015-02-15 20:11:20")
-# 22
-computeXdate_quarter("2022-10-20 21:22:12")
+# 1
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_quarter")
+# 4
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_quarter")
 }
 \author{
 Bastian Wiessner

@@ -16,15 +16,8 @@ returns a vector with the arc-sine values of the input data.
 Helper Function for xpssCompute. R Implementation of the SPSS \code{ARSIN} Function.
 }
 \examples{
-# atomic numeric input with values between -1 and 1
-x1 <- rnorm(n=20,mean=0,sd=0.25)
-xpssCompute(x=x1,fun="computeArsin")
-# numeric vector input with values between -1 and 1
-x2 <- c(rnorm(n=20,mean=0,sd=0.25),rnorm(n=20,mean=0,sd=0.35))
-xpssCompute(x=x2,fun="computeArsin")
-# numeric matrix input with values between -1 and 1
-x3 <- rbind(rnorm(n=20,mean=0,sd=0.25),rnorm(n=20,mean=0,sd=0.35),rnorm(n=20,mean=0,sd=0.5))
-xpssCompute(x=x3,fun="computeArsin")
+# atomic numeric input
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeArsin")
 }
 \author{
 Bastian Wiessner

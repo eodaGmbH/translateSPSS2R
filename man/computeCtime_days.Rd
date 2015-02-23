@@ -34,9 +34,9 @@ It is possible to match dates without time paramters, with dates which contain t
 }
 \examples{
 # Time difference of 3 days
-computeCtime_days("2013-09-14","2013-09-11")
+xpssCompute(x="2013-09-14", fun="computeCtime_days", date="2013-09-11")
 # Time difference of 365 days
-computeCtime_days("2015-11-28","2014-11-28")
+xpssCompute(x="2015-11-28", fun="computeCtime_days", date="2014-11-28")
 }
 \author{
 Bastian Wiessner

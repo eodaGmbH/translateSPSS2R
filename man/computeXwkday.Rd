@@ -20,9 +20,9 @@ computeXwkday caluclates the calendar week on basis of the given date string. Re
 }
 \examples{
 # 0
-computeXwkday("2015-02-15 20:11:20")
-# 6
-computeXwkday("2022-10-20 21:22:12")
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXwkday")
+# 4
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXwkday")
 }
 \author{
 Bastian Wiessner

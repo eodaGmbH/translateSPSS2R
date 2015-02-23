@@ -18,7 +18,7 @@ String. Returns the input string removed by \code{trim} on the left. If trim is 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{LTRIM} Function.
 }
 \examples{
-\dontrun{beispiel <- beispiel()}
+xpssCompute(x="           inputstring", fun="computeLtrim")
 }
 \author{
 Bastian Wiessner

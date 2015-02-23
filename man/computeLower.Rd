@@ -16,9 +16,7 @@ String. Returns unput with uppercase letters changed to lowercase. The argument 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{LOWER} Function.
 }
 \examples{
-computeLower("MAKE ME small PLEASE")
-
-computeLower("From BIG 2 small")
+xpssCompute(x="MAKE ME small PLEASE", fun="computeLower")
 }
 \author{
 Bastian Wiessner

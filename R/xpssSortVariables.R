@@ -26,7 +26,7 @@
 #'  
 #'
 #' @author Benjamin Piest
-#' @seealso \code{\link{sort}} \code{\link{group_by}}
+#' @seealso \code{\link{sort}}
 #' @examples 
 #'
 #'data(fromXPSS)
@@ -40,10 +40,12 @@
 #'# Same output as above.
 #' xpssSortVariables(fromXPSS, by = "NAME", order = "D")
 #' 
-#' # Returns variables ordered by type (numeric-string). Shorter string variables come before longer string variables.
+#' # Returns variables ordered by type (numeric-string). 
+#' # Shorter string variables come before longer string variables.
 #' xpssSortVariables(fromXPSS, by = "TYPE", order = "A")
 #' 
-#' # Returns variables ordered by type (string-numeric). Longer string variables come before shorter string variables.
+#' # Returns variables ordered by type (string-numeric). 
+#' # Longer string variables come before shorter string variables.
 #' xpssSortVariables(fromXPSS, by = "TYPE", order = "D")
 #' 
 #' # Returns variables ordered by column width (short-long)
@@ -63,7 +65,7 @@ xpssSortVariables <- function(x, by = NULL, order = "A"){
   if(order == "DOWN"){order="D"}
   
 # ------------------ Sorting by NAME-------------------------------
-#Zahlem müssen noch nach spss Standard sortiert werden 2 vor 10
+#Zahlem m?ssen noch nach spss Standard sortiert werden 2 vor 10
   
   if(by == "NAME" & order == "A"){
     x <- x[, sort(names(x), F)]

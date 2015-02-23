@@ -27,9 +27,9 @@
 #' @keywords internal
 #' @examples
 #' # Time difference of 3 days
-#' computeCtime_days("2013-09-14","2013-09-11") 
+#' xpssCompute(x="2013-09-14", fun="computeCtime_days", date="2013-09-11") 
 #' # Time difference of 365 days
-#' computeCtime_days("2015-11-28","2014-11-28")
+#' xpssCompute(x="2015-11-28", fun="computeCtime_days", date="2014-11-28") 
 #' 
 #' @export
 #' 
@@ -85,9 +85,9 @@ computeCtime_days <- function(x,date=NULL){
 #' @examples
 #' 
 #' # Time difference of 2 hours
-#' computeCtime_hours("2013-09-14 12:12:12","2013-09-14 10:10:10") 
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_hours", date="2013-09-14 10:10:10") 
 #' # Time difference of 182 hours
-#' computeCtime_hours("2013-09-14 12:12:12","2013-09-06 22:10:10") 
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_hours", date="2013-09-06 22:10:10") 
 #'
 #' @export
 #'
@@ -123,10 +123,11 @@ computeCtime_hours <- function(x,date){
 #' @seealso \code{\link{difftime}} \code{\link{DateTimeClasses}} \code{\link{as.POSIXlt}} \code{\link{strptime}}
 #' @keywords internal
 #' @examples
+#'
 #' # Time difference of 122 mins
-#' computeCtime_minutes("2013-09-14 12:12:12","2013-09-14 10:10:10") 
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_minutes", date="2013-09-14 10:10:10") 
 #' # Time difference of 10922 mins
-#' computeCtime_minutes("2013-09-14 12:12:12","2013-09-06 22:10:10") 
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_minutes", date="2013-09-06 22:10:10") 
 #'
 #' @export
 
@@ -158,10 +159,11 @@ computeCtime_minutes <- function(x,date){
 #' @seealso \code{\link{difftime}} \code{\link{DateTimeClasses}} \code{\link{as.POSIXlt}} \code{\link{strptime}}
 #' @keywords internal
 #' @examples
-#' # Time difference of 122 mins
-#' computeCtime_seconds("2013-09-14 12:12:12","2013-09-14 10:10:10") 
-#' # Time difference of 10922 mins
-#' computeCtime_seconds("2013-09-14 12:12:12","2013-09-06 22:10:10")
+#' 
+#' # Time difference of 7322 secs
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_seconds", date="2013-09-14 10:10:10") 
+#' # Time difference of 655322 secs
+#' xpssCompute(x="2013-09-14 12:12:12", fun="computeCtime_seconds", date="2013-09-06 22:10:10") 
 #'
 #' @export
 
@@ -197,10 +199,11 @@ computeCtime_seconds <- function(x,date){
 #' @importFrom stringr str_length 
 #' @keywords internal
 #' @examples
+#' 
 #' # "05-12-2006"
-#' computeDate_dmy(day=5,month=12,year=2006)
+#' xpssCompute(x=5, fun="computeDate_dmy", month=12,year=2006) 
 #' # "10-10-2010"
-#' computeDate_dmy(day=10,month=10,year=2010)
+#' xpssCompute(x=10, fun="computeDate_dmy", month=10,year=2010) 
 #' 
 #' @export
 
@@ -245,10 +248,12 @@ computeDate_dmy <- function(day=NULL,month=NULL, year= NULL){
 #' @importFrom stringr str_length 
 #' @keywords internal
 #' @examples
-#' # 12-10-2012
-#' computeDate_mdy(month=12,day=10,year=2012) 
-#' # 01-30-2012
-#' computeDate_mdy(month=1,day=30,year=2012)
+#' 
+#' # "05-12-2006"
+#' xpssCompute(x=5, fun="computeDate_dmy", day=12,year=2006) 
+#' # "10-10-2010"
+#' xpssCompute(x=10, fun="computeDate_dmy", day=10,year=2010)
+
 #'
 #' @export
 
@@ -292,10 +297,11 @@ computeDate_mdy <- function(month=NULL, day=NULL, year= NULL){
 #' @importFrom stringr str_length 
 #' @keywords internal
 #' @examples
-#' # 10-2012
-#' computeDate_moyr(month=10, year=2012)
-#' # 05-1999
-#' computeDate_moyr(month=5, year=1999)
+#' 
+#' # "05-12-2006"
+#' xpssCompute(x=5, fun="computeDate_moyr", year=2006) 
+#' # "10-10-2010"
+#' xpssCompute(x=10, fun="computeDate_moyr",year=2010)
 #'
 #' @export
 
@@ -334,10 +340,11 @@ computeDate_moyr <- function(month=NULL, year= NULL){
 #' @importFrom stringr str_length 
 #' @keywords internal
 #' @examples
-#' # 2012/04
-#' computeDate_qyr(day=10,month=10, year=2012)
-#' # 1999/01
-#' computeDate_qyr(day=20,month=1, year=1999)
+#' 
+#' # "2006/04"
+#' xpssCompute(x=5, fun="computeDate_qyr", month=10, year=2006) 
+#' # "2010/01"
+#' xpssCompute(x=10, fun="computeDate_qyr", month=1, year=2010)
 #'
 #' @export
 
@@ -382,10 +389,12 @@ computeDate_qyr <- function(day=NULL,month=NULL, year= NULL){
 #' @importFrom stringr str_length
 #' @keywords internal
 #' @examples
-#' # 2012/w41
-#' computeDate_wkyr(day=10,month=10, year=2012)
-#' # 1999/w3
-#' computeDate_wkyr(day=20,month=1, year=1999)
+#' 
+#' # "2006/w41"
+#' xpssCompute(x=5, fun="computeDate_wkyr", month=10, year=2006) 
+#' # "2010/w2"
+#' xpssCompute(x=10, fun="computeDate_wkyr", month=1, year=2010)
+#' 
 #'
 #' @export
 
@@ -428,11 +437,11 @@ computeDate_wkyr <- function(day=NULL,month=NULL, year= NULL){
 #' @seealso \code{\link{computeDate_qyr}} \code{\link{computeDate_wkyr}}
 #' @keywords internal
 #' @examples
-#' # 2012/w41
-#' computeDate_wkyr(day=10,month=10, year=2012)
-#' # 1999/w3
-#' computeDate_wkyr(day=20,month=1, year=1999)
-#'
+#' 
+#' # "2006-278"
+#' xpssCompute(x=5, fun="computeDate_yrday", month=10, year=2006) 
+#' # "2010-010"
+#' xpssCompute(x=10, fun="computeDate_yrday", month=1, year=2010)
 #' @export
 
 
@@ -470,10 +479,10 @@ computeDate_yrday <- function(day=NULL,month=NULL, year= NULL){
 #' @seealso \code{\link{computeDate_qyr}} \code{\link{computeDate_wkyr}}
 #' @keywords internal
 #' @examples
-#' # 96
-#' computeTime_days(x=4)
-#' # 252
-#' computeTime_days(x=10.5)
+#' # 120
+#' xpssCompute(x=5, fun="computeTime_days") 
+#' # 288
+#' xpssCompute(x=12, fun="computeTime_days")
 #'
 #' @export
 
@@ -504,10 +513,11 @@ computeTime_days <- function(x=NULL){
 #' @importFrom stringr str_length
 #' @keywords internal
 #' @examples
+#' 
 #' # 4:10:23
-#' computeTime_hms(hour=4,minute=10,second=23)
+#' xpssCompute(x=4, fun="computeTime_hms", minute= 10, second=23) 
 #' # 14:34:01
-#' computeTime_hms(hour=14,minute=34,second=1)
+#' xpssCompute(x=14, fun="computeTime_hms", minute= 34, second=1) 
 #'
 #' @export
 
@@ -556,10 +566,10 @@ computeTime_hms <- function(hour=NULL,minute=NULL,second=NULL){
 #' @keywords internal
 #' @examples
 #' # 2015-02-15
-#' computeXdate_date("2015-02-15 20:22:20")
+#' xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_date") 
 #' # 2022-02-20
-#' computeXdate_date("2022-02-20 21:22:12")
-#'
+#' xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_date")
+#' 
 #' @export
 
 computeXdate_date <- function(x = NULL){ 
@@ -594,9 +604,9 @@ computeXdate_date <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 20
-#' computeXdate_hour("2015-02-15 20:22:20")
+#' xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_hour") 
 #' # 21
-#' computeXdate_hour("2022-02-20 21:22:12")
+#' xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_hour")
 #'
 #' @export
 
@@ -634,10 +644,11 @@ computeXdate_hour <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 046
-#' computeXdate_jday("2015-02-15 20:22:20")
-#' # 293
-#' computeXdate_jday("2022-10-20 21:22:12")
+#' # "046"
+#' xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_jday") 
+#' # "293"
+#' xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_jday")
+#'
 #'
 #' @export
 
@@ -676,10 +687,10 @@ computeXdate_jday <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 046
-#' computeXdate_mday("2015-02-15 20:22:20")
-#' # 293
-#' computeXdate_mday("2022-10-20 21:22:12")
+#' # "15"
+#' xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_mday") 
+#' # "20"
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_mday")
 #'
 #' @export
 
@@ -718,11 +729,11 @@ computeXdate_mday <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 11
-#' computeXdate_minute("2015-02-15 20:11:20")
 #' # 22
-#' computeXdate_minute("2022-10-20 21:22:12")
-#'
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_minute") 
+#' # 11
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_minute")
+
 #' @export
 
 computeXdate_minute <- function(x = NULL){
@@ -758,10 +769,10 @@ computeXdate_minute <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 11
-#' computeXdate_month("2015-02-15 20:11:20")
-#' # 22
-#' computeXdate_month("2022-10-20 21:22:12")
+#' # 2
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_month") 
+#' # 10
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_month")
 #'
 #' @export
 
@@ -795,14 +806,13 @@ computeXdate_month <- function(x = NULL){
 #' @return Returns a character string with the quarter component.
 #' @author Bastian Wiessner
 #' @seealso \code{\link{computeXdate_date}} \code{\link{computeDate_wkyr}}
-#' @importFrom stringr str_split str_length
+#' @importFrom stringr str_split str_length str_extract
 #' @keywords internal
 #' @examples
-#' # 11
-#' computeXdate_quarter("2015-02-15 20:11:20")
-#' # 22
-#' computeXdate_quarter("2022-10-20 21:22:12")
-#'
+#' # 1
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_quarter") 
+#' # 4
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_quarter")
 #' @export
 
 computeXdate_quarter <- function(x = NULL){
@@ -840,10 +850,10 @@ computeXdate_quarter <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 11
-#' computeXdate_second("2015-02-15 20:11:20")
-#' # 22
-#' computeXdate_second("2022-10-20 21:22:12")
+#' # "20"
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_second") 
+#' # "12"
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_second")
 #'
 #' @export
 
@@ -881,10 +891,11 @@ computeXdate_second <- function(x = NULL){
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
-#' # 11
-#' computeXdate_tday("2015-02-15 20:11:20")
-#' # 22
-#' computeXdate_tday("2022-10-20 21:22:12")
+#' # Time difference of 157909.8 days
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_tday") 
+#' # Time difference of 160713.8 days
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_tday")
+
 #'
 #' @export
 
@@ -924,10 +935,10 @@ computeXdate_tday <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 20:11:20
-#' computeXdate_time("2015-02-15 20:11:20")
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_time") 
 #' # 21:22:12
-#' computeXdate_time("2022-10-20 21:22:12")
-#'
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_time")
+#' 
 #' @export
 
 computeXdate_time <- function(x = NULL){
@@ -963,9 +974,9 @@ computeXdate_time <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 06
-#' computeXweek("2015-02-15 20:11:20")
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXweek") 
 #' # 42
-#' computeXweek("2022-10-20 21:22:12")
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXweek")
 #'
 #' @export
 
@@ -1003,9 +1014,9 @@ computeXweek <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 0
-#' computeXwkday("2015-02-15 20:11:20")
-#' # 6
-#' computeXwkday("2022-10-20 21:22:12")
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXwkday")
+#' # 4
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXwkday")
 #'
 #' @export
 
@@ -1043,9 +1054,9 @@ computeXwkday <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 2015
-#' computeXyear("2015-02-15 20:11:20")
+#' xpssCompute(x="2015-02-15 20:11:20",fun="computeXyear")
 #' # 2022
-#' computeXyear("2022-10-20 21:22:12")
+#' xpssCompute(x="2022-10-20 21:22:12",fun="computeXyear")
 #'
 #' @export
 

@@ -19,14 +19,7 @@ Helper Function for xpssCompute. R Implementation of the SPSS \code{MOD} Functio
 }
 \examples{
 # atomic numeric input
-x1 <- seq(from = 1,to = 20,by = 1.5)
-xpssCompute(x = x1,fun = "computeMod", modulus = 2)
-# numeric vector input
-x2 <- c(seq(from = 1,to = 20,by = 1.5),seq(from = 1,to = 20,by = 1.25))
-xpssCompute(x = x2,fun = "computeMod", modulus = 3)
-# numeric matrix input
-x3 <- rbind(seq(from = 1,to = 10,by = 1),seq(from = 1,to = 20,by = 2),seq(from = 1,to = 30,by = 3))
-xpssCompute(x = x3,fun = "computeMod", modulus = 4)
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeMod", modulus = 2)
 }
 \author{
 Bastian Wiessner

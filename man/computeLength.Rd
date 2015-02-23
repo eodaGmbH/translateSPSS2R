@@ -16,9 +16,9 @@ Numeric. Returns the length of \code{x} in bytes, including all trailing blanks.
 Helper Function for xpssCompute. R Implementation of the SPSS \code{LENGTH} Function.
 }
 \examples{
-computeLength("trailing blanks matter")
-computeLength("trailing blanks matter          ")
-computeLength("        trailing blanks matter")
+xpssCompute(x="trailing blanks matter",fun="computeLength")
+xpssCompute(x="trailing blanks matter                      ",fun="computeLength")
+xpssCompute(x="                      trailing blanks matter",fun="computeLength")
 }
 \author{
 Bastian Wiessner

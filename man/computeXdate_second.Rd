@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.SECOND} Function. \code{computeXdate_se
 computeXdate_second calculates the second component out of the date string, the other date and time componentes will be omitted.
 }
 \examples{
-# 11
-computeXdate_second("2015-02-15 20:11:20")
-# 22
-computeXdate_second("2022-10-20 21:22:12")
+# "20"
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_second")
+# "12"
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_second")
 }
 \author{
 Bastian Wiessner

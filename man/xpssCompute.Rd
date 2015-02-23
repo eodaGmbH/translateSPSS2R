@@ -4,10 +4,12 @@
 \alias{xpssCompute}
 \title{Creates data}
 \usage{
-xpssCompute(x, fun = NULL,...)
+xpssCompute(x, variables = NULL, fun = NULL,...)
 }
 \arguments{
 \item{x}{input data .}
+
+\item{variables}{atomic character or character vector with the names of the variables.}
 
 \item{fun}{atomic character as functionname.}
 
@@ -20,13 +22,15 @@ Output is a created vector.
 R implementation of the SPSS \code{COMPUTE} argument.
 }
 \details{
-It is possible to fill more than one variable in any compute helper function. Because of this, there are special cases between numeric and character operations.
-
-For \code{numeric} input data, it is possible to chose a \code{atomic numeric}, an \code{numeric vector} or a \code{numeric matrix} as the input data. The only restriction is, that the data has to be of the same length as the output data. If the data is too short or too long, an failure will produced. \cr \cr
-For \code{character} input data, it is possible to chose a \code{atomic character}, an \code{character vector} or a \code{character matrix}. The restriction for the input data is the same as for the numeric data, output and input data has to be of the same length. \cr \cr
-A special case for input data is a numeric or character matrix. If the matrix gets initialised via \code{\link{cbind}} and assigned to an existing dataset, the returned data get saved in one variable with n coloumns. For example, the input data contains 3 coloumns and every coloumn contains 20 observations, the complete matrix [1:20,1:3] gets stored in one variable, respectively one coloumn, within the customized dataset.
-If a new matrix gets applied, the coloumns get stored coloumn by coloumn in the new variable.
-
+\strong{Missing Fuctions:}
+\tabular{rll}{
+\tab \code{Functionname} \tab \code{Output}
+\cr \tab \code{\link{computeMiss}} \tab Computes missing values as logical (limited to one variable).
+\cr \tab \code{\link{computeNmiss}} \tab Computes missing values as logical.
+\cr \tab \code{\link{computeNvalid}} \tab Computes valid values as logical.
+\cr \tab \code{\link{computeSysmis}} \tab Computes the system missing values as logical.
+\cr \tab \code{\link{computeValue}} \tab Computes the user-defined values as valid values.
+}
 \strong{Numeric Fuctions:}
 \tabular{rll}{
 \tab \code{Functionname} \tab \code{Output}
@@ -36,7 +40,7 @@ If a new matrix gets applied, the coloumns get stored coloumn by coloumn in the 
 \cr \tab \code{\link{computeCos}} \tab Computes the cosinus.
 \cr \tab \code{\link{computeExp}} \tab Computes the exponential.
 \cr \tab \code{\link{computeLn}} \tab Computes the logarithmus naturalis.
-\cr \tab \code{\link{computeLog10}} \tab Computes the logarithmus base 10.
+\cr \tab \code{\link{computeLg10}} \tab Computes the logarithmus base 10.
 \cr \tab \code{\link{computeLngamma}} \tab Computes the logarithmus of the gamma function.
 \cr \tab \code{\link{computeMax}} \tab Computes the maxima.
 \cr \tab \code{\link{computeMean}} \tab Computes the atithmetic mean.
@@ -65,7 +69,11 @@ If a new matrix gets applied, the coloumns get stored coloumn by coloumn in the 
 \cr \tab \code{\link{computeStrunc}} \tab Returns a truncated string.
 \cr \tab \code{\link{computeUpcase}} \tab Returns the input data to upper-case.
 }
-
+\strong{Lag Fuction:}
+\tabular{rll}{
+\tab \code{Functionname} \tab \code{Output}
+\cr \tab \code{\link{computeLag}} \tab Shifts the variable backward or forward.
+}
 \strong{Date Fuctions:}
 \tabular{rll}{
 \tab \code{Functionname} \tab \code{Output}
@@ -100,13 +108,13 @@ If a new matrix gets applied, the coloumns get stored coloumn by coloumn in the 
 Be careful about the input format of the numeric values in your data. It is possible to specify values which are outside the of valid range. \cr Those failures are called \code{Domain Errors}.
 \cr \cr \strong{For example}:
 \tabular{rll}{
-\tab \code{Functionname / Operator} \tab \code{Output}
+\tab \code{Function} \tab \code{Output}
 \cr \tab **  \tab A negative number to a noninteger power.
-\cr \tab /	\tab A divisor of 0.
+\cr \tab /  \tab A divisor of 0.
 \cr \tab computeArsin \tab  An argument whose absolute value exceeds 1.
 \cr \tab computeExp \tab An argument that produces a result too large to be represented on the computer.
-\cr \tab computeLg10 \tab	A negative or 0 argument.
-\cr \tab computeLn	\tab A negative or 0 argument.
+\cr \tab computeLg10 \tab  A negative or 0 argument.
+\cr \tab computeLn  \tab A negative or 0 argument.
 \cr \tab computeMod \tab A divisor of 0.
 \cr \tab computeSqrt \tab	A negative argument.
 }
@@ -114,7 +122,12 @@ Be careful about the input format of the numeric values in your data. It is poss
 \examples{
 # load data
 data(fromXPSS)
-xpssCompute(x=fromXPSS$V1,fun=mean)
+
+# computes V7_2 with user-defined missing values
+xpssCompute(x=fromXPSS$V7_2,fun="computeValues")
+
+# with optional na remove argument
+xpssCompute(x=fromXPSS$V7_2,fun="computeMean", na.rm=T)
 }
 \author{
 Bastian Wiessner

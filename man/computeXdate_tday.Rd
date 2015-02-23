@@ -19,10 +19,10 @@ R Implementation of the SPSS \code{XDATE.DAY} Function. \code{computeXdate_tday}
 computeXdate_tday calculates the difference of days between October 14, 1582 and the entered date.
 }
 \examples{
-# 11
-computeXdate_tday("2015-02-15 20:11:20")
-# 22
-computeXdate_tday("2022-10-20 21:22:12")
+# Time difference of 157909.8 days
+xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_tday")
+# Time difference of 160713.8 days
+xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_tday")
 }
 \author{
 Bastian Wiessner

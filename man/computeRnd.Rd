@@ -19,14 +19,9 @@ Helper Function for xpssCompute. R Implementation of the SPSS \code{RND} Functio
 }
 \examples{
 # atomic numeric input
-x1 <- seq(from = 1,to = 20,by = 1.5)
-xpssCompute(x = x1,fun = "computeRnd", digits = 2)
-# numeric vector input
-x2 <- c(seq(from = 1,to = 20,by = 1.5),seq(from = 1,to = 20,by = 1.25))
-xpssCompute(x = x2,fun = "computeRnd", digits = 3)
-# numeric matrix input
-x3 <- rbind(seq(from = 1,to = 10,by = 1),seq(from = 1,to = 20,by = 2),seq(from = 1,to = 30,by = 3))
-xpssCompute(x = x3,fun = "computeRnd", digits = 1)
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeRnd")
+
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeRnd",digits=1)
 }
 \author{
 Bastian Wiessner

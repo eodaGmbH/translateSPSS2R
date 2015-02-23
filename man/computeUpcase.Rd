@@ -16,10 +16,7 @@ String. Returns unput with lowercase letters changed to uppercase. The argument 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{UPCASE} Function.
 }
 \examples{
-computeUpcase("make it big")
-
-small <- c("make","all","big")
-computeUpcase(small)
+xpssCompute(x="make it big", fun="computeUpcase")
 }
 \author{
 Bastian Wiessner

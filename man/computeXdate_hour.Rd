@@ -20,9 +20,9 @@ computeXdate_hour extract the hour component out of the date string, the other d
 }
 \examples{
 # 20
-computeXdate_hour("2015-02-15 20:22:20")
+xpssCompute(x="2015-02-15 20:22:20", fun="computeXdate_hour")
 # 21
-computeXdate_hour("2022-02-20 21:22:12")
+xpssCompute(x="2022-02-20 21:22:12", fun="computeXdate_hour")
 }
 \author{
 Bastian Wiessner

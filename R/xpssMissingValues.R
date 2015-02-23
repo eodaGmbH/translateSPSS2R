@@ -61,7 +61,7 @@ xpssMissingValues <- function(x, variables = NULL, as.missing = list(range = c(f
   
   # resett variables
   for(i in 1:length(variables)){
-    x <-value(x,variables)  
+    x <-computeValue(x,variables)  
   } 
       LEN <- length(variables)
         for(i in 1:length(variables)){

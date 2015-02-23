@@ -22,13 +22,13 @@ String. Returns a character vector
 Helper Function for xpssCompute. R Implementation of the SPSS \code{REPLACE} Function.
 }
 \examples{
-computeReplace("Makfts sftnsft","ft","e")
+xpssCompute(x="Makfts sftnsft", fun="computeReplace",pattern="ft",match="e")
 }
 \author{
 Bastian Wiessner
 }
 \seealso{
-\code{\link{str_replace}}\code{\link{str_replace_all}}\code{\link{grep}}
+\code{\link{str_replace}} \code{\link{str_replace_all}} \code{\link{str_sub<-}}
 }
 \keyword{internal}
 

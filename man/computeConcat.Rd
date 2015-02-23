@@ -7,7 +7,7 @@
 computeConcat (x, sep = "")
 }
 \arguments{
-\item{x}{character or character vector.}
+\item{x}{input data.}
 
 \item{sep}{atomic character element which splits the input data. Default is "".}
 }
@@ -18,8 +18,8 @@ String. Returns a string that is the concatenation of all its arguments.
 Helper Function for xpssCompute. R Implementation of the SPSS \code{CONCAT} Function.
 }
 \examples{
-x <- c("this","is","a","vector")
-computeConcat(x)
+data(fromXPSS)
+xpssCompute(x = fromXPSS, variables = c("V1","V2"), fun="computeConcat")
 }
 \author{
 Bastian Wiessner

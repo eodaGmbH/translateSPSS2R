@@ -12,29 +12,21 @@
 #' @examples
 #' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeAbs")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeAbs")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeAbs")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeAbs")
 #' @keywords internal
 #' @export
 #' 
 computeAbs <- function(x){
-
   #exceptions
-    if(!(is.numeric(x))){
+  if(!(is.numeric(x))){
     stop("input data has to be numeric")
+  }  
+  if(ncol(x) == 1){
+    out <- base::abs(x)  
+  } else{
+    stop("computeAbs is limited to one input variable")
   }
   
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- base::abs(x) 
-  } else{
-    stop("wrong input format")
-  }
   return(out)
 }
 
@@ -50,26 +42,19 @@ computeAbs <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{asin}}
 #' @examples 
-#' # atomic numeric input with values between -1 and 1
-#' x1 <- rnorm(n=20,mean=0,sd=0.25)
-#' xpssCompute(x=x1,fun="computeArsin")
-#' # numeric vector input with values between -1 and 1
-#' x2 <- c(rnorm(n=20,mean=0,sd=0.25),rnorm(n=20,mean=0,sd=0.35))
-#' xpssCompute(x=x2,fun="computeArsin")
-#' # numeric matrix input with values between -1 and 1
-#' x3 <- rbind(rnorm(n=20,mean=0,sd=0.25),rnorm(n=20,mean=0,sd=0.35),rnorm(n=20,mean=0,sd=0.5))
-#' xpssCompute(x=x3,fun="computeArsin")
+#' # atomic numeric input
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeArsin")
 #' @keywords internal
 #' @export
 
 computeArsin <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
-  }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- asin(x)  
-  }else{
-    stop("wrong input format")
+  } 
+  if(ncol(x) == 1){
+    out <- base::asin(x)  
+  } else{
+    stop("computeArsin is limited to one input variable")
   }
   return(out)
 }
@@ -86,16 +71,8 @@ computeArsin <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{atan}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeArtan")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeArtan")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeArtan")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeArtan")
 #' @keywords internal
 #' @export
 
@@ -103,11 +80,11 @@ computeArtan <- function(x){
   
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
-  }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- atan(x)  
-  }else{
-    stop("wrong input format")
+  } 
+  if(ncol(x) == 1){
+    out <- base::atan(x)  
+  } else{
+    stop("computeArtan is limited to one input variable")
   }
   return(out)
 }
@@ -125,16 +102,8 @@ computeArtan <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{cos}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeCos")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeCos")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeCos")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeCos")
 #' @keywords internal
 #' @export
 
@@ -142,11 +111,11 @@ computeCos <- function(x){
   
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
-  }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- cos(x)  
-  }else{
-    stop("wrong input format")
+  } 
+  if(ncol(x) == 1){
+    out <- base::cos(x)  
+  } else{
+    stop("computeCos is limited to one input variable")
   }
   return(out)
 }
@@ -164,16 +133,8 @@ computeCos <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{exp}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeExp")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeExp")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeExp")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeExp")
 #' @keywords internal
 #' @export
 
@@ -182,10 +143,10 @@ computeExp <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
   }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- exp(x)  
-  }else{
-    stop("wrong input format")
+  if(ncol(x) == 1){
+    out <- base::exp(x)  
+  } else{
+    stop("computeExp is limited to one input variable")
   }
   return(out)
 }
@@ -204,16 +165,8 @@ computeExp <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{log}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeLg10")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeLg10")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeLg10")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeLg10")
 #' @keywords internal
 #' @export
 
@@ -221,11 +174,11 @@ computeLg10 <- function(x){
   
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
-  }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- log10(x)  
-  }else{
-    stop("wrong input format")
+  } 
+  if(ncol(x) == 1){
+    out <- base::log10(x)  
+  } else{
+    stop("computeLg10 is limited to one input variable")
   }
   return(out)
 }
@@ -243,16 +196,8 @@ computeLg10 <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{log}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeLn")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeLn")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeLn")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeLn")
 #' @keywords internal
 #' @export
 
@@ -261,10 +206,10 @@ computeLn <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
   }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- log(x)  
-  }else{
-    stop("wrong input format")
+  if(ncol(x) == 1){
+    out <- base::log(x)  
+  } else{
+    stop("computeLn is limited to one input variable")
   }
   return(out)
 }
@@ -282,16 +227,8 @@ computeLn <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{lgamma}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeLngamma")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeLngamma")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeLngamma")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeLngamma")
 #' @keywords internal
 #' @export
 
@@ -300,14 +237,13 @@ computeLngamma <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
   }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- lgamma(x)  
-  }else{
-    stop("wrong input format")
+   if(ncol(x) == 1){
+    out <- base::lgamma(x)  
+  } else{
+    stop("computeLngamma is limited to one input variable")
   }
   return(out)
 }
-
 
 
 #' Returns the remainder of a division.
@@ -325,18 +261,11 @@ computeLngamma <- function(x){
 #' @keywords internal
 #' @examples 
 #' # atomic numeric input
-#' x1 <- seq(from = 1,to = 20,by = 1.5)
-#' xpssCompute(x = x1,fun = "computeMod", modulus = 2)
-#' # numeric vector input
-#' x2 <- c(seq(from = 1,to = 20,by = 1.5),seq(from = 1,to = 20,by = 1.25))
-#' xpssCompute(x = x2,fun = "computeMod", modulus = 3)
-#' # numeric matrix input
-#' x3 <- rbind(seq(from = 1,to = 10,by = 1),seq(from = 1,to = 20,by = 2),seq(from = 1,to = 30,by = 3))
-#' xpssCompute(x = x3,fun = "computeMod", modulus = 4)
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeMod", modulus = 2)
 #' @export
 
 computeMod <- function(x,modulus = NULL){
-
+  
   if(is.null(modulus)){
     stop("argument modulus is missing")
   } else{
@@ -344,22 +273,24 @@ computeMod <- function(x,modulus = NULL){
       if(!(is.numeric(x))){
         stop("input data has to be numeric")
       }
-      if(is.atomic(x)){
-        out <-  x %% modulus
+      if(ncol(x) == 1){
+        out <-  x %% modulus 
+      } else{
+        stop("computeMod is limited to one input variable")
       }
-      if(is.matrix(x)){
-        out <- x
-        for(i in 1:ncol(x)) {
-          # amount of observations
-          for(j in 1:nrow(x)) {
-            # fill data with first object
-            out[,i][j] <- x[,i][j] %% modulus
-          }       
-        }  
-      }
-      if(is.vector(x)){
-        out <-  x %% modulus
-      }
+      #       if(is.matrix(x)){
+      #         out <- x
+      #         for(i in 1:ncol(x)) {
+      #           # amount of observations
+      #           for(j in 1:nrow(x)) {
+      #             # fill data with first object
+      #             out[,i][j] <- x[,i][j] %% modulus
+      #           }       
+      #         }  
+      #       }
+      #       if(is.vector(x)){
+      #         out <-  x %% modulus
+      #       }
     }
     else{
       stop("modulus has to be numeric")
@@ -383,19 +314,21 @@ computeMod <- function(x,modulus = NULL){
 #' @keywords internal
 #' @examples 
 #' # atomic numeric input
-#' x1 <- seq(from = 1,to = 20,by = 1.5)
-#' xpssCompute(x = x1,fun = "computeRnd", digits = 2)
-#' # numeric vector input
-#' x2 <- c(seq(from = 1,to = 20,by = 1.5),seq(from = 1,to = 20,by = 1.25))
-#' xpssCompute(x = x2,fun = "computeRnd", digits = 3)
-#' # numeric matrix input
-#' x3 <- rbind(seq(from = 1,to = 10,by = 1),seq(from = 1,to = 20,by = 2),seq(from = 1,to = 30,by = 3))
-#' xpssCompute(x = x3,fun = "computeRnd", digits = 1)
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeRnd")
+#' 
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeRnd",digits=1)
 #' @export
 #' 
 
 computeRnd <- function(x,digits=2){
-  out <- round(x,digits=digits)
+  if(!(is.numeric(x))){
+    stop("input data has to be numeric")
+  }
+  if(ncol(x) == 1){
+    out <- round(x,digits=digits)
+  } else{
+    stop("computeRnd is limited to one input variable")
+  }
   return(out)
 }
 
@@ -411,16 +344,8 @@ computeRnd <- function(x,digits=2){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{sin}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeSin")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeSin")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeSin")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeSin")
 #' @keywords internal
 #' @export
 
@@ -429,10 +354,10 @@ computeSin <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
   }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- sin(x)  
-  }else{
-    stop("wrong input format")
+  if(ncol(x) == 1){
+    out <- base::sin(x)
+  } else{
+    stop("computeSin is limited to one input variable")
   }
   return(out)
 }
@@ -449,16 +374,8 @@ computeSin <- function(x){
 #' @author Bastian Wiessner
 #' @seealso \code{\link{sqrt}}
 #' @examples 
-#' data(fromXPSS)
 #' # atomic numeric input
-#' x1 <- fromXPSS$V5
-#' xpssCompute(x = x1,fun = "computeSqrt")
-#' # numeric vector input
-#' x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-#' xpssCompute(x = x2,fun = "computeSqrt")
-#' # numeric matrix input
-#' x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-#' xpssCompute(x = x3,fun = "computeSqrt")
+#' xpssCompute(x = fromXPSS, variables = "V5",fun = "computeSqrt")
 #' @keywords internal
 #' @export
 
@@ -467,10 +384,10 @@ computeSqrt <- function(x){
   if(!(is.numeric(x))){
     stop("input data has to be numeric")
   }
-  if(is.atomic(x) || is.vector(x) || is.matrix(x)){
-    out <- sqrt(x)  
-  }else{
-    stop("wrong input format")
+  if(ncol(x) == 1){
+    out <- base::sqrt(x)
+  } else{
+    stop("computeSqrt is limited to one input variable")
   }
   return(out)
 }

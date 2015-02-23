@@ -112,8 +112,8 @@ xpssFrequencies  <- function(x,
                                             "maximum")){
   
   #set ask True for more than 1 plot, return Enter to go to the next plot
-  par(ask=F)
-  #options(warn=-1)
+  par(ask=T)
+  options(warn=-1)
   
   # exception check if the named variables are in the dataset
   for(i in 1:length(variables)){
@@ -135,7 +135,7 @@ xpssFrequencies  <- function(x,
   if("include" %in% missing)
   {
     # select the variables
-    temp <- value(x,variables)
+    temp <- computeValue(x,variables)
     # get the position of the variables
     pos <- which(colnames(temp) %in% variables)
     for(i in 1:length(variables))
@@ -385,34 +385,46 @@ xpssFrequencies  <- function(x,
         m<-mean(data,na.rm = T)
         std<-sqrt(var(data,na.rm = T))
         if(!(is.null(histogram$min)) && is.null(histogram$max)){         
-          data <- ifelse(data>histogram$min,data,NA)
+          data <- ifelse(data>=histogram$min,data,NA)
         } 
         if((is.null(histogram$min)) && (!is.null(histogram$max))){       
-          data <- ifelse(data<histogram$max,data,NA)
+          data <- ifelse(data<=histogram$max,data,NA)
         } 
         if(!(is.null(histogram$max)) && (!(is.null(histogram$min)))){         
-          data <- ifelse(data<histogram$max,data,NA)
-          data <- ifelse(data>histogram$min,data,NA)
+          data <- ifelse(data<=histogram$max,data,NA)
+          data <- ifelse(data>=histogram$min,data,NA)
         }
-        data <- table(data)
         if(!(is.null(histogram$freq))){
           if(histogram$freq < max(data)){
             stop("freq has to be equal or higher than the maximum value of the data")
           }
-          if(histogram$normal){
-            hist(data,main=attributes(x[,variables[i]])$variable.label,prob=T,xlab="Absolute")    
-            curve(dnorm(x, mean=mean(data), sd=sd(data)), add=TRUE,col="red") 
-          }else{
-            hist(data,main=attributes(x[,variables[i]])$variable.label,col=1:length(unique(data)),ylim=c(0,histogram$freq),xlab="Absolute")    
-          }
-        } 
+          if(!(is.null(histogram$normal))){
+            if(histogram$normal){
+              h <- hist(data,plot=F)
+              hist(data,main=attributes(x[,variables[i]])$variable.label,xlab="Absolute",ylim=c(0,histogram$freq))
+              multiplier <- h$counts / h$density
+              mydensity <- density(data,na.rm=T)
+              mydensity$y <- mydensity$y * multiplier[1]
+              lines(mydensity)
+            }else{
+              hist(data,main=attributes(x[,variables[i]])$variable.label,col=1:length(unique(data)),ylim=c(0,histogram$freq),xlab="Absolute")    
+            }
+          } 
+        }        
         if(!(is.null(histogram$normal))){
           if(histogram$normal){
-            hist(data,main=attributes(x[,variables[i]])$variable.label,prob=T,col=1:length(unique(data)),xlab="Absolute")    
-            curve(dnorm(x, mean=mean(data), sd=sd(data)), add=TRUE) 
+            h <- hist(data,plot=F)
+            hist(data,main=attributes(x[,variables[i]])$variable.label,xlab="Absolute",ylim=c(0,max(h$counts*1.5)))
+            multiplier <- h$counts / h$density
+            mydensity <- density(data,na.rm=T)
+            mydensity$y <- mydensity$y * multiplier[1]
+            lines(mydensity)
           }else{
-            hist(data,main=attributes(x[,variables[i]])$variable.label,col=1:length(unique(data)),xlab="Absolute")    
+            hist(data,main=attributes(x[,variables[i]])$variable.label,xlab="Absolute")    
           }
+        }
+        if(is.null(histogram$normal) & is.null(histogram$freq)){
+          hist(data,main=attributes(x[,variables[i]])$variable.label,ylab="Absolute")              
         }
       }
     }
@@ -421,14 +433,14 @@ xpssFrequencies  <- function(x,
       if(is.list(barchart)) {
         data = x[,variables[i]]
         if(!(is.null(barchart$min)) && is.null(barchart$max)){        
-          data <- ifelse(data>barchart$min,data,NA)
+          data <- ifelse(data>=barchart$min,data,NA)
         } 
         if((is.null(barchart$min)) && (!is.null(barchart$max))){          
-          data <- ifelse(data<barchart$max,data,NA)
+          data <- ifelse(data<=barchart$max,data,NA)
         } 
         if(!(is.null(barchart$max)) && (!(is.null(barchart$min)))){         
-          data <- ifelse(data<barchart$max,data,NA)
-          data <- ifelse(data>barchart$min,data,NA)
+          data <- ifelse(data<=barchart$max,data,NA)
+          data <- ifelse(data>=barchart$min,data,NA)
         }
         data <- table(data)
         if(!(is.null(barchart$percent)) & is.null(barchart$freq)){

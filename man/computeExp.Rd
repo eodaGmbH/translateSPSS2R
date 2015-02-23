@@ -16,16 +16,8 @@ returns a numeric, numeric vector or matrix with the expontential values of the 
 Helper Function for xpssCompute. R Implementation of the SPSS \code{EXP} Function.
 }
 \examples{
-data(fromXPSS)
 # atomic numeric input
-x1 <- fromXPSS$V5
-xpssCompute(x = x1,fun = "computeExp")
-# numeric vector input
-x2 <- c(fromXPSS$V7_1,fromXPSS$V7_2,fromXPSS$V5)
-xpssCompute(x = x2,fun = "computeExp")
-# numeric matrix input
-x3 <- rbind(fromXPSS$V7_2,fromXPSS$V5,fromXPSS$V6)
-xpssCompute(x = x3,fun = "computeExp")
+xpssCompute(x = fromXPSS, variables = "V5",fun = "computeExp")
 }
 \author{
 Bastian Wiessner

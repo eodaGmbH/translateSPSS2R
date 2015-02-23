@@ -23,10 +23,10 @@ R Implementation of the SPSS \code{DATE.WKYR} Function. \code{computeDate_wkyr} 
 An character string as Date. Returns a date value corresponding to the indicated month, and year. The arguments must resolve to integers or numerics, with day between 1 and 31, month between 1 and 12, and year a four-digit integer value.
 }
 \examples{
-# 2012/w41
-computeDate_wkyr(day=10,month=10, year=2012)
-# 1999/w3
-computeDate_wkyr(day=20,month=1, year=1999)
+# "2006/w41"
+xpssCompute(x=5, fun="computeDate_wkyr", month=10, year=2006)
+# "2010/w2"
+xpssCompute(x=10, fun="computeDate_wkyr", month=1, year=2010)
 }
 \author{
 Bastian Wiessner

@@ -16,10 +16,10 @@ Returns the number of passed hours as atomic numeric.
 R Implementation of the SPSS \code{TIME.DAYS} Function. \code{computeTime_days} is a helper function for xpssCompute.
 }
 \examples{
-# 96
-computeTime_days(x=4)
-# 252
-computeTime_days(x=10.5)
+# 120
+xpssCompute(x=5, fun="computeTime_days")
+# 288
+xpssCompute(x=12, fun="computeTime_days")
 }
 \author{
 Bastian Wiessner
