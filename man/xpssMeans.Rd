@@ -18,7 +18,7 @@ xpssMeans(x, variables = NULL, by = NULL, missing = NULL,
 
 \item{cells}{specifies descriptiv statistics for the results. Default is \code{mean}, \code{stddev} and \code{n}. See notes for more.}
 
-\item{statistics}{specifies a anova or linearity test for each result. Default is \code{NULL}. Optionally \code{anova} or \code{linearty} can be chosen.}
+\item{statistics}{specifies a anova or linearity test for each result. Default is \code{NULL}. Optionally \code{anova }can be chosen.}
 }
 \description{
 R Implementation of the SPSS Function \code{MEANS}.
@@ -37,7 +37,7 @@ The xpssMeans function displays by default the mean, standard deviation and the 
 \strong{\code{statistics:}}
 \tabular{rll}{
 
-\tab \code{anova} \tab ANalysis Of VAriance.
+\tab \code{anova} \tab calculates sumsquare, degrees of freedom, meansquare, f-value and significance level.
 }
 \strong{\code{cells:}}
 \tabular{rll}{
@@ -63,7 +63,14 @@ The xpssMeans function displays by default the mean, standard deviation and the 
 \cr \tab \code{variance} \tab displays the variance.}
 }
 \examples{
-\dontrun{data(fromXPSS)}
+# one var
+xpssMeans(x=fromXPSS,variables="V3")
+
+# two vars
+xpssMeans(x=fromXPSS,variables=c("V3","V4"))
+
+# two vars + one controlvar
+xpssMeans(x=fromXPSS,variables=c("V3","V6"),by="V4")
 }
 \author{
 Bastian Wiessner

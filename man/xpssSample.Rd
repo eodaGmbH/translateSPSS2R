@@ -7,7 +7,7 @@
 xpssSample(x, pct = NULL, n = NULL, from = NULL)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
 \item{pct}{atomic numeric, determines the percentage to keep.}
 
@@ -19,14 +19,14 @@ xpssSample(x, pct = NULL, n = NULL, from = NULL)
 Returns a subset of the actual dataset.
 }
 \description{
-R mplementation of the SPSS \code{SAMPLE} argument. Takes a sample from a xpssFrame object, data frame or matrix.
+R Implementation of the SPSS \code{SAMPLE} argument. Takes a sample from a xpssFrame object, data frame or matrix.
 }
 \details{
 xpssSample takes a sample of the specified size from the elements of x either with or without replacement. The subset get specified by pct or n.
 
-\code{pct} specifies a percentage value, for the amount of data which should be kept, allowed value range is from 0.01 to 1.
-\code{n} indicates the amount of values to keep. \code{n} has to be lower then \code{from}.
-\code{from} determines the basis for n. \code{from} has to be higher then \code{n}.
+\code{pct} specifies a percentage value, for the amount of data which should be kept, allowed value range is from 0.01 to 1. \cr
+\code{n} indicates the amount of values to keep. \cr
+\code{from} determines the basis for n. \code{from} has to be higher then \code{n}. \cr
 }
 \examples{
 # load data

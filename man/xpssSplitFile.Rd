@@ -4,14 +4,14 @@
 \alias{xpssSplitFile}
 \title{Splits the data.frame into pieces by a factor}
 \usage{
-xpssSplitFile(x, by = NULL, type = "seperated", attachSplit = FALSE)
+xpssSplitFile(x, by = NULL, type = "layered", attachSplit = FALSE)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
 \item{by}{factor variable which splits the data frame.}
 
-\item{type}{character vector containing, either seperated or layered. Specifies the results from an analysis function applied on a splitted data frame. Default is \code{"seperated"} design.}
+\item{type}{character vector containing, either seperated or layered. Specifies the results from an analysis function applied on a splitted data frame. Default is \code{"layered"} design.}
 
 \item{attachSplit}{logical. Indicating if the splitted data should get attached to the object as an attribute. Default is \code{"FALSE"}.}
 }
@@ -22,10 +22,10 @@ The function return the input data with modified attributes.
 R implementation of the SPSS \code{SPLIT FILE} argument
 }
 \author{
-Andreas Wygrabek
+Bastian Wiessner
 }
 \seealso{
-\code{\link{xpssDoIf}} \code{\link{xpssFilterOff}} \code{\link{xpssSelectIf}}
+\code{\link{xpssDoIf}} \code{\link{xpssFilter}} \code{\link{xpssSelectIf}} \code{\link{xpssSplitFileOff}}
 \code{\link{xpssTemporary}}
 }
 

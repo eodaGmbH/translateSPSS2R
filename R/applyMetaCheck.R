@@ -11,14 +11,14 @@
 #' @keywords internal
 #' @export
 
-applyMetaCheck <- function(x) {
+applyMetaCheck <- function(x, pos = 1, envir = as.environment(pos)) {
   
 
-  # check if the class is supported
-  if(is.data.frame(x) == F && is.data.table(x) == F && ("xpssFrame" %in% class(x) ==F)) {
-    stop("Input data has to be a data.frame or xpssFrame",call.=F)
-  }
-  
+#   # check if the class is supported
+#   if(is.data.frame(x) == F && is.data.table(x) == F && ("xpssFrame" %in% class(x) ==F)) {
+#     stop("Input data has to be a data.frame or xpssFrame",call.=F)
+#   }
+#   
   # get the function type
   functiontype <- get("functiontype", parent.frame())
     
@@ -51,7 +51,7 @@ applyMetaCheck <- function(x) {
     
     # notifier if object is not xpssFrame
     if(!is.element("xpssFrame",class(x))) {
-      message("The actual data isn't a  xpssFrame object. The functionality of some functions is possibly severely limited")
+      message("The actual data isn't a  xpssFrame object. The functionality of some functions is severely limited")
     }
     
     ####### Meta - Check - Datamangement############
@@ -68,28 +68,30 @@ applyMetaCheck <- function(x) {
         attributes(x)$FILTERED_DATA <- NULL
       }
     }
-#     
-#     else {
-#       warning("Meta check couldnt be done. Somewhere an object is handled without needed meta-information")
-#     }
-    
     ####### Meta - Check - Analyse############
     
     if((attributes(x)$TEMPORARY == TRUE) && (functiontype == "AN")) { 
+       
         attribut_backup <- attributesBackup(x)
         dataname <- get("dataname", parent.frame())
-        assign(x=dataname,value=attributes(x)$ORIGIN,envir=.GlobalEnv)
+        assign(x=dataname,value=attributes(x)$ORIGIN,envir= envir)
         eval(parse(text = paste0("attributes(", dataname,")$TEMPORARY <- FALSE")), envir = .GlobalEnv)
         eval(parse(text = paste0("attributes(", dataname,")$SELECT_IF <- FALSE")), envir = .GlobalEnv)
         eval(parse(text = paste0("class(", dataname,") <- c('data.frame','xpssFrame')")), envir = .GlobalEnv)
         eval(parse(text = paste0("attributes(", dataname,")$ORIGIN <- NULL")), envir = .GlobalEnv)
+        if(getRversion() >= "2.15.1")  utils::globalVariables(c("x"))
     }
 #      else {
 #       warning("Meta check couldnt be done. Somewhere an object is handled without needed meta-information")
 #     }
   } else {
-    warning("Essential attributes are missing in the actual object. This problem caused, whether you haven't created a xpssFrame object", call. = F)
+    if(functiontype == "AN") {
+      # pull warning
+      warning("actual data got coerced to xpssFrame, due missing of necessary attributes", call. =F)
+      # go coerce
+      x <- as.xpssFrame(x)
+    }
+    warning("Essential attributes are missing in the actual object. This problem caused, whether you haven't created a xpssFrame object, due this issue the functionality of some functions is severely limited", call. = F)
   }
     return(x)
 }
-

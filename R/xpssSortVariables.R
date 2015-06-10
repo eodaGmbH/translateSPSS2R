@@ -3,9 +3,9 @@
 #'  R implementation of the SPSS \code{SORT VARIABLES} function.
 #'
 #' @usage xpssSortVariables(x, by = NULL, order = "A")
-#' @param x dataframe to sort
-#' @param by argument to sort by  
-#' @param order Up or Down / A or D
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame".  
+#' @param by atomic character with the name of the argument to sort by  
+#' @param order atomic character which indicate the sort direction.
 #'
 #' @return Returns \code{x} sorted by the \code{by} argument. 
 #' 
@@ -13,17 +13,10 @@
 #'  \itemize{
 #'  \item \emph{NAME.} Sort by variable names. Primary sort is alphabetical. Trailing digits are sorted numerically 
 #'  \item \emph{TYPE.} Sort variables by type (numeric or string). Sort string variables by width.
-#'  \item \emph{FORMAT.} Sort variables by format (Date, String, ...).
 #'  \item \emph{LABEL.} Sort variables alphabetical by variable labels.
-#'  \item \emph{VALUES.} Sort variables by value lables. 
-#'  \item \emph{MISSING.} Sort variables by missing values.
-#'  \item \emph{MEASURE.} Sort variables by scale level (Order: nominal, ordinal, scale).
-#'  \item \emph{ROLE.} Sort variables by role (For example: input, goal, both, non).
 #'  \item \emph{COLUMNS.} Sort variables by column width.
-#'  \item \emph{ALIGNMENT.} Sort variables by alignment (left, right, center).
-#'  \item \emph{ATTRIBUTE name.} Sort variables by values of the specified custom variable attribute name.
 #'  }
-#'  
+#'  Valid input for order are "Up" or "Down", respectively "A" or "D".
 #'
 #' @author Benjamin Piest
 #' @seealso \code{\link{sort}}
@@ -35,9 +28,6 @@
 #' xpssSortVariables(fromXPSS, by = "NAME")
 #' 
 #'# Returns variables in alphabetical order (Z-A).
-#' xpssSortVariables(fromXPSS, by = "NAME", order = "D")
-#' 
-#'# Same output as above.
 #' xpssSortVariables(fromXPSS, by = "NAME", order = "D")
 #' 
 #' # Returns variables ordered by type (numeric-string). 
@@ -55,8 +45,6 @@
 #' xpssSortVariables(fromXPSS, by = "COLUMNS", order = "D")
 #' 
 #' @export 
-
-
 
 
 xpssSortVariables <- function(x, by = NULL, order = "A"){
@@ -141,4 +129,3 @@ if(by == "LABEL" & order == "D"){
 
   return(x)
 }
-

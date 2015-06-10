@@ -7,7 +7,7 @@
 applyAttributes(x, attributesToApply = NULL)
 }
 \arguments{
-\item{x}{a data.frame, data.table object or input data of class xpssFrame.}
+\item{x}{a data.frame or input data of class xpssFrame.}
 
 \item{attributesToApply}{to applied attributes}
 }

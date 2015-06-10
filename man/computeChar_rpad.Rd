@@ -7,7 +7,7 @@
 computeChar_rpad (x, length = NULL, fill = NULL)
 }
 \arguments{
-\item{x}{character or character vector.}
+\item{x}{atomic character or character vector.}
 
 \item{length}{numeric. Number of characters x is to be filled on the right.}
 

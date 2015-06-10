@@ -30,8 +30,8 @@ R implementation of the SPSS \code{ADD VALUE LABELS} function. \code{xpssAddValu
 }
 \details{
 The values labels are stored in the variable itself.
-\cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label gets overwritten. \cr If the value label for a specific variable does not exist, the value label gets created without deleting the existing value labels for that variable.
-#' \cr\cr A variable can have the following attributes:
+\cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label get overwritten. \cr If the value label for a specific variable does not exist, the value label get created without deleting the existing value label of that variable.
+\cr\cr Supported attributes are:
 \code{value.labels}, \code{defined.MIS}, \code{MIS}, \code{varname}, \code{variable.label}
 }
 \examples{
@@ -41,14 +41,14 @@ data(fromXPSS)
 # create a value label for variable V1
 fromXPSS <- xpssValueLabels(fromXPSS,
                            variables = "V1",
-                           value = 1 ,
-                           label = "Label1")
+                           values = 1 ,
+                           labels = "Label1")
 
 # add another value label for variable V1
 fromXPSS <- xpssAddValueLabels(fromXPSS,
                            variables = "V1",
-                           value = 2 ,
-                           label = "Label2")
+                           values = 2 ,
+                           labels = "Label2")
 
 # show value labels for variable V1
 attributes(fromXPSS$V1)$value.labels

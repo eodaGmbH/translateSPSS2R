@@ -43,6 +43,12 @@ xpssElseIf <- function(x, cond = NULL){
   attBack <- attributesBackup(x)
   # -
   
+  # if there was a compute call b4
+  if(length(x) != length(attributes(x)$DO_IF_INVERSE)){
+    cols <- which(!(names(x) %in% names(attributes(x)$DO_IF_INVERSE)))
+    attributes(x)$DO_IF_INVERSE[names(x[cols])] <- NA
+  }
+  
   x <- rbind(x,attributes(x)$DO_IF_INVERSE)
   
   # Sort the data by rownames
@@ -59,9 +65,6 @@ xpssElseIf <- function(x, cond = NULL){
   #check if necessary
   #backup attributes again
   attr_backup <- attributesBackup(x)
-  
-  functiontype <- "ME"
-  x <- applyMetaCheck(x)
   
   # Put origin dataset to attributes
   attr(x, "DO_IF_INVERSE") <- x

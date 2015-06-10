@@ -4,13 +4,10 @@
 \alias{xpssFrame}
 \title{Creates a xpssFrame Object}
 \usage{
-xpssFrame(x, as.data.table = FALSE, ...)
+xpssFrame(x, ...)
 }
 \arguments{
 \item{x}{as character string with the name of the file.}
-
-\item{as.data.table}{logical. Indicating whether you want to return the input data in data.table format.
-Otherwise a data.frame returns. Default is FALSE.}
 
 \item{\dots}{Arguments to pass on read.spss() from foreign.}
 }
@@ -18,25 +15,25 @@ Otherwise a data.frame returns. Default is FALSE.}
 xpssFrame creates a dataset as an xpssFrame object from a local file.
 }
 \details{
-\code{x} the input data should be of the format \emph{.csv, .sav or .xlsx}.
+\code{x} the input data should be of the format \emph{.sav}.
 
 The SPSS dataset contains the following attributes: \code{names}, \code{codepage}, \code{row.names}, \code{FILTER}, \code{TEMPORAY}, \code{SPLIT_FILE}, \code{DO_IF}, \code{SELECT_IF}, \code{WEIGHTS}, \code{class}
 
 \tabular{rlll}{
  \tab Attribute \tab Type \tab Contain \cr
 \tab \code{names} \tab atomic character or character vector \tab Name of the variable in the dataset \cr
-\tab \code{codepage} \tab atomic numeric \tab ANSI code, which describes the encoding \cr
+\tab \code{codepage} \tab atomic numeric \tab ANSI code, which describe the encoding \cr
 \tab \code{row.names}  \tab atomic numeric or numeric vector \tab row ID's  \cr
-\tab \code{FILTER} \tab atomic logical or condition \tab Filtercondition or FALSE statement if \code{\link{xpssFilter}} is off\cr
+\tab \code{FILTER} \tab atomic logical or condition \tab Filtercondition or FALSE if \code{\link{xpssFilter}} is off\cr
 \tab \code{TEMPORARY} \tab atomic logical \tab Logical statement if \code{\link{xpssTemporary}} is on or off \cr
-\tab \code{SPLIT_FILE} \tab atomic logical \tab * will be implemented in the following update \cr
-\tab \code{DO_IF} \tab atomic logical or condition \tab Do-If-condition or FALSE statement if \code{\link{xpssDoIf}} is off \cr
-\tab \code{SELECT_IF} \tab atomic logical or condition \tab Select-If-condition or FALSE statement if \code{\link{xpssSelectIf}} is off \cr
+\tab \code{SPLIT_FILE} \tab atomic logical \tab Split-File condition or FALSE if \code{\link{xpssSplitFile}} is off \cr
+\tab \code{DO_IF} \tab atomic logical or condition \tab Do-If-condition or FALSE if \code{\link{xpssDoIf}} is off \cr
+\tab \code{SELECT_IF} \tab atomic logical or condition \tab Select-If-condition or FALSE if \code{\link{xpssSelectIf}} is off \cr
 \tab \code{WEIGHTS} \tab atomic character \tab  * will be implemented in a following update \cr
 \tab \code{class} \tab atomic character or character \tab atomic or vector of names of classes the datasets inherits from.  \cr
 }
 
-The SPSS variables are stored in the variable itself. A variable can have the following attributes:
+Variable attributes are stored in the variable itself. A variable can have the following attributes:
 \code{defined.MIS}, \code{MIS}, \code{value.labels}, \code{variable.label}, \code{varname}
  \tabular{rlll}{
  \tab Attribute \tab Type \tab Contain \cr

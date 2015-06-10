@@ -7,13 +7,13 @@
 xpssTemporary(x)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame or input data of class "xpssFrame".}
 }
 \description{
-R implementation of the SPSS \code{TEMPORARY} Function. \code{xpssTemporary} modifies only the data for the following data-management procedure.
+R implementation of the SPSS \code{TEMPORARY} Function.
 }
 \details{
-xpssTemporary signals the beginning of temporary transformation. Only the following data-management procedure takes affect on the data: \code{xpssRecode}, \code{xpssCount}, \code{xpssDoIf}, \code{xpssSelectIf}, \code{xpssSample}, \code{xpssFilter}, \code{xpssNumeric}, \code{xpssString}, \code{xpssVariableLabels}, \code{xpssValueLabels}, \code{xpssMissingValues}.
+xpssTemporary signals the beginning of temporary transformation. Only the following data-management procedure takes affect on the data: , \code{xpssCount}, \code{xpssDoIf}, \code{xpssFilter}, \code{xpssMissingValues}, \code{xpssNumeric}, \code{xpssNofCases}, \code{xpssRecode}, \code{xpssSelectIf}, \code{xpssSample},   \code{xpssString}, \code{xpssVariableLabels}, \code{xpssValueLabels},.
 \cr\cr All the changes that are made are temporary. After the next modification the data is restored. \cr
 For example:  all created variables, e.g. numeric or string variables created while \code{xpssTemporary} is in effect are temporary variables! \cr
 Any changes or modifications made to existing variables while the \code{xpssTemporary} command is in effect are also \strong{temporary}! \cr

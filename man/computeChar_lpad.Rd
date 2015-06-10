@@ -7,14 +7,14 @@
 computeChar_lpad (x, length = NULL, fill = NULL)
 }
 \arguments{
-\item{x}{character or character vector.}
+\item{x}{atomic character or character vector.}
 
-\item{length}{numeric. Number of characters x is to be filled on the left.}
+\item{length}{atomic numeric. Number of characters x is to be filled on the left.}
 
-\item{fill}{optional. String which x should be filled with.}
+\item{fill}{atomic character. String which should be append on the left side.}
 }
 \value{
-String, left-padded by length \code{length}.
+String, left-padded by length \code{lengthpa}.
 }
 \description{
 Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.LPAD} Function.

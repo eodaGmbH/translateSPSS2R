@@ -17,12 +17,12 @@
 #' At the independend-sample test, the mean differnce and ANOVA will be visualized with the statistics \cr
 #' At the paired-sample test, the mean diference and a correlation statistic will be visualizied with the statistics \cr
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param variables atomic character or character vektor with the names of the variables.
-#' @param t_test atomic character definies the type of t-test. Default is \code{testval}, a one-sample ttest. 
+#' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
+#' @param variables atomic character or character vector with the names of the variables.
+#' @param t_test atomic character definies the type of t-test. Default is \code{testval}, a one-sample t-test. 
 #' Optional arguments are \code{groups} for an independent-sample test and \code{pairs} for an paires-sample test 
-#' @param testval atomic numeric, indicates the value of mean difference.
-#' @param criteria atomic numeric specifies the confidence interval for the mean differences. Default
+#' @param testval atomic numeric which indicates the value of mean difference.
+#' @param criteria atomic numeric which specifies the confidence interval for the mean differences. Default
 #' is \code{"0.95"}, optionally a customized value between 0 and 1 can be used.
 #' @param groupvar atomic character with the name of the variable which shall be used for grouping.
 #' @param groups factor variable which specify the variables grouped for an independentsample t-test.
@@ -38,7 +38,7 @@
 #' 
 #' \tab \code{statistics} \tab  simple statistics. \cr
 #' \tab \code{parameter} \tab degrees of freedom. \cr
-#' \tab \code{p.value} \tab significance niveau. \cr
+#' \tab \code{p.value} \tab significance level. \cr
 #' \tab \code{conf.int} \tab confidence bound. \cr
 #' \tab \code{null.value} \tab value of null hypothesis. \cr
 #' \tab \code{alternative} \tab value of alternative hypothesis. \cr
@@ -102,19 +102,10 @@ xpssTtest <- function(x,
                       paired = FALSE,
                       missing = "analysis") 
 {
-  
-  t.val <- list(variables[[1]]) 
   t.with <- list(withvars[[1]])
-  t.group <- list()
-  logvec_withvars <- list()
-  logvec <- list()
-  myt <- list()
-  t.out <- list(variables[[1]]) 
-  t.one <- list()
-  t.cor <- list()
-  f.out <- list()
-  erg <- list()
-  
+  t.group  <- logvec_withvars <- logvec <- myt <- list()
+  t.one <- t.cor <- f.out <-erg <- list()
+  t.val <- data.frame(x[,variables])
   ####################################################################
   ####################### Meta - Checks ##############################
   ####################################################################
@@ -159,7 +150,7 @@ xpssTtest <- function(x,
     if(length(groups) > 2 || length(groups) < 2)      {
       stop("grouping factor must have exactly 2 levels")
     }  
-    if(is.null(testval) ==F || is.null(withvars) ==F)
+    if(is.null(testval) ==T || is.null(withvars) ==F)
     {
       warning("one sample t-tests or paired t-test's aren't possible at indenpendent t-test's")  
     }
@@ -187,23 +178,55 @@ xpssTtest <- function(x,
   if(missing != "analysis" && missing != "listwise" && missing != "include")  {
     stop("wrong 'missing' argument. Only the arguments 'analysis', 'listwise', and 'include' are valid.")
   }
-  #   
-  #   
-  #   
-  #   if(class(groups) == "character")
-  #   {
-  #     groups[[1]]
-  #   }
-  #             
+  
   options(warn=-1) 
+  
+  
+  if(!(is.xpssFrame(x))){
+    attributes(x)$SPLIT_FILE <- F
+  }
+  ###################################
+  #
+  # data preparation
+  # if split file is true
+  if(unique(attributes(x)$SPLIT_FILE != FALSE)){
+    # split the variablenames
+    splitter <- unlist(str_split(attributes(x)$SPLIT_FILE,pattern=" "))
+    # exclude the the last statement
+    splitter <- splitter[1:length(splitter)-1]
+    splitnames <- unlist(str_split(splitter,pattern=","))
+    # combine variables and split vars
+    vars <- c(variables,splitnames)
+    ### create subset
+    # which vars and byvars are in the dataset
+    if(groupvar != F || withvars != F){
+      if(groupvar != F){
+        pos <- sort(c(which(names(x)%in%vars),which(names(x)%in%groupvar)))  
+      } else{
+        pos <- sort(c(which(names(x)%in%vars),which(names(x)%in%withvars)))  
+      }
+    } else{
+      pos <- sort(c(which(names(x)%in%vars)))  
+    }
+    
+    
+    # create data.table object
+    tinput <- data.table(x[pos])  
+    # combine the split vars for data.table operations
+    splitter <- paste(splitter,collapse=",")
+    tinput <- data.table(x[pos])  
+  }else{
+    tinput <- data.table(x)
+  }
+  
   #-----------------------------------------------------------#
   #--------------missings-----------------------
   if("analysis" %in% missing)  {
     if(is.null(withvars) && is.null(groupvar))    {
       for(i in 1:length(variables))      {
-        logvec[[i]] <- is.na(x[,variables[i]]) 
-        t.val[[i]] <- x[,variables[i]]
-      }      
+        logvec[[i]] <- is.na(tinput[,variables[i], with=F]) 
+      } 
+      t.val <- tinput[,variables,with=F]
     }
     else {
       if(is.null(withvars) == FALSE) {
@@ -219,8 +242,8 @@ xpssTtest <- function(x,
       }
       if(is.null(groupvar) == FALSE){
         for(i in 1:length(variables))  {
-          logvec[[i]] <- (is.na(x[,variables[i]]) | is.na(x[,groupvar]))
-          t.val[[i]] <- x[,variables[i]]
+          logvec[[i]] <- is.na(x[,variables[i]]) | is.na(x[,groupvar])
+          t.val[i] <- tinput[,variables[i],with=F]
         }
       }
     }
@@ -265,11 +288,15 @@ xpssTtest <- function(x,
       }
     }
   }
+  
+  
+  
+  
   #--------------------------tests------------------
   #EinStichprobenT_Test
   
   if(t_test == "testval") {
-    for(i in 1:length(variables))   {
+    for(i in 1:length(variables))  {
       if(missing == "listwise")     {
         logvec <- complete.cases(t.val)
         pos <- which(logvec%in%T)
@@ -281,39 +308,74 @@ xpssTtest <- function(x,
         pos <- which(logvec[[i]]%in%F)
       }
       
-      t.one[[i]] <- t.test(t.val[[i]][pos], mu = testval,conf.level=criteria)
-      t.one[[i]]$conf.int <- t.one[[i]]$conf.int - testval
-      t.one[[i]]$estimate <-t.one[[i]]$estimate-10
-      t.one[[i]]$data.name <- paste(attr(x[,variables[i]],"variable.label")[1])
+      if(unique(attributes(x)$SPLIT_FILE != F)){
+        t.one[[i]] <- tinput[,t.test(na.omit(get(variables[[i]])),mu=testval,conf.level=criteria),by=splitter]
+        t.one[[i]][,which(is.element(names(t.one[[i]]),c("null.value","alternative","method","data.name")))] <- NULL
+        t.one[[i]]$conf.int <- t.one[[i]]$conf.int - testval
+        t.one[[i]]$estimate <- t.one[[i]]$conf.int[seq(from=2,to=nrow(t.one[[i]]),by=2)]
+        t.one[[i]]$conf.int <- t.one[[i]]$conf.int[seq(from=1,to=nrow(t.one[[i]]),by=2)]
+        t.one[[i]] <- t.one[[i]][which(duplicated(t.one[[i]][,1:length(splitnames),with=F])),]
+        
+      } else{
+        t.one[[i]] <- t.test(t.val[pos], mu = testval,conf.level=criteria)
+        t.one[[i]]$conf.int <- t.one[[i]]$conf.int - testval
+        t.one[[i]]$estimate <-t.one[[i]]$estimate-10
+        t.one[[i]]$data.name <- paste(attr(x[,variables[i]],"variable.label")[1])
+      }      
       
-      t.one[[i]]$observation  <- length(t.val[[i]][pos])
-      t.one[[i]]$mean <- mean(t.val[[i]][pos])
-      t.one[[i]]$sd <- sd(t.val[[i]][pos])
-      t.one[[i]]$semean <- (t.one[[i]]$sd /(sqrt(t.one[[i]]$observation))) 
-      
-      myt[[i]] <- list("n" = t.one[[i]]$observation,
-                       "mean" =  t.one[[i]]$mean,
-                       "sd" = t.one[[i]]$sd,
-                       "semean" = t.one[[i]]$semean)
-      
-      t.out <- list("t-Value" =  t.one[[i]]$statistic[[1]], 
-                    "significance Level" =  t.one[[i]]$p.value[[1]],
-                    "df" =  t.one[[i]]$parameter[[1]],
-                    "mean difference" = t.one[[i]]$mean - testval,
-                    "lower confidence level of difference" = t.one[[i]]$conf.int[[1]],
-                    "upper confidence level of difference" = t.one[[i]]$conf.int[[2]])
-      #     
-      #   erg[[i]] <- list("descriptive" =myt[[i]],
-      #                     "t.test" =t.out)
-      #   
-      
-      erg[[i]] <- list(t.one[[i]])
-      names(erg[[i]])  <- t.one[[i]]$data.name
+      if(unique(attributes(x)$SPLIT_FILE != F)){        
+        t.one[[i]]$n  <- tinput[,length(na.omit(get(variables[[i]]))),by=splitter]$V1
+        t.one[[i]]$mean <- tinput[,mean(na.omit(get(variables[[i]]))),by=splitter]$V1
+        t.one[[i]]$sd <- tinput[,sd(na.omit(get(variables[[i]]))),by=splitter]$V1
+        t.one[[i]]$semean <- (t.one[[i]]$sd /(sqrt(t.one[[i]]$observation))) 
+        t.one[[i]]$diffmean <- t.one[[i]]$mean - testval
+        t.one[[i]]$testval <- testval
+        
+        setnames(t.one[[i]],c("estimate","conf.int","diffmean","statistic","parameter","p-value"),c("upper confidence level of difference","lower confidence level of difference","mean difference","T","df","Sig"))
+        levels <- t.one[[i]][,1:length(splitnames),with=F]
+        for(j in 1:length(splitnames)){
+          for(k in 1:length(attributes(levels[[j]])))
+            levels[[j]][which(levels[[j]] %in% attributes(levels[[j]])$value.labels[k])] <- names(attributes(levels[[j]])$value.labels[k])  
+        }
+        
+        t.one[[i]][,1:length(splitnames)] <- levels
+        
+        erg[[i]] <- list("Descriptive Statistics" = t.one[[i]][,c(1:5,13,12,6,7),with=F], "T-Test"=t.one[[i]][,c(1,2,8:11),with=F])
+        
+      }else{
+        t.one[[i]]$observation  <- length(t.val[,get(variables[[i]])[pos]])
+        t.one[[i]]$mean <- t.val[,mean(na.omit(get(variables[[i]])[pos]))]
+        t.one[[i]]$sd <- t.val[,sd(na.omit(get(variables)[pos]))]
+        t.one[[i]]$semean <- (t.one[[i]]$sd /(sqrt(t.one[[i]]$observation))) 
+        
+        desc <- cbind("n" = t.one[[i]]$observation,
+                      "mean" =  t.one[[i]]$mean,
+                      "sd" = t.one[[i]]$sd,
+                      "semean" = t.one[[i]]$semean)
+        
+        out <- cbind("TestVal", testval,
+                     "T" =  t.one[[i]]$statistic[[1]], 
+                     "Sig" =  t.one[[i]]$p.value[[1]],
+                     "df" =  t.one[[i]]$parameter[[1]],
+                     "mean difference" = t.one[[i]]$mean - testval,
+                     "lower confidence level of difference" = t.one[[i]]$conf.int[[1]],
+                     "upper confidence level of difference" = t.one[[i]]$conf.int[[2]])
+        
+        if(length(erg)==0){
+          t.out <- out
+          t.desc <- desc
+        } else{
+          t.out <- rbind(t.out,out)
+          t.desc <- rbind(t.desc,desc)
+        }
+        erg[[i]] <- list("Descriptive Statistics" = t.desc, "T-Test"=t.out)
+      }
+      names(erg)[[i]]  <- attributes(x[,variables[[i]]])$varname
     }
   }
   #Gruppiert
   if(t_test == "groups") {
-#    k <- 1
+    #    k <- 1
     for(i in 1:length(variables))   {
       if(missing == "include")     {
         grp <- which((x[,groupvar] == groups[1]) | (x[,groupvar] == groups[2]) & (logvec[[i]]%in%F))
@@ -326,14 +388,86 @@ xpssTtest <- function(x,
       }
       #Gruppenstatistik unabhaengig
       
-      #t.val[[i]] <- t.test(t.val[[i]][pos] ~ x[,groupvar][pos],var.equal=T,conf.level=criteria)
-      t.one[[i]] <- t.test(t.val[[i]][grp] ~  x[,groupvar][grp]  ,var.equal=F,conf.level=criteria)
-      t.one[[i]]$data.name  <- paste(attr(t.val[[i]],"variable.label")[1],"by", attr(x[,groupvar],"variable.label")[1])
       
-      t.one[[i]]$observation  <- list(length(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),length(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
-      t.one[[i]]$mean <- list(mean(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),mean(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
-      t.one[[i]]$sd <- list(sd(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),sd(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
-      t.one[[i]]$semean <- list(t.one[[i]]$sd[[1]] /(sqrt(t.one[[i]]$observation[[1]])),t.one[[i]]$sd[[2]] /(sqrt(t.one[[i]]$observation[[2]])))  
+      if(attributes(x)$SPLIT_FILE != F){
+        
+        
+        message("split-file applied on independent 2-group t-test is not implemented yet")
+        
+        #         
+        #         # get the group indicators
+        #         pos <- unique(x[paste(unlist(str_split(splitter,pattern=",")))])
+        #         # order indicators
+        #         pos <- as.data.table(pos)
+        #         setkeyv(x=pos,cols=colnames(pos))
+        #         # indicate the group
+        #         for(m in 1:nrow(pos)){  
+        #           if(any(is.na(pos))){ #& k == 1)
+        #             temp[[m]] <- x[which(is.na(x[,splitter])),]
+        #           } else{
+        #             temp[[m]] <- na.omit(x[eval(parse(text=paste(paste0("x$",splitnames),"==",pos[m],collapse=" & "))),])
+        #           }
+        #           # combine them        
+        #           #         for(k in k:length(temp)){
+        #           #           t.one[[i]]  <-      t.test(temp[[k]]$V7_2 ~ temp[[k]]$V5_kl2)  
+        #           #         }
+        #           
+        #           
+        #           data <- temp[[m]]
+        #           data <- data[,c(variables,splitnames,groupvar)]
+        #           
+        #           for(l in 1:length(unique(data[,groupvar]))){
+        #             if(length(unique(data[,groupvar])) == 1){
+        #               grp <- unique(data[,groupvar])
+        #               n <- length(data[,variables])
+        #               mean <-mean(data[,variables])
+        #               sd <-sd(data[,variables])
+        #               semean <- sd /(sqrt(length(data[,variables])))
+        #               if(grp == groups[1]){
+        #                 out <- cbind(unique(data$V3[grp]),unique(data$V4[grp]),grp[1],n,mean,sd,semean)
+        #                 out <- rbind(out,c(unique(data$V3[grp]),unique(data$V4[grp]),grp[2],0,-9999,-9999,-9999))
+        #               } else{
+        #                 out <- cbind(unique(data$V3[grp]),unique(data$V4[grp]),grp[2],"n"=0,"mean"=-9999,"sd"=-9999,"semean"=-9999)
+        #                 out <- rbind(out,c(unique(data$V3[grp]),unique(data$V4[grp]),grp[1],n,mean,sd,semean))
+        #               }
+        #             } else{
+        #               grp <- which(data[,groupvar] %in% groups[l])
+        #               n <- length(na.omit(data[,variables][grp]))
+        #               mean <-mean(data[,variables][grp])
+        #               sd <-sd(data[,variables][grp])
+        #               semean <- sd /(sqrt(length(data[,variables][grp])))
+        #               if(l == 1){
+        #                 out <- cbind(unique(data$V3[grp]),unique(data$V4[grp]),groups[l],n,mean,sd,semean)  
+        #               } else{
+        #                 out <- rbind(out,c(unique(data$V3[grp]),unique(data$V4[grp]),grp[l],n,mean,sd,semean))  
+        #               }
+        #             }
+        #           }
+        #           t.group[[m]] <- out
+        #         }
+        #         for(m in 1:length(t.group)){
+        #           if(!(is.element(-9999,t.group[[m]][,5])){
+        #             meandiff <- t.group[[m]][1,5] - t.group[[m]][2,5]  
+        #             t.group[[m]][2,6] / sqrt(3)
+        #           }
+        #           var(temp[[m]]$V7_2)
+        #           
+        #         }
+        #         meandiff <- t.group[[m]][1,5] - t.group[[m]][2,5]
+        #        
+        #         
+        
+      } else{
+        #t.val[[i]] <- t.test(t.val[[i]][pos] ~ x[,groupvar][pos],var.equal=T,conf.level=criteria)
+        t.one[[i]] <- t.test(t.val[[i]][grp] ~  x[,groupvar][grp]  ,var.equal=F,conf.level=criteria)
+        t.one[[i]]$data.name  <- paste(attr(t.val[[i]],"variable.label")[1],"by", attr(x[,groupvar],"variable.label")[1])
+        
+        t.one[[i]]$observation  <- list(length(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),length(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
+        t.one[[i]]$mean <- list(mean(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),mean(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
+        t.one[[i]]$sd <- list(sd(na.omit(t.val[[i]][which(x[,groupvar] %in% 1)])),sd(na.omit(t.val[[i]][which(x[,groupvar] %in% 2)])))
+        t.one[[i]]$semean <- list(t.one[[i]]$sd[[1]] /(sqrt(t.one[[i]]$observation[[1]])),t.one[[i]]$sd[[2]] /(sqrt(t.one[[i]]$observation[[2]])))    
+      }
+      
       
       #Stichprobenbstatistik
       
@@ -375,6 +509,10 @@ xpssTtest <- function(x,
   #pairs
   
   if(t_test == "pairs" && is.null(withvars)) {
+    if(attributes(x)$SPLIT_FILE != F) {
+      message("split-file applied on paired t-test is not implemented yet")  
+    }   
+    
     k <- 1
     for(i in 1:(length(variables)-1))   {
       for(j in 2:length(variables))     {
@@ -431,6 +569,10 @@ xpssTtest <- function(x,
     }
   }
   if(t_test == "pairs" &&  !is.null(withvars) && paired == F) {
+    if(attributes(x)$SPLIT_FILE != F) {
+      message("split-file applied on paired t-test is not implemented yet")  
+    }
+    
     k <- 1
     for(i in 1:(length(variables)))   {
       for(j in 1:length(withvars))     {
@@ -493,6 +635,9 @@ xpssTtest <- function(x,
   
   if(t_test == "pairs" &&  !is.null(withvars) && paired == T)
   {
+    if(attributes(x)$SPLIT_FILE != F) {
+      message("split-file applied on paired t-test is not implemented yet")  
+    }
     k <- 1
     if(missing == "listwise")       {
       temp <- c(t.val,t.with)
@@ -511,7 +656,7 @@ xpssTtest <- function(x,
     {
       for(i in 1:length(variables))
       {
-
+        
         t.one[[i]] <- t.test(t.val[[i]][pos],t.with[[i]][pos],paired=T,conf.level=criteria)
         t.one[[i]]$data.name  <- paste(attr(t.val[[i]],"variable.label")[1],"with", attr(t.with[[i]],"variable.label")[1])
         #t.one[[i]]$data.name  <- list(attr(x[,variables[i]],"variable.label")[1],attr(x[,withvars[i]],"variable.label")[1])
@@ -555,6 +700,11 @@ xpssTtest <- function(x,
       stop("No the same amount of withvars and variables")
     }
   }
+  
+  if(!(is.xpssFrame(x))){
+    attributes(x)$SPLIT_FILE <- NULL
+  }
+  
   options(warn=0)
   return(erg)
 }

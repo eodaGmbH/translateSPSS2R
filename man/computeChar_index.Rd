@@ -7,14 +7,14 @@
 computeChar_index (x,pattern = NULL, split = 0)
 }
 \arguments{
-\item{x}{character or character vector.}
+\item{x}{atomic character or character vector.}
 
-\item{pattern}{pattern to look for its first occurence}
+\item{pattern}{atomic character to look for.}
 
-\item{split}{numeric. Number of parts pattern to divide to.}
+\item{split}{atomic numeric. Number of parts pattern to divide to.}
 }
 \value{
-Numeric. Position of the first occurence of the \code{pattern}
+Numeric. Position of the first occurence of the \code{pattern}.
 }
 \description{
 Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.INDEX} Function.

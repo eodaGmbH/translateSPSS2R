@@ -1,8 +1,8 @@
 #' Modifies value labels
 #'
-#' R implementation of the SPSS \code{VALUE LABEL} function.xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
+#' R implementation of the SPSS \code{VALUE LABEL} function. xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param variables atomic character or character vector with the names of the variables.
 #' @param values atomic numeric or numeric vector containing the values of the variable.
 #' @param labels atomic character or character vector containing the variable labels.

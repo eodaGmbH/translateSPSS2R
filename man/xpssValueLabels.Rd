@@ -8,7 +8,7 @@ xpssValueLabels(x, variables = NULL, values = NULL, labels = NULL,
   datevariables = NULL, datevalues = NULL, datelabels = NULL)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame or input data of class "xpssFrame".}
 
 \item{variables}{atomic character or character vector with the names of the variables.}
 
@@ -23,7 +23,7 @@ xpssValueLabels(x, variables = NULL, values = NULL, labels = NULL,
 \item{datelabels}{atomic character or character vector containing the date labels.}
 }
 \description{
-R implementation of the SPSS \code{VALUE LABEL} function.xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
+R implementation of the SPSS \code{VALUE LABEL} function. xpssValueLabels creates value labels for specific variables. The values of the label get stored in attributes of the variable.
 }
 \details{
 The SPSS variables are stored at the variable itself.

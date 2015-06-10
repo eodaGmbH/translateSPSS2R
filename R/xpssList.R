@@ -2,16 +2,14 @@
 #'
 #' R implementation of the SPSS \code{LIST} Function
 #'
-#' LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.
+#' LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.\code{from} determine the begin of the sequence, \code{to} determine the end of the sequence. \code{by} determine the increment of the sequence.
 #'
 #' @usage xpssList(x, variables = colnames(x), cases = list(from = 1, to = nrow(x), by = 1)) 
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}. 
+#' @param x a (non-empty) data.frame or input data of class \code{xpssFrame}. 
 #' @param variables atomic character or character vector with the names of the variables.
-#' @param cases list containing the arguments from, to, by.
-#' @param from atomic numeric, determine the begin of the sequence.
-#' @param to atomic numeric, determine the end of the sequence.
-#' @param by atomic numeric, determine the increment of the sequence.
+#' @param cases list containing the arguments from, to, by. All parameters are atomic numerics. See Details for more.
+
 #' @return A data.frame with case values for specified variables in the dataset. If cases and variables are not specified, List return the complete dataset. If cases are specified the output is a user-defined sequence.
 #' @author Bastian Wiessner
 #' @examples

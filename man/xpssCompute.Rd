@@ -60,10 +60,12 @@ R implementation of the SPSS \code{COMPUTE} argument.
 \cr \tab \code{\link{computeChar_lpad}} \tab Returns an expanded strings.
 \cr \tab \code{\link{computeChar_mblen}} \tab Computes the byte per character or sign.
 \cr \tab \code{\link{computeChar_rindex}} \tab Returns the position of the last occurence of a pattern.
+\cr \tab \code{\link{computeChar_rpad}} \tab Returns an expanded strings.
 \cr \tab \code{\link{computeConcat}} \tab  Returns a concatenated string.
 \cr \tab \code{\link{computeLength}} \tab Computes Number of bytes in a string.
 \cr \tab \code{\link{computeLower}} \tab Returns the input data to lower-case.
 \cr \tab \code{\link{computeLtrim}} \tab Returns a trimmed string (left side trimmed).
+\cr \tab \code{\link{computeNtrim}} \tab Returns the values of the input data.
 \cr \tab \code{\link{computeReplace}} \tab Replaces a pattern in a string.
 \cr \tab \code{\link{computeRtrim}} \tab Returns a trimmed string (right side trimmed).
 \cr \tab \code{\link{computeStrunc}} \tab Returns a truncated string.
@@ -100,9 +102,9 @@ R implementation of the SPSS \code{COMPUTE} argument.
 \cr \tab \code{\link{computeXdate_second}} \tab Extracts the second on basis of a given date.
 \cr \tab \code{\link{computeXdate_tday}} \tab Computes the difference of days between the entered date and October 14, 1582.
 \cr \tab \code{\link{computeXdate_time}} \tab Extracts the time componente on basis of a given date.
-\cr \tab \code{\link{computeXweek}} \tab Calcualtes the calendar week on basis of a given date.
-\cr \tab \code{\link{computeXwkday}} \tab Calcualtes the day of week on basis of a given date.
-\cr \tab \code{\link{computeXyear}} \tab Extracts the year on basis of a given date.
+\cr \tab \code{\link{computeXdate_week}} \tab Calcualtes the calendar week on basis of a given date.
+\cr \tab \code{\link{computeXdate_wkday}} \tab Calcualtes the day of week on basis of a given date.
+\cr \tab \code{\link{computeXdate_year}} \tab Extracts the year on basis of a given date.
 }
 
 Be careful about the input format of the numeric values in your data. It is possible to specify values which are outside the of valid range. \cr Those failures are called \code{Domain Errors}.
@@ -116,7 +118,7 @@ Be careful about the input format of the numeric values in your data. It is poss
 \cr \tab computeLg10 \tab  A negative or 0 argument.
 \cr \tab computeLn  \tab A negative or 0 argument.
 \cr \tab computeMod \tab A divisor of 0.
-\cr \tab computeSqrt \tab	A negative argument.
+\cr \tab computeSqrt \tab  A negative argument.
 }
 }
 \examples{
@@ -124,10 +126,10 @@ Be careful about the input format of the numeric values in your data. It is poss
 data(fromXPSS)
 
 # computes V7_2 with user-defined missing values
-xpssCompute(x=fromXPSS$V7_2,fun="computeValues")
+xpssCompute(x=fromXPSS, variables="V7_2",fun="computeValue")
 
 # with optional na remove argument
-xpssCompute(x=fromXPSS$V7_2,fun="computeMean", na.rm=T)
+xpssCompute(x=fromXPSS, variables=c("V5","V7_2"),fun="computeMean", na.rm=T)
 }
 \author{
 Bastian Wiessner

@@ -8,11 +8,11 @@
 #'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.INDEX} Function. 
 #'
 #' @usage computeChar_index (x,pattern = NULL, split = 0)
-#' @param x character or character vector.
-#' @param pattern pattern to look for its first occurence
-#' @param split numeric. Number of parts pattern to divide to.  
+#' @param x atomic character or character vector.
+#' @param pattern atomic character to look for.
+#' @param split atomic numeric. Number of parts pattern to divide to.  
 #'
-#' @return Numeric. Position of the first occurence of the \code{pattern}
+#' @return Numeric. Position of the first occurence of the \code{pattern}.
 #' @details \code{computeChar_index(x="Hello user", pattern="user")} Returns a number indicating the character position of the first occurrence of the first letter of 'user' in 'Hello user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
 #'
 #' @author Bastian Wiessner
@@ -35,6 +35,7 @@
 #' @export 
 
 computeChar_index <- function(x,pattern = NULL, split = 0){
+  options(warn=-1)
   if(!(is.numeric(split))){
     stop("argument split has to be numeric")
   }
@@ -64,20 +65,20 @@ computeChar_index <- function(x,pattern = NULL, split = 0){
         #  increment the start by length 
         start_string <- start_string+split
       }
-      for(i in 1:length(splitpattern)){
-        if(i==1){
-          out <- min(str_locate(x,splitpattern[i]),na.rm=T)  
-        } else{
-          if(sum(as.numeric(grepl(pattern=splitpattern[i],x=x)))>=1 & min(str_locate(x,splitpattern[i]),na.rm=T)<out){
-            out <- min(str_locate(x,splitpattern[i]))
-          }
+      for(i in 1:length(x)){
+        for(j in 1:length(splitpattern)){
+          if(sum(as.numeric(grepl(pattern=splitpattern[j],x=x[[i]])))>=1){
+              if(min(str_locate(x[[i]],splitpattern[j]),na.rm=T)<out[[i]]){
+                out[[i]] <- min(str_locate(x[[i]],splitpattern[j]))  
+              }
+              
+          }  
         }
       }
-      
-      if(length(out) == 0){
-        out <- NA
-      } else {
-        out <- min(out)
+      out <- as.numeric(out)
+      if(is.na(unique(out[[1]]))){
+        pos <- which(is.na(out))
+        out[pos] <- 0
       }
     } else {
       stop("Rest has to be 0")
@@ -91,6 +92,7 @@ computeChar_index <- function(x,pattern = NULL, split = 0){
       out <- min(out)
     }
   }
+  options(warn=0)
   return(out)
 }
 
@@ -102,11 +104,11 @@ computeChar_index <- function(x,pattern = NULL, split = 0){
 #'Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.LPAD} Function. 
 #'
 #' @usage computeChar_lpad (x, length = NULL, fill = NULL)
-#' @param x character or character vector.
-#' @param length numeric. Number of characters x is to be filled on the left. 
-#' @param fill optional. String which x should be filled with.
+#' @param x atomic character or character vector.
+#' @param length atomic numeric. Number of characters x is to be filled on the left. 
+#' @param fill atomic character. String which should be append on the left side.
 #'
-#' @return String, left-padded by length \code{length}.   
+#' @return String, left-padded by length \code{lengthpa}.   
 #' 
 #' @details The value of length represents the number of characters and must be a positive integer. If the optional argument \code{fill} is not specified, \code{x} is padded with blank spaces.
 #' @author Bastian Wiessner
@@ -136,17 +138,19 @@ computeChar_lpad <- function(x, length = NULL, fill = NULL){
       fill <- paste0(" ",fill)
     }
     out <- paste0(fill,out)
-  } else{
-    out <- ""
-    for(i in 1:trunc(length/str_length(fill))){
-      out <- paste0(fill,out)  
+  }else{
+    for(i in 1:length(x)){
+      for(j in 1:trunc(length/str_length(fill))){
+        if(str_length(out[i])<length)
+        out[i] <- paste0(fill,out[i])  
+      }
+      if(str_length(out[i])>length){
+        out[i] <- substr(out[i],start=0,stop=length)
+      }
     }
-    if(length>str_length(out)){
-      remain <- length-str_length(out)
-      fill <- substr(x,start = 1,stop = remain)
-      out <- paste0(out,fill)
-    }
+  
   }
+
   return(out)
 }
 
@@ -158,9 +162,7 @@ computeChar_lpad <- function(x, length = NULL, fill = NULL){
 #'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.LENGTH} Function. 
 #'
 #' @usage computeChar_length (x)
-#' @param x character or character vector.
-#'
-#'
+#' @param x atomic character or character vector.
 #'
 #' @return Numeric. Returns the length of \code{x} in characters, with any trailing blanks removed.
 #' @author Bastian Wiessner
@@ -231,12 +233,12 @@ computeChar_mblen <- function(x,pos = NULL){
 #'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.RINDEX} Function. 
 #'
 #' @usage computeChar_rindex (x,pattern = NULL, split = 0)
-#' @param x character or character vector.
-#' @param pattern pattern to look for its last occurence
+#' @param x atomic character or character vector.
+#' @param pattern atomic character to look for.
 #' @param split numeric. Number of parts pattern to divide to.  
 #'
 #' @return Numeric. Position of the last occurence of the \code{pattern}
-#' @details \code{computeChar_index(x="Hello little user", pattern="user")} Returns a number indicating the character position of the last occurrence of the first letter of 'user' in 'Hello little user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
+#' @details \code{computeChar_index(x="Hello user", pattern="user")} Returns a number indicating the character position of the last occurrence of the first letter of 'user' in 'Hello user'. The optional third argument, \code{split}, is a number, which must be a positive integer used to divide 'user' into separate strings. The \code{split} value must be able to divide the \code{pattern} string without remainder.
 #' @author Bastian Wiessner
 #' @seealso \code{\link{str_locate_all}}
 #' @importFrom stringr str_length str_sub str_locate
@@ -249,6 +251,7 @@ computeChar_mblen <- function(x,pos = NULL){
 
 
 computeChar_rindex <- function(x,pattern = NULL, split = 0){
+  options(warn=-1)
   if(!(is.numeric(split))){
     stop("argument split has to be numeric")
   }
@@ -257,9 +260,8 @@ computeChar_rindex <- function(x,pattern = NULL, split = 0){
   }
   if(!(is.character(x)) || !(is.character(pattern))){
     stop("argument x and pattern has to be character")
-  } 
-  
-  out <- x
+  }
+  out <- vector(mode="numeric",length=length(x))
   # look after split is set
   if(split > 0) {
     # look if modulo division is > 1
@@ -273,34 +275,30 @@ computeChar_rindex <- function(x,pattern = NULL, split = 0){
       # create placeholder
       splitpattern <- vector()
       # loop over the amount of parts
-      for(i in 1:split) {
-        # create i part 
-        splitpattern[[i]] <- str_sub(pattern, start = start_string, end = end_string)
-        # increment the start by length 
-        start_string <- start_string+split_length
-        # increment the end by length
-        end_string <- end_string+split_length
+      for(i in 1:split_length) {
+        # create patterns
+        splitpattern[[i]] <- str_sub(pattern, start = start_string, end = start_string+split-1)
+        #  increment the start by length 
+        start_string <- start_string+split
       }
-      # create outputvar
-      out <- str_locate(string=x,pattern=splitpattern[[2]])[,1]
-      # loop over the patterns
-      for(i in 1:length(splitpattern)){
-        # create a temporary output
-        result_temp[[i]] <- str_locate_all(string=x,pattern=splitpattern[[i]])
-        # loop over elements in the result
-        for(j in 1:length(result_temp)){
-          # check if the actual element is smaller than the existing
-          if(length(result_temp[[i]][j][[1]][,1]) == 1 &&   result_temp[[i]][j][[1]][,1] > result[[j]]) {
-            # if yes, override
-            out[[j]] <- as.integer(result_temp[[i]][j][[1]][,1])            
-          }
+      for(i in 1:length(x)){
+        for(j in 1:length(splitpattern)){
+          if(sum(as.numeric(grepl(pattern=splitpattern[j],x=x[[i]])))>=1){
+            if(max(str_locate_all(x[[i]],splitpattern[j])[[1]],na.rm=T)>out[[i]]){
+              out[[i]] <- max(str_locate_all(x[[i]],splitpattern[j])[[1]],na.rm=T)
+            }
+          }  
         }
       }
-      
+      out <- as.numeric(out)
+      if(is.na(unique(out[[1]]))){
+        pos <- which(is.na(out))
+        out[pos] <- 0
+      }
     } else {
       stop("Rest has to be 0")
     }
-  } else {
+  }else {
     # find first position of the pattern in string
     result <-  str_locate_all(string=x,pattern=pattern)    
     for(j in 1:length(out)){
@@ -323,7 +321,7 @@ computeChar_rindex <- function(x,pattern = NULL, split = 0){
 #'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.RPAD} Function. 
 #'
 #' @usage computeChar_rpad (x, length = NULL, fill = NULL)
-#' @param x character or character vector.
+#' @param x atomic character or character vector.
 #' @param length numeric. Number of characters x is to be filled on the right. 
 #' @param fill optional. String which x should be filled with.
 #'
@@ -348,30 +346,65 @@ computeChar_rpad <- function(x, length = NULL, fill = NULL){
     stop("argument length is empty.")
   }
   if(!(is.numeric(length))){
-    stop("argument length has to be numeric")
+    stop("argument length has to be numeric.")
   }
-  
   out <- x
   if(is.null(fill)){
+    
     replicates <- length-str_length(x)
     for(i in 1:replicates){
       fill <- paste0(" ",fill)
     }
-    paste0(fill,out)
-  } else {
+    out <- paste0(out,fill)
+  }else{
     for(i in 1:length(x)){
-      while(length>str_length(paste0(out[[i]],fill))){
-        out[[i]] <- paste0(out[[i]],fill)  
+      for(j in 1:trunc(length/str_length(fill))){
+        if(str_length(out[i])<length)
+          out[i] <- paste0(out[i],fill)  
+      }
+      if(str_length(out[i])>length){
+        out[i] <- substr(out[i],start=0,stop=length)
       }
     }
-    if(length>str_length(out)){
-      remain <- length-str_length(out)
-      fill <- substr(fill,start = 1,stop = remain)
-      out <- paste0(out,fill)
-    }
-  }  
+    
+  }
   return(out)
 }
+
+# 6,5. CONCAT ------------------------------------------------------------------
+
+#'  creates a substring
+#'
+#'  Helper Function for xpssCompute. R Implementation of the SPSS \code{CHAR.SUBSTR} Function. 
+#'
+#' @usage computeChar_substr (x,pos = NULL, length= NULL)
+#' @param x input character vector.
+#' @param pos atomic numeric. Indicates the start of the substring.
+#' @param length atomic numeric. Specifies the length of the substring.
+#'
+#' @return String. Returns an shortened string.
+#' @author Bastian Wiessner
+#' @seealso \code{\link{substr}}
+#' @keywords internal
+#' @examples 
+#'
+#' xpssCompute(x=fromXPSS, variables="V1", fun="computeChar_substr", pos = 2, length=3)
+#'
+#' @export 
+
+computeChar_substr <- function(x,pos = NULL, length= NULL){
+  
+  if(is.null(pos)){
+    stop("pos cant be null")
+  }
+  out <- substr(x,start=pos,stop=length(x))
+  if(!(is.null(length))){
+    out <- substr(out,start=0,stop=length)
+  }
+  return(out)
+}
+
+
 
 # 7. CONCAT ------------------------------------------------------------------
 
@@ -401,15 +434,15 @@ computeConcat <- function(x,sep=""){
   out <- character()
   for(i in 1:nrow(x)){ 
     temp <- x[[1]][i]
-    temp <- paste(temp,sep)
+    temp <- paste(temp,sep=sep)
     for(j in 2:ncol(x)){
       if(ncol(x)==j){
-        temp <- paste(temp,x[[j]][i],collapse= " ")  
+        temp <- paste0(temp,x[[j]][i])  
       } else{
-        temp <- paste(temp,x[[j]][i], sep,collapse= " ")  
+        temp <- paste0(temp,x[[j]][i])  
       }
     }
-    out[i] <- temp#paste(x[[1]][i],x[[2]][i],collapse= " ")
+    out[i] <- temp
   }
   out <- unlist(out)
   return(out)
@@ -452,8 +485,6 @@ computeLength <- function(x){
 #'
 #' @usage computeLower (x)
 #' @param x a character vector, or an object that can be coerced to character by as.character.
-#'
-#'
 #'
 #' @return String. Returns unput with uppercase letters changed to lowercase. The argument can be a string variable or a value. 
 #' @author Bastian Wiessner
@@ -520,6 +551,31 @@ computeLtrim <- function(x,trim = NULL){
   }
   return(out)
 }
+
+
+# 10. NTRIM -------------------------------------------------------------------
+
+
+#' Return the input data without removing trailing blanks
+#'
+#'  Helper Function for xpssCompute. R Implementation of the SPSS \code{NTRM} Function. 
+#'
+#' @usage computeNtrim (x)
+#' @param x input character vector
+#' @return String. Returns the values of the input data
+#' @author Bastian Wiessner
+#' @keywords internal
+#' @examples 
+#'
+#' xpssCompute(x=fromXPSS,variables="V1", fun="computeNtrim")
+#'
+#' @export 
+
+computeNtrim <- function(x){
+  return(x)
+}
+
+
 
 # 11. REPLACE -----------------------------------------------------------------
 

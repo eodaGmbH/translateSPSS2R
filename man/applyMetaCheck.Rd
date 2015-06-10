@@ -4,7 +4,7 @@
 \alias{applyMetaCheck}
 \title{Apply Meta Checks}
 \usage{
-applyMetaCheck(x)
+applyMetaCheck(x, pos = 1, envir = as.environment(pos))
 }
 \arguments{
 \item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}

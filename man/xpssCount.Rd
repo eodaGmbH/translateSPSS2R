@@ -4,10 +4,10 @@
 \alias{xpssCount}
 \title{Counts frequencies of specific observations}
 \usage{
-xpssCount(x, variables = NULL, count = NULL)
+xpssCount(x, variables, count)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{xpssFrame}.}
 
 \item{variables}{atomic character or character vector with the name of the variables.}
 

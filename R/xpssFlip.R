@@ -2,10 +2,10 @@
 #'
 #' R Implementation of the SPSS \code{FLIP} Function. 
 #' 
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param variables atomic character or character vector with the names of the variables to flip
 #' @param names atomic character with the name of the variable for coloumn names.
-#' @return A flipped xpssFrame object. Returns the transpose of x.
+#' @return A flipped, respectively transposed xpssFrame object.
 #' @author Bastian Wiessner
 #' @seealso \code{\link{t}}
 #' @export 

@@ -7,7 +7,7 @@
 applyAttributeDemerge(x)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 }
 \value{
 Output is the input data demerged on the basis of the attributes of the actual dataset.

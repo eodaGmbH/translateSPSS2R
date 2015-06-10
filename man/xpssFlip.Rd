@@ -7,14 +7,14 @@
 xpssFlip(x, variables = "all", names = NULL)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame or input data of class "xpssFrame".}
 
 \item{variables}{atomic character or character vector with the names of the variables to flip}
 
 \item{names}{atomic character with the name of the variable for coloumn names.}
 }
 \value{
-A flipped xpssFrame object. Returns the transpose of x.
+A flipped, respectively transposed xpssFrame object.
 }
 \description{
 R Implementation of the SPSS \code{FLIP} Function.

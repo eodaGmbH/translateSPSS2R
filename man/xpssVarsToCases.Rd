@@ -8,7 +8,7 @@ xpssVarsToCases(x, from, idVar = NULL, indexVar = NULL, nullArg = "keep",
 countVar = NULL, varLabels = list(id = NULL, index = NULL, count = NULL))
 }
 \arguments{
-\item{x}{as a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{as a (non-empty) data.frame or input data of class "xpssFrame".}
 
 \item{from}{variable that opens the span.}
 

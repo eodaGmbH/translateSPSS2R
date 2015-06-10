@@ -10,8 +10,8 @@
 #' @param datevalues atomic date or date vector containing the value of the date, the value has to be like the old date format. 
 #' @param datelabels atomic numeric or numeric vector, respectively as an atomic character or character vector containing a variable label. 
 #' @details The values labels are stored in the variable itself. 
-#' \cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label gets overwritten. \cr If the value label for a specific variable does not exist, the value label gets created without deleting the existing value labels for that variable.
-#' #' \cr\cr A variable can have the following attributes: 
+#' \cr In contrast to \code{\link{xpssValueLabels}} , \code{xpssAddValueLabels} do not erase existing value labels. \cr If the value label for a specific variable already exists, this value label get overwritten. \cr If the value label for a specific variable does not exist, the value label get created without deleting the existing value label of that variable.
+#' \cr\cr Supported attributes are: 
 #' \code{value.labels}, \code{defined.MIS}, \code{MIS}, \code{varname}, \code{variable.label}
 #' @return An xpssFrame object with modified value labels.
 #' @author Bastian Wiessner
@@ -24,14 +24,14 @@
 #' # create a value label for variable V1
 #' fromXPSS <- xpssValueLabels(fromXPSS, 
 #'                            variables = "V1", 
-#'                            value = 1 ,
-#'                            label = "Label1")
+#'                            values = 1 ,
+#'                            labels = "Label1")
 #'                            
 #' # add another value label for variable V1
 #' fromXPSS <- xpssAddValueLabels(fromXPSS, 
 #'                            variables = "V1", 
-#'                            value = 2 ,
-#'                            label = "Label2")
+#'                            values = 2 ,
+#'                            labels = "Label2")
 #'                            
 #' # show value labels for variable V1
 #' attributes(fromXPSS$V1)$value.labels
@@ -39,7 +39,7 @@
 #'                            
 #' @export
 xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL,
-                            datevariables = NULL, datevalues = NULL, datelabels = NULL){
+                               datevariables = NULL, datevalues = NULL, datelabels = NULL){
   
   options(warn=-1)
   
@@ -53,10 +53,20 @@ xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL
   ####################################################################
   ####################################################################
   ####################################################################
-
-  if(!(is.element(variables,names(x)))) {
-    stop("The selected variable has to be in the dataset")
-  }
+  
+  if(is.null(variables)){
+    for(i in 1:length(datevariables)) {
+      if(!(is.element(datevariables[[i]],names(x)))){
+        stop("The selected variable has to be in the dataset")
+      }
+    }
+  }else{
+    for(i in 1:length(variables)) {
+      if(!(is.element(variables[[i]],names(x)))) {
+        stop("The selected variable has to be in the dataset")
+      }  
+    }    
+  } 
   
   if(length(values) != length(labels)){
     stop("Vector values and vector labels dont have the same length, this problem could occur if label or value is NULL")
@@ -81,7 +91,7 @@ xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL
       }
       
       names(values) <- labels
-
+      
       if(is.null(attr(x[,variables[i]], "value.labels"))) {
         attr(x[,variables[i]], "value.labels") <- values  
       } else {
@@ -101,13 +111,16 @@ xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL
         }
       }
     }
+    attr(x[,variables[i]], "value.labels") <- sort(attr(x[,variables[i]], "value.labels"))
   }
+  
+  
   
   if(length(datevariables) >0 ){
     for(i in 1:length(datevariables)){
       
       if(class(datevariables[i]) != "date" | class(datevariables[i]) != "POSIXlt" | class(datevariables[i]) != "POSIXt" | class(datevariables[i]) != "POSIXct"){
-        "Input Variables from datevariables have to be class date or POSIX"
+        stop("Input Variables from datevariables have to be class date or POSIX")
       }
       
       names(datevalues) <- datelabels
@@ -130,6 +143,7 @@ xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL
           }
         }
       }
+      attr(x[,variables[i]], "value.labels") <- sort(attr(x[,variables[i]], "value.labels"))
     }
   }
   
@@ -140,5 +154,4 @@ xpssAddValueLabels <- function(x, variables = NULL, values = NULL, labels = NULL
   options(warn=0)
   return(x)
 }
-
 

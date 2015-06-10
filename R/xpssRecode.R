@@ -2,7 +2,7 @@
 #'
 #' R implementation of the SPSS \code{RECODE} Function. xpssRecode recodes atomics or vectors of the format numeric, character or factor under the terms of recode specifications.
 #' 
-#' The input of the recoding is a character string with the recoding procedure seperated with a semicolon and a else statement. 
+#' The input of the recoding is a character string with the recoding procedure seperated with a semicolon and a optional else statement. 
 #' \describe{
 #'    \item{\code{single data transformation}:}{ \code{rec = "1 = 99; else = test"}}
 #'    \item{\code{For a numeric vector transformation}:}{\code{rec = "c(1,2,3) = 1; else = 11"}}
@@ -10,8 +10,8 @@
 #'    \item{\code{For a range of values}:}{\code{rec = "lo:10 = 1; 11:22 = 2; 23:hi = 3; else = 'copy'"}.}
 #'  }
 #'  \strong{NOTE:} \code{lo} and  \code{hi} are special values and determine the lowest and highest value of a numeric variable. \cr
-#' The \code{":"}-Operator differs in this context from the sequence operator. In xpssRecode it specifies the range from A to B. \cr 
-#' f.e. 1:10 defines the range from 1 till 10, all values which are within this range get recoded. \cr \cr 
+#' The \code{":"}-Operator differs in this context from the sequence operator. In xpssRecode it specifies the range from A to B. 
+#' F.e. 1:10 defines the range from 1 till 10, all values which are within this range get recoded. \cr \cr 
 #'      
 #' The \code{else} statement indicates the handling of the values which are not selected by the recoding statement, this statement matches all unspecified values, including missing values. \cr 
 #' System default, if no else statement is given, is \code{else='copy'}. 
@@ -25,7 +25,7 @@
 #'
 #' \code{varout} determines whether a new variable with the recoded values should appended at the end of the dataset.
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param variables atomic character or character vector with the names of the variabless to recode.
 #' @param rec character string with recoding specifications: for more informations see details.
 #' @param varout atomic character or character vector with the names of new variables.
@@ -56,7 +56,7 @@
 #'                    varout =c("V6_new","V7_new"))
 #' @export 
 #' 
-xpssRecode <- function(x, variables = NULL, rec = NULL, varout = NULL){
+xpssRecode <- function(x, variables, rec = NULL, varout = NULL){
 
 # Die Eingabe von variables und varout erfolgt als Character
 # logvec wird als String übergeben
@@ -100,7 +100,7 @@ express  <- str_split(str_replace_all(rec,pattern=" ",""),"=")
 
 if("sysmis" %in% express[[1]]) {
   for(i in 1:length(variables)) {
-    x <- computeValue(x,variables=variables[[i]])  
+    x[,variables[i]] <- computeValue(x,variables=variables[[i]])  
   }
 }
 
@@ -179,7 +179,16 @@ for(i in 1:length(variables)){
         charRecElse <- str_extract(charRecElse, "'.+'") 
         
         charRecElse <- paste("else = ", charRecElse)
-        rec <- paste(recBackCut[-posElse], ";", charRecElse)
+        
+        for(k in 1:length(recBackCut)){
+          if(k == 1){
+            rec <- recBackCut[k]  
+          } else{
+            rec <- paste(rec,";",recBackCut[k])
+          }
+        }
+        rec <- paste(rec,";",charRecElse)
+        
         RET <- car::Recode(var = Varin, recodes = rec)} 
     
     # Wenn ELSE = COPY vorhanden:

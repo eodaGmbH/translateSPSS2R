@@ -7,14 +7,14 @@
 xpssRenameVariables(x, oldVarNames = NULL, newVarNames = NULL)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
-\item{oldVarNames}{atomic character or character vector with the names of the variables to rename.}
+\item{oldVarNames}{atomic character or character vector with the names of the variables to rename. oldVarNames must be a variable that already exists in the data set.}
 
 \item{newVarNames}{atomic character or character vector with the new variable names.}
 }
 \value{
-Returns the data with the renamed.
+Returns the data with the renamed variables.
 }
 \description{
 R implementation of the SPSS \code{RENAME VARIABLES} function. xpssRenameVariables renames variables within an exisiting data.frame or xpssFrame object.

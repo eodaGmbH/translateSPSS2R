@@ -9,16 +9,16 @@ xpssTtest(x, variables = NULL, t_test = "testval", testval = NULL,
   paired = FALSE, missing = "analysis")
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
-\item{variables}{atomic character or character vektor with the names of the variables.}
+\item{variables}{atomic character or character vector with the names of the variables.}
 
-\item{t_test}{atomic character definies the type of t-test. Default is \code{testval}, a one-sample ttest.
+\item{t_test}{atomic character definies the type of t-test. Default is \code{testval}, a one-sample t-test.
 Optional arguments are \code{groups} for an independent-sample test and \code{pairs} for an paires-sample test}
 
-\item{testval}{atomic numeric, indicates the value of mean difference.}
+\item{testval}{atomic numeric which indicates the value of mean difference.}
 
-\item{criteria}{atomic numeric specifies the confidence interval for the mean differences. Default
+\item{criteria}{atomic numeric which specifies the confidence interval for the mean differences. Default
 is \code{"0.95"}, optionally a customized value between 0 and 1 can be used.}
 
 \item{groupvar}{atomic character with the name of the variable which shall be used for grouping.}
@@ -41,7 +41,7 @@ returns a list depending upon the t-test.
 
 \tab \code{statistics} \tab  simple statistics. \cr
 \tab \code{parameter} \tab degrees of freedom. \cr
-\tab \code{p.value} \tab significance niveau. \cr
+\tab \code{p.value} \tab significance level. \cr
 \tab \code{conf.int} \tab confidence bound. \cr
 \tab \code{null.value} \tab value of null hypothesis. \cr
 \tab \code{alternative} \tab value of alternative hypothesis. \cr

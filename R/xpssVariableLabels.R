@@ -2,7 +2,7 @@
 #'
 #' R implementation of the SPSS \code{VARIABLE LABEL} function. Changing the label of a variable. In the structure of xpss-data the variable label is an attribute of each variable.
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param variables atomic character or character vector with the names of the variable(s).
 #' @param labels atomic character of character vector with labels for the specified variables in variables. The labels are associated in order of appearence
 #' of the variables.   

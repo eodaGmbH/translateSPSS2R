@@ -1,6 +1,6 @@
 #' Defines missing values for variables.
 #'
-#' R implementation of the SPSS \code{MISSING VALUES} function. xpssMissingValues defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables. Defines values as missing and replace them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
+#' R implementation of the SPSS \code{MISSING VALUES} function. xpssMissingValues defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
 #' 
 #' xpssMissingValues specifies values for missing data for the selected variables. Those variables which match the terms of beeing a missing data get treated as \code{NA}. In most cases, variables which contain \code{NA} receive a special treatment in data management, case selection, and descriptive, respectively inductive statistics.  
 #' User-missing values and system-missing values get treated as exactly one kind of missing data. The only difference in those missing values are that system missings get automatically assigned by the program when no legal value can be produced (e.g. character input at a numeric varibale, failed datatransformation) and user-defined missings, which are missing user data (e.g. the respondent forgot to answer, or skipped the question). \cr \cr Common is that this empty spaces are filled with \emph{-9 till -999} (for e.g. refusal to respond, inability to respond, Non-contact).
@@ -19,7 +19,7 @@
 #' @param range numeric vector containing a missing range from i to n.
 #' @param singlevalues atomic numeric or numeric vectors containing singlevalues which determine missing values.
 #' @param append logical. Indicating, if the existing missings should get overwritten or not.
-#' @return a data frame with \code{NAs} located at the position where the specified values in as.missing used to be. In the attributes of the object the position and the value itself is stored. 
+#' @return a \code{xpssFrame} object with \code{NAs} located at the position where the specified values in as.missing used to be. In the attributes of the object the position and the value itself is stored. 
 #' @author Andreas Wygrabek
 #' @examples 
 #' # load data
@@ -27,19 +27,19 @@
 #' 
 #' # declare the lowest value till 45 in variable V6 as missing
 #' fromXPSS <- xpssMissingValues(fromXPSS, 
-#' variable = "V6", 
+#' variables = "V6", 
 #' as.missing = list(range=c(from="lo",
 #' to=45)))
 #' 
 #' # declare 1 and 2 in variable V3 as missing
 #' fromXPSS <- xpssMissingValues(fromXPSS, 
-#' variable = "V3", 
+#' variables = "V3", 
 #' as.missing = list(singlevalues=c(1,
 #' 2)))
 #' 
 #' # declare the lowest value and 50 till the highest value in variable V6 as missing
 #' fromXPSS <- xpssMissingValues(fromXPSS, 
-#' variable = "V6", 
+#' variables = "V6", 
 #' as.missing = list(singlevalues="lo",
 #' range=c(from="50",
 #' to="hi")))
@@ -60,8 +60,11 @@ xpssMissingValues <- function(x, variables = NULL, as.missing = list(range = c(f
   ####################################################################
   
   # resett variables
+  
+  
+  
   for(i in 1:length(variables)){
-    x <-computeValue(x,variables)  
+    x[,variables[i]] <- computeValue(x,variables[i]) 
   } 
       LEN <- length(variables)
         for(i in 1:length(variables)){

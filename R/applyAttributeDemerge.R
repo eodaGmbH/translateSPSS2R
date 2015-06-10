@@ -4,7 +4,7 @@
 #'
 #' Helper Function for DeMerging Attributedatasets
 #' 
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
+#' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
 #' @return Output is the input data demerged on the basis of the attributes of the actual dataset.
 #' @author Bastian Wiessner
 #' @keywords internal

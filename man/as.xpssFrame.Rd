@@ -2,9 +2,12 @@
 % Please edit documentation in R/as.xpssFrame.R
 \name{as.xpssFrame}
 \alias{as.xpssFrame}
+\alias{is.xpssFrame}
 \title{Coerces data.frames to xpssFrame objects}
 \usage{
 as.xpssFrame(x)
+is.xpssFrame(x)
+
 is.xpssFrame(x)
 }
 \arguments{
@@ -34,4 +37,5 @@ is.xpssFrame(temp)
 \author{
 Bastian Wiessner
 }
+\keyword{internal}
 

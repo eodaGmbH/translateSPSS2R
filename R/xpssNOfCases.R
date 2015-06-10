@@ -2,7 +2,10 @@
 #'
 #' R implementation of the SPSS \code{N OF CASES} argument.
 #' 
-#' @usage xpssNOfCases(x, n = NULL)
+#' @details \code{xpssNofCases} can be used to select via command the first N cases in the data file. xpssNofCases permanently modifies the data set.  
+#'  \strong{NOTE:} For temporary case selection, specify \code{\link{xpssTemporary}} before \code{xpssNofCases}.
+#' 
+#' @usage xpssNofCases(x, n = NULL)
 #' @param x input data.
 #' @param n atomic numeric with the value of n.
 #' @return Output is the narrowed dataset.
@@ -11,9 +14,11 @@
 #' @examples 
 #' # load data
 #' data(fromXPSS)
-#' xpssNOfCases(fromXPSS, n = 10)
+#' xpssNofCases(fromXPSS, n = 10)
 #' @export
-xpssNOfCases <- function(x, n = NULL){
+#' 
+
+xpssNofCases <- function(x, n = NULL){
   #do meta check
   functiontype <- "DM"
   x <- applyMetaCheck(x)

@@ -4,13 +4,12 @@
 \alias{xpssFrequencies}
 \title{Simple descriptive statistics}
 \usage{
-xpssFrequencies(x, variables = NULL, missing = NULL, barchart = list(plot
-  = FALSE, min = NULL, max = NULL, freq = NULL, percent = NULL),
-  piechart = list(plot = FALSE, min = NULL, max = NULL, freq = NULL, percent =
-  NULL, missing = FALSE), histogram = list(plot = FALSE, min = NULL, max =
-  NULL, freq = NULL, percent = NULL, normal = FALSE), ntiles = NULL,
-  percentiles = NULL, statistics = c("mean", "stddev", "minimum",
-  "maximum"))
+xpssFrequencies(x, variables, missing = NULL, barchart = list(plot = FALSE,
+  min = NULL, max = NULL, freq = NULL, percent = NULL), piechart = list(plot =
+  FALSE, min = NULL, max = NULL, freq = NULL, percent = NULL, missing = FALSE),
+  histogram = list(plot = FALSE, min = NULL, max = NULL, freq = NULL, percent
+  = NULL, normal = FALSE), ntiles = NULL, percentiles = NULL,
+  statistics = c("mean", "stddev", "minimum", "maximum"))
 }
 \arguments{
 \item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
@@ -19,17 +18,17 @@ xpssFrequencies(x, variables = NULL, missing = NULL, barchart = list(plot
 
 \item{missing}{atomic character which specifiy the missing method. The method indicates what should happen when the data contains NAs. Default is \code{"NULL"}. Optionally it is possible to include user-defined missing values with \code{"include"}.}
 
-\item{barchart}{plot a barchart. Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default barchart will be plotted. Optional for customized barchart a list with the following arguments has to be assigned \code{minimum}, \code{maximum} to bound lower and upper values which are not plotted. See notes for more.}
+\item{barchart}{plot a barchart. Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default barchart will be plotted. Optional for customized barchart a list with the following arguments has to be assigned \code{minimum(n)}, \code{maximum(n)} to bound lower and upper values which are not plotted. See notes for more.}
 
-\item{piechart}{plot a piechart. Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default an default piechart will be plotted. Optional for customized piechart a list with the following arguments has to be assigned \code{minimum}, \code{maximum} to bound lower and upper values which are not plotted. See notes for more.}
+\item{piechart}{plot a piechart. Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default an default piechart will be plotted. Optional for customized piechart a list with the following arguments has to be assigned \code{minimum(n)}, \code{maximum(n)} to bound lower and upper values which are not plotted. See notes for more.}
 
-\item{histogram}{plot a histogram.  Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default histogram will be plotted. Optional for customized histogram a list with the following arguments has to be assigned \code{minimum}, \code{maximum(n)} to bound lower and upper values which are not plotted. With \code{normal} a overlapping normal distrubtion line will drawn. Default is \code{FALSE}.  See notes for more.}
+\item{histogram}{plot a histogram.  Default for \code{plot} is \code{NULL}. If \code{plot} is \code{TRUE} an default histogram will be plotted. Optional for customized histogram a list with the following arguments has to be assigned \code{minimum(n)}, \code{maximum(n)} to bound lower and upper values which are not plotted. With \code{normal} a overlapping normal distrubtion line will drawn. Default is \code{FALSE}.  See notes for more.}
 
 \item{ntiles}{divides the distribution in a specific percentage amount of categories. multiple dividing in distributions is allowed. Default is \code{NULL}.}
 
 \item{percentiles}{displays the value between customized percentiles. Default is \code{NULL}.}
 
-\item{statistics}{Method which enumerate the deskriptive statistics. Default is \code{mean}, \code{stddev}, \code{minimum}, \code{maximum}. Optional arguments are \code{all},\code{kurtosis}, \code{median}, \code{mode}, \code{none}, \code{range}, \code{sekurt}, \code{semean}, \code{seskew}, \code{skewness}, \code{sum}, \code{variance}.}
+\item{statistics}{Method which enumerate the descriptive statistics. Default is \code{mean}, \code{stddev}, \code{minimum}, \code{maximum}. Optional arguments are \code{all},\code{kurtosis}, \code{median}, \code{mode}, \code{none}, \code{range}, \code{sekurt}, \code{semean}, \code{seskew}, \code{skewness}, \code{sum}, \code{variance}.}
 }
 \description{
 R Implementation of the SPSS Function \code{FREQUENCIES}.
@@ -49,8 +48,8 @@ It is possible to customize the graphics by indiviual parameters. If TRUE is set
 \tabular{rll}{
 \tab \code{max=n} \tab Cut the amount of maximum till n elements.
 \cr \tab \code{min=n} \tab Cut the amount of n till minimum elements.
-\cr \tab \code{freq=n} \tab Displays the distrubtion in absolute values on the basis of a user-defined maxima, the maxima has to be higher then the maxima of the distribtion, freq=max(n) is the default. (except  for piechart).
-\cr \tab \code{percent=n} \tab Displays the distrubtion in relative values on the basis of a user-defined maxima, the maxima has to be higher then the maxima of the distribtion, percent=max(n) is the default. (except  for piechart).
+\cr \tab \code{freq=n} \tab Displays the distrubtion in absolute values on the basis of a user-defined maxima, the maxima has to be higher then the maxima of the distribtion, freq=max(n) is the default. (except piechart).
+\cr \tab \code{percent=n} \tab Displays the distrubtion in relative values on the basis of a user-defined maxima, the maxima has to be higher then the maxima of the distribtion, percent=max(n) is the default. (except piechart).
 }
 \strong{\code{individual graphic parameter (for histogram):}}
 \tabular{rll}{
@@ -66,8 +65,8 @@ It is possible to customize the graphics by indiviual parameters. If TRUE is set
 
 \tab \code{kurtosis} \tab calculates the bulge of the variable.
 \cr \tab \code{maxixmum} \tab displays the maximum of the variable.
-\cr \tab \code{mean} \tab calculates the arithmetic mean, respectively the midpoint of the variable.
-\cr \tab \code{median} \tab calculates the arithmetic mean, respectively the midpoint of the variable.
+\cr \tab \code{mean} \tab calculates the arithmetic mean.
+\cr \tab \code{median} \tab calculates the median.
 \cr \tab \code{minimum} \tab displays the minimum of the variable.
 \cr \tab \code{mode} \tab displays the modal value of the variable.
 \cr \tab \code{none} \tab displays no statistics.

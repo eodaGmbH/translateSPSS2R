@@ -4,10 +4,10 @@
 \alias{xpssRecode}
 \title{Recodes variables}
 \usage{
-xpssRecode(x, variables = NULL, rec = NULL, varout = NULL)
+xpssRecode(x, variables, rec = NULL, varout = NULL)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame or input data of class "xpssFrame".}
 
 \item{variables}{atomic character or character vector with the names of the variabless to recode.}
 
@@ -22,7 +22,7 @@ A xpssFrame with the recoded variables.
 R implementation of the SPSS \code{RECODE} Function. xpssRecode recodes atomics or vectors of the format numeric, character or factor under the terms of recode specifications.
 }
 \details{
-The input of the recoding is a character string with the recoding procedure seperated with a semicolon and a else statement.
+The input of the recoding is a character string with the recoding procedure seperated with a semicolon and a optional else statement.
 \describe{
    \item{\code{single data transformation}:}{ \code{rec = "1 = 99; else = test"}}
    \item{\code{For a numeric vector transformation}:}{\code{rec = "c(1,2,3) = 1; else = 11"}}
@@ -30,8 +30,8 @@ The input of the recoding is a character string with the recoding procedure sepe
    \item{\code{For a range of values}:}{\code{rec = "lo:10 = 1; 11:22 = 2; 23:hi = 3; else = 'copy'"}.}
  }
  \strong{NOTE:} \code{lo} and  \code{hi} are special values and determine the lowest and highest value of a numeric variable. \cr
-The \code{":"}-Operator differs in this context from the sequence operator. In xpssRecode it specifies the range from A to B. \cr
-f.e. 1:10 defines the range from 1 till 10, all values which are within this range get recoded. \cr \cr
+The \code{":"}-Operator differs in this context from the sequence operator. In xpssRecode it specifies the range from A to B.
+F.e. 1:10 defines the range from 1 till 10, all values which are within this range get recoded. \cr \cr
 
 The \code{else} statement indicates the handling of the values which are not selected by the recoding statement, this statement matches all unspecified values, including missing values. \cr
 System default, if no else statement is given, is \code{else='copy'}.

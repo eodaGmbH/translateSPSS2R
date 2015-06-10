@@ -3,7 +3,7 @@
 #' Applies attributes stored by attributesBackup
 #'
 #' @usage applyAttributes(x, attributesToApply = NULL)
-#' @param x a data.frame, data.table object or input data of class xpssFrame. 
+#' @param x a data.frame or input data of class xpssFrame. 
 #' @param attributesToApply to applied attributes
 #' @return Object with attributes from \code{\link{attributesBackup}}
 #' @seealso \code{\link{attributes}} \code{\link{attr}}

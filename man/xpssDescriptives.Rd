@@ -4,9 +4,9 @@
 \alias{xpssDescriptives}
 \title{Simple descriptive statistics}
 \usage{
-xpssDescriptives(x, variables = NULL, missing = "variable",
-  statistics = c("mean", "max", "min", "stddev"), save = FALSE,
-  ztrans = list(varname = NULL, zname = NULL))
+xpssDescriptives(x, variables, missing = "variable", statistics = c("mean",
+  "max", "min", "stddev"), save = FALSE, ztrans = list(varname = NULL, zname
+  = NULL))
 }
 \arguments{
 \item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
@@ -22,7 +22,7 @@ xpssDescriptives(x, variables = NULL, missing = "variable",
 \item{ztrans}{list which specifies variables for z-transformation and name of z-transformed variables. Read Details for further information.}
 }
 \value{
-The output is a list object with the estimated descriptive statistic parameters. Every list object contains one variable with the specific outcomes, e.g. statistic values.
+Output is a list object with descriptive statistic parameters. The specific outcomes of the selected variables are stored in a list object. Every variable is stored in a different list element.
 
 If the parameter \code{save} is TRUE, a matrix with z-transformed values will be appended at the end of the list. If \code{ztrans} is blank, the name of the matrix will be Z*varname*. Otherwise whether \code{ztrans} is not empty the user specified description in \code{zname} will be the name of the z-transformed matrix of the variable \code{varname}.
 }
@@ -46,8 +46,8 @@ The xpssDescriptives function provides a set of descriptive statistic tools.
 \cr \tab \code{max} \tab displays the maximum of the variable.
 \cr \tab \code{mean} \tab calculates the arithmetic mean, respectively the midpoint of the variable.
 \cr \tab \code{min} \tab displays the minimum of the variable.
-\cr \tab \code{range} \tab displays the span between the minimum and the maximum value.
 \cr \tab \code{kurtosis} \tab calculates the bulge of the variable.
+\cr \tab \code{range} \tab displays the span between the minimum and the maximum value.
 \cr \tab \code{sekurtosis} \tab calculates the standrard error of the bulge of the variable.
 \cr \tab \code{semean} \tab displays the standard error of the arithmetic mean.
 \cr \tab \code{seskewness} \tab calculates the standrard error of the inclination of the variable.

@@ -7,7 +7,7 @@
 xpssFilter(x,variable = NULL, filtervalue = 1)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
 \item{variable}{atomic character with the name of the variable.}
 
@@ -20,7 +20,7 @@ Output is a subset of the actual dataset under the predetermined condition of th
 R implementation of the SPSS \code{FILTER} argument.
 }
 \details{
-xpssFilter creates a subset of the actual dataset, without deleting the excluded variables, respectively without deleting the excluded values. After activating \code{xpssFilter}, only the subset will be used, the excluded data will be ignored for the following actions until  \code{\link{xpssFilterOff}} terminates the filtering. As noted before those cases are \strong{not actually} deleted and will be available after the filter is turned off.
+\code{xpssFilter} creates a subset of the actual dataset, without deleting the excluded variables, respectively without deleting the excluded values. After activating \code{xpssFilter}, only the subset will be used, the excluded data will be ignored for the following actions until  \code{\link{xpssFilterOff}} terminates the filtering. As noted before those cases are \strong{not actually} deleted and will be available after the filter is turned off.
 \cr\cr \strong{Important:}
 \cr All changes are used on the complete dataset, except for the function being an \emph{data exploring} or \emph{data analyzing} function \cr \cr
  \tabular{rlll}{

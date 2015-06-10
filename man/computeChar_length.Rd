@@ -7,7 +7,7 @@
 computeChar_length (x)
 }
 \arguments{
-\item{x}{character or character vector.}
+\item{x}{atomic character or character vector.}
 }
 \value{
 Numeric. Returns the length of \code{x} in characters, with any trailing blanks removed.

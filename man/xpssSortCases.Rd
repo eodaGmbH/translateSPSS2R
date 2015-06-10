@@ -7,7 +7,7 @@
 xpssSortCases(x, variables = NULL, order ="A")
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class "xpssFrame".}
+\item{x}{a (non-empty) data.frame or input data of class "xpssFrame".}
 
 \item{variables}{atomic character or character vector with the names of the variables. Also \code{\link{rownames}} can be used to sort the data.}
 
@@ -33,6 +33,6 @@ xpssSortCases(fromXPSS, variables = c("V4", "V7_1", "V7_2"), order = c("A","D","
 Andreas Wygrabek
 }
 \seealso{
-\code{\link{sort}} \code{link{order}}
+\code{\link{sort}} \code{\link{order}}
 }
 

@@ -7,7 +7,7 @@
 xpssNumeric(x, varname = NULL, fill = NA)
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{"xpssFrame"}.}
 
 \item{varname}{atomic character or character vector with the name of the variables which should be created.}
 

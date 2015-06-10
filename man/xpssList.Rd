@@ -7,17 +7,11 @@
 xpssList(x, variables = colnames(x), cases = list(from = 1, to = nrow(x), by = 1))
 }
 \arguments{
-\item{x}{a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}.}
+\item{x}{a (non-empty) data.frame or input data of class \code{xpssFrame}.}
 
 \item{variables}{atomic character or character vector with the names of the variables.}
 
-\item{cases}{list containing the arguments from, to, by.}
-
-\item{from}{atomic numeric, determine the begin of the sequence.}
-
-\item{to}{atomic numeric, determine the end of the sequence.}
-
-\item{by}{atomic numeric, determine the increment of the sequence.}
+\item{cases}{list containing the arguments from, to, by. All parameters are atomic numerics. See Details for more.}
 }
 \value{
 A data.frame with case values for specified variables in the dataset. If cases and variables are not specified, List return the complete dataset. If cases are specified the output is a user-defined sequence.
@@ -26,7 +20,7 @@ A data.frame with case values for specified variables in the dataset. If cases a
 R implementation of the SPSS \code{LIST} Function
 }
 \details{
-LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.
+LIST displays the content of selected variables. It is possible to display a sequence with the \code{cases} argument.\code{from} determine the begin of the sequence, \code{to} determine the end of the sequence. \code{by} determine the increment of the sequence.
 }
 \examples{
 # load data

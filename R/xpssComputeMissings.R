@@ -334,5 +334,12 @@ computeValue <- function(x, variables = NULL){
     }
     x <- applyAttributes(x=x,attributesToApply=attBack)
   }
-  return(x)
+  
+  if(is.null(variables)){
+    out <- x
+  } else{
+    out <- x[,variables]  
+  }  
+  
+  return(out)
 }

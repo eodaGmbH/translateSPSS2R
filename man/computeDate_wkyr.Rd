@@ -4,7 +4,7 @@
 \alias{computeDate_wkyr}
 \title{Creates a date with the format year/calendar week}
 \usage{
-computeDate_wkyr(day=NULL,month=NULL, year= NULL)
+computeDate_wkyr(day=NULL, month=NULL, year= NULL)
 }
 \arguments{
 \item{day}{atomic numeric or integer.}

@@ -19,7 +19,7 @@ xpssDeleteVariables <- function(x, variables = NULL){
   x <- applyMetaCheck(x)
   
   # search the string variables in the names of x
-  if(!(is.element(variables,names(x)))){
+  if(unique(!(is.element(variables,names(x))))){
     stop("variables arent in the dataset")
   }
   

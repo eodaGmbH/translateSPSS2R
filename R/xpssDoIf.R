@@ -4,7 +4,7 @@
 #'
 #' xpssDoIf selects cases for analysis based on one or more logical conditions. The conditions to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators and arithmetic operations. xpssDoIf creates a subset of the actual dataset, without deleting the excluded variables, respectively without deleting the excluded values.\cr \cr
 #' 
-#' If its needed to modify more than one subset, every following subset get selected by \code{\link{xpssElseIf}}. \code{xpssDoIf} is working similar to \code{xpssEndIf}, the only difference is that \code{xpssDoIf} has to initiate the subsetting.
+#' If its needed to modify more than one subset, every following subset get selected by \code{\link{xpssElseIf}}. \code{xpssDoIf} is working similar to \code{xpssElseIf}, the only difference is that \code{xpssDoIf} has to initiate the subsetting.
 #' 
 #' The data is subsetted until \code{\link{xpssEndIf}} restores the excluded data. All changes made at the subsetted data will be taken over, the excluded data will remain untouched! As noted before, those cases are not actually deleted and will be available after \code{xpssEndIf} restores the excluded data. \cr \cr
 #'

@@ -376,7 +376,7 @@ computeDate_qyr <- function(day=NULL,month=NULL, year= NULL){
 #'
 #' R Implementation of the SPSS \code{DATE.WKYR} Function. \code{computeDate_wkyr} is a helper function for xpssCompute.
 #'
-#' @usage computeDate_wkyr(day=NULL,month=NULL, year= NULL)
+#' @usage computeDate_wkyr(day=NULL, month=NULL, year= NULL)
 #' @param day atomic numeric or integer.
 #' @param month atomic numeric or integer.
 #' @param year atomic numeric or integer.
@@ -398,20 +398,15 @@ computeDate_qyr <- function(day=NULL,month=NULL, year= NULL){
 #'
 #' @export
 
-computeDate_wkyr <- function(day=NULL,month=NULL, year= NULL){
+computeDate_wkyr <- function(day=NULL, month=NULL, year= NULL){
   if((!(is.numeric(day))) || (!(is.numeric(month))) || (!(is.numeric(year)))){
-    stop("day month and year has to be numeric")
+    stop("week and year has to be numeric")
   }
-  if(day>31 || day<1 || month>12 || month<1)
-  {stop("day or month does not exist")}
-  
-  if(str_length(day)<2){
-    day <- paste0(0,day)
-  }
-  if(str_length(month)<2){
-    month <- paste0(0,month)
-  }
-  
+  if(month>12 || month<1)
+  {stop("week does not exist")}
+  if(day>32 || day<1)
+  {stop("week does not exist")}
+
   out <- paste0(day,"-",month,"-",year)
   out <- as.Date(out, format="%d-%m-%Y")
   week <- as.numeric( format(out+3, "%U"))
@@ -962,11 +957,11 @@ computeXdate_time <- function(x = NULL){
 #' Calcualtes the calendar week  on basis of a given date
 #'
 #'
-#' R Implementation of the SPSS \code{XDATE.WEEK} Function. \code{computeXweek} is a helper function for xpssCompute.
+#' R Implementation of the SPSS \code{XDATE.WEEK} Function. \code{computeXdate_week} is a helper function for xpssCompute.
 #'
-#' @usage computeXweek(x=NULL)
+#' @usage computeXdate_week(x=NULL)
 #' @param x atomic object of class \code{character, POSIXlt  or  POSIXt} holding date data.
-#' @details computeXweek caluclates the calendar week on basis of the given date string.
+#' @details computeXdate_week caluclates the calendar week on basis of the given date string.
 #' @return Returns a character string with the calendar week.
 #' @author Bastian Wiessner
 #' @seealso \code{\link{computeXdate_date}} \code{\link{computeDate_wkyr}}
@@ -974,13 +969,13 @@ computeXdate_time <- function(x = NULL){
 #' @keywords internal
 #' @examples
 #' # 06
-#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXweek") 
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_week") 
 #' # 42
-#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXweek")
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_week")
 #'
 #' @export
 
-computeXweek <- function(x = NULL){
+computeXdate_week <- function(x = NULL){
   # exception, complete dateformat "%m/%d/%y %H:%M:%S
   splitdate <- str_split(x,pattern = "-")
   if(length(splitdate[[1]])<3){
@@ -1002,25 +997,25 @@ computeXweek <- function(x = NULL){
 #' Calcualtes the day of week on basis of a given date
 #'
 #'
-#' R Implementation of the SPSS \code{XDATE.WEEK} Function. \code{computeXwkday} is a helper function for xpssCompute.
+#' R Implementation of the SPSS \code{XDATE.WEEK} Function. \code{computeXdate_wkday} is a helper function for xpssCompute.
 #'
-#' @usage computeXwkday(x=NULL)
+#' @usage  computeXdate_wkday(x=NULL)
 #' @param x atomic object of class \code{character, POSIXlt  or  POSIXt} holding date data.
-#' @details computeXwkday caluclates the calendar week on basis of the given date string. Result is a number between 0 and 6. 0 stands for Sunday, 6 for Saturday.
+#' @details computeXdate_wkday caluclates the calendar week on basis of the given date string. Result is a number between 0 and 6. 0 stands for Sunday, 6 for Saturday.
 #' @return Returns a character string with the day of week.
 #' @author Bastian Wiessner
-#' @seealso \code{\link{computeXdate_date}} \code{\link{computeDate_wkyr}}
+#' @seealso \code{\link{computeXdate_date}} \code{\link{computeXdate_wkday}} \code{\link{computeXdate_year}}
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
 #' # 0
-#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXwkday")
+#' xpssCompute(x="2015-02-15 20:11:20", fun="computeXdate_wkday")
 #' # 4
-#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXwkday")
+#' xpssCompute(x="2022-10-20 21:22:12", fun="computeXdate_wkday")
 #'
 #' @export
 
-computeXwkday <- function(x = NULL){
+computeXdate_wkday <- function(x = NULL){
   # exception, complete dateformat "%m/%d/%y %H:%M:%S
   splitdate <- str_split(x,pattern = "-")
   if(length(splitdate[[1]])<3){
@@ -1042,26 +1037,26 @@ computeXwkday <- function(x = NULL){
 #' Extracts the year on basis of a given date
 #'
 #'
-#' R Implementation of the SPSS \code{XDATE.YEAR} Function. \code{computeXyear} is a helper function for xpssCompute.
+#' R Implementation of the SPSS \code{XDATE.YEAR} Function. \code{computeXdate_year} is a helper function for xpssCompute.
 #'
-#' @usage computeXyear(x=NULL)
+#' @usage computeXdate_year(x=NULL)
 #' @param x atomic object of class \code{character, POSIXlt  or  POSIXt} holding date data.
-#' @details computeXyear extracts the year on basis of the given date string. 
+#' @details computeXdate_year extracts the year on basis of the given date string. 
 #' @return Returns a character string with the day of week.
 #' @author Bastian Wiessner
-#' @seealso \code{\link{computeXdate_date}} \code{\link{computeDate_wkyr}}
+#' @seealso \code{\link{computeXdate_date}} \code{\link{computeXdate_wkday}}
 #' @importFrom stringr str_split str_length
 #' @keywords internal
 #' @examples
 #' # 2015
-#' xpssCompute(x="2015-02-15 20:11:20",fun="computeXyear")
+#' xpssCompute(x="2015-02-15 20:11:20",fun="computeXdate_year")
 #' # 2022
-#' xpssCompute(x="2022-10-20 21:22:12",fun="computeXyear")
+#' xpssCompute(x="2022-10-20 21:22:12",fun="computeXdate_year")
 #'
 #' @export
 
 
-computeXyear <- function(x = NULL){
+computeXdate_year <- function(x = NULL){
   # exception, complete dateformat "%m/%d/%y %H:%M:%S
   splitdate <- str_split(x,pattern = "-")
   if(length(splitdate[[1]])<3){

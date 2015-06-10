@@ -2,17 +2,17 @@
 #'
 #'  R implementation of the SPSS \code{CORRELATIONS} function.
 #'
-#' @usage xpssCorelations(x, 
+#' @usage xpssCorrelations(x, 
 #'                variables = NULL, 
-#'                missing = list(alternative = "pairwise", 
+#'                miss = list(alternative = "pairwise", 
 #'                          missings = "exclude"), 
 #'                print = list(test = "twotail", 
 #'                        level = "sig"), 
 #'                matrix = NULL, 
 #'                statistics = NULL)
-#' @param x a (non-empty) data.frame, data.table object or input data of class "xpss-Frame".
+#' @param x a (non-empty) data.frame or input data of class "xpss-Frame".
 #' @param variables atomic character or character vektor with the name of the variables.   
-#' @param missing method which indicates what should happen when the data contain NAs. Default for alternative is 'pairwise', optionally listwise can be used as treatment for missings. The visualisation of the NAs can be specied via the argument missings. Default is 'exclude', optionally 'include' can be chosen to add missings in the statistics.
+#' @param miss method which indicates what should happen when the data contain NAs. Default for alternative is 'pairwise', optionally listwise can be used as treatment for missings. The visualisation of the NAs can be specied via the argument missings. Default is 'exclude', optionally 'include' can be chosen to add missings in the statistics.
 #' @param print method which indicates what significnace level shall be used. Default significance test is 'twotail', optionally 'onetail' can be chosen. Default significance level is 'sig' to add significance asterisks, optionally 'nosig'.
 #' @param matrix exports the correlation matrix with observations, stddevs, means and variable names. Default is NULL.
 #' @param statistics method which enumerate the deskriptive statistics. Default is NULL. Optionally 'descriptives', 'xprod' or 'all' can be chosen.
@@ -33,16 +33,16 @@
 #'
 #'# Returns correlations matix for defined variables 
 #'
-#'xpssCorelations (fromXPSS, 
+#'xpssCorrelations (fromXPSS, 
 #'                  variables =c("V5","V6","V7_2"))
 #'
 #'
 #'# Returns correlations matix for defined variables 
 #'# with statistics and onetail significants test
 #'
-#'xpssCorelations (fromXPSS, 
+#'xpssCorrelations (fromXPSS, 
 #'                  variables =c("V5","V6","V7_2") ,
-#'                  missing = list(alternative = "pairwise",
+#'                  miss = list(alternative = "pairwise",
 #'                                 missings = "exclude"),
 #'                  print = list(test = "onetail",
 #'                               level = "sig"),
@@ -52,9 +52,9 @@
 #'# Returns the same output as above but with defined 
 #'# missing values included. 
 #'
-#'xpssCorelations (fromXPSS, 
+#'xpssCorrelations (fromXPSS, 
 #'                  variables =c("V5","V6","V7_2") ,
-#'                  missing = list(alternative = "pairwise",
+#'                  miss = list(alternative = "pairwise",
 #'                                 missings = "include"),
 #'                  print = list(test = "onetail",
 #'                               level = "sig"),
@@ -65,9 +65,9 @@
 #'# statistics and twotail significants test. All missing 
 #'# values are excluded along the hole inputdata.
 #'
-#'xpssCorelations (fromXPSS, 
+#'xpssCorrelations (fromXPSS, 
 #'                  variables =c("V5","V6","V7_2") ,
-#'                  missing = list(alternative = "listwise",
+#'                  miss = list(alternative = "listwise",
 #'                                 missings = "exclude"),
 #'                  print = list(test = "twotail",
 #'                               level = "sig"),
@@ -77,16 +77,16 @@
 #'# Exports a textfile (correlations.txt) to the activated 
 #'# working directory. 
 #'
-#'xpssCorelations (fromXPSS,
+#'xpssCorrelations (fromXPSS,
 #'                  variables =c("V5","V6","V7_2"),
 #'                  statistics = "all",
 #'                  matrix = paste0(getwd(),"/correlations.txt"))
 #' 
 #' @export 
 
-xpssCorelations <- function(x, 
+xpssCorrelations <- function(x, 
                             variables = NULL,
-                            missing = list(alternative = "pairwise",
+                            miss = list(alternative = "pairwise",
                                            missings = "exclude"),
                             print = list(test = "twotail",
                                          level = "sig"),
@@ -94,7 +94,7 @@ xpssCorelations <- function(x,
                             statistics=NULL){
 
 #--------------------------------------------------------#
-#---------------------  Exeptions  ----------------------#
+#---------------------  Exceptions  ----------------------#
 #--------------------------------------------------------#
   
   if(is.null(variables)) stop("Variables are missing")
@@ -108,8 +108,8 @@ xpssCorelations <- function(x,
 #--------------------------------------------------------#
 
 if(print$test=="twotail"){
-  if(missing$missings=="include"){
-    x <- xpssMissingValues(x, variables = variables, as.missing = list(singleValues = c()))
+  if(miss$missings=="include"){
+    x <- xpssMissingValues(x, variables = variables)
   }
   x1 <- x[variables] 
   var.label <- 1:length(x1)
@@ -118,7 +118,7 @@ if(print$test=="twotail"){
   }
   names(x1) <- var.label
   var <- as.matrix(x1)
-  if(missing$alternative=="listwise"){
+  if(miss$alternative=="listwise"){
     var <- na.omit(var)
   }
   cor <- rcorr(var)
@@ -131,8 +131,8 @@ if(print$test=="twotail"){
 }
 
 if(print$test=="onetail"){
-  if(missing$missings=="include"){
-    x <- xpssMissingValues(x, variables = variables, as.missing = list(singleValues = c()))
+  if(miss$missings=="include"){
+    x <- xpssMissingValues(x, variables = variables)
   }
   x1 <- x[variables]
   var.label <- 1:length(x1)
@@ -141,7 +141,7 @@ if(print$test=="onetail"){
   }
   names(x1) <- var.label
   var <- as.matrix(x1)
-  if(missing$alternative=="listwise"){
+  if(miss$alternative=="listwise"){
     var <- na.omit(var)
   }
   cor <- rcorr(var)
@@ -167,7 +167,7 @@ if(is.null(statistics)==FALSE){
     N <- round(apply(var, 2, function(x) length(which(!is.na(x)))),2)
     all <- rbind(mean,sd,N)
     all <- t(all)
-    ifelse(missing$alternative=="listwise",cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),), cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"N"=round(cor[[2]],2)))
+    ifelse(miss$alternative=="listwise",cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3)), cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"N"=round(cor[[2]],2)))
     names(cor)[which(names(cor) %in% "sig.name")] <- sig.name
     }
   
@@ -177,7 +177,7 @@ if(is.null(statistics)==FALSE){
     cov <- round(cov(var,use="pairwise.complete.obs"),2)
     df <- cor[[2]]-1
     crossproduct <- round(cov(var,use="pairwise.complete.obs")*df,2)
-    ifelse(missing$alternative=="listwise",cor <- list("Pearson_Correlation"=round(cor[[1]],2),"sig.name"=round(cor[[3]],2),"Crossproduct"=crossproduct,"Covariance"=cov),cor <- list("Pearson_Correlation"=round(cor[[1]],2),"sig.name"=round(cor[[3]],2),"Crossproduct"=crossproduct,"Covariance"=cov,"N"=round(cor[[2]],2)))
+    ifelse(miss$alternative=="listwise",cor <- list("Pearson_Correlation"=round(cor[[1]],2),"sig.name"=round(cor[[3]],2),"Crossproduct"=crossproduct,"Covariance"=cov),cor <- list("Pearson_Correlation"=round(cor[[1]],2),"sig.name"=round(cor[[3]],2),"Crossproduct"=crossproduct,"Covariance"=cov,"N"=round(cor[[2]],2)))
     names(cor)[which(names(cor) %in% "sig.name")] <- sig.name
   }
 
@@ -192,7 +192,7 @@ if(statistics=="all"){
   cov <- round(cov(var,use="pairwise.complete.obs"),2)
   df <- cor[[2]]-1
   crossproduct <- round(cov(var,use="pairwise.complete.obs")*df,2)
-  ifelse(missing$alternative=="listwise",cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"Crossproduct"=crossproduct,"Covariance"=cov),cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"Crossproduct"=crossproduct,"Covariance"=cov,"N"=round(cor[[2]],2)))
+  ifelse(miss$alternative=="listwise",cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"Crossproduct"=crossproduct,"Covariance"=cov),cor <- list("descriptive_statistics"=all,"Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"Crossproduct"=crossproduct,"Covariance"=cov,"N"=round(cor[[2]],2)))
   names(cor)[which(names(cor) %in% "sig.name")] <- sig.name
 }}
 
@@ -203,7 +203,7 @@ if(statistics=="all"){
 
 
 if(length(cor)==3){
-  ifelse(missing$alternative=="listwise",cor <- list("Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3)),cor <- list("Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"N"=round(cor[[2]],2)))
+  ifelse(miss$alternative=="listwise",cor <- list("Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3)),cor <- list("Pearson_Correlation"=round(cor[[1]],2),sig.name=round(cor[[3]],3),"N"=round(cor[[2]],2)))
   names(cor)[which(names(cor) %in% "sig.name")] <- sig.name
 }
 

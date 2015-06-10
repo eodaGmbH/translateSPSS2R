@@ -4,10 +4,10 @@
 #'
 #' Modifies names of one or more variables within a selected dataset. The arguments oldVarNames and newVarNames must have the same length.
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
-#' @param oldVarNames atomic character or character vector with the names of the variables to rename.
+#' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
+#' @param oldVarNames atomic character or character vector with the names of the variables to rename. oldVarNames must be a variable that already exists in the data set. 
 #' @param newVarNames atomic character or character vector with the new variable names. 
-#' @return Returns the data with the renamed.
+#' @return Returns the data with the renamed variables.
 #' @author Andreas Wygrabek
 #' @examples 
 #' # load data

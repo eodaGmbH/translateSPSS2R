@@ -16,7 +16,7 @@ Output is a subset of the actual dataset under the condiftion of the logical exp
 Attribut backup function
 }
 \details{
-The conditions to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators, arithmetic operations.
+The conditions to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators and arithmetic operations.
 
 \strong{NOTE:} For temporary case selection, specify a TEMPORARY command before SELECT IF.
 }

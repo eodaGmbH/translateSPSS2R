@@ -4,9 +4,9 @@
 #'
 #' Count displays the frequencies of observations matching the count statement.
 #'
-#' @usage xpssCount(x, variables = NULL, count = NULL)
+#' @usage xpssCount(x, variables, count)
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{xpssFrame}. 
+#' @param x a (non-empty) data.frame or input data of class \code{xpssFrame}. 
 #' @param variables atomic character or character vector with the name of the variables.
 #' @param count atomic character or atomic numeric pattern.
 #' @return A vector of the same length as x.
@@ -34,10 +34,20 @@
 #' @export
 
 xpssCount <- function(x,
-                      variables = NULL,
-                      count = NULL)
+                      variables,
+                      count)
 {
   
+  # exception check if the named variables are in the dataset
+  for(i in 1:length(variables)){
+    if(!(is.element(variables[i],names(x)))) {
+      stop("The selected variables are not in the dataset")
+    }
+  }
+  if(length(unlist(unique(lapply(x[,variables],class))))>1){
+    stop("Occurence of strings or numeric values only")
+  }
+    
   # meta check
   functiontype <- "SB"
   x <- applyMetaCheck(x)
@@ -70,28 +80,24 @@ xpssCount <- function(x,
   # temporären datensatz erstellen
   temp <- x
   Varvec <- vector()
+  
+  counter <- vector(length=length(x[,variables[1]]))
   #schleife mit den variablen einleiten
   if(length(count$exact)>0){
     for(l in 1:length(variables)){
-      # count rows
-      for(j in 1:nrow(x)){
-        # write variables in variabletemp
-        variablesTemp <- variables[[l]]
-        # generate an empty variable vector
-        Varvec <- vector()
-        # check variables row for row
-        for(i in 1:length(variablesTemp)){
-          # generate a vector with the values of the rows 
-          Varvec <- c(Varvec,x[j,c(variablesTemp[i])]) 
-        }    
-        # Sum up count of hits
-        temp$count[[j]] <- sum(table(Varvec)[names(table(Varvec))%in%count])
+      if(is.character(count)){
+        if(count == "sysmis"|| count =="missing" || count == "nmiss"){
+          counter[which(x[,variables[l]] %in% count)] <- counter[which(is.na(x[,variables[l]]))] +1  
+        } 
+        if(count == "nvalid"){
+          counter[which(x[,variables[l]] %in% count)] <- counter[which(!(is.na(x[,variables[l]])))] +1  
+        }        
+      } else{
+        # count rows
+        counter[which(x[,variables[l]] %in% count)] <- counter[which(x[,variables[l]] %in% count)] +1  
       }
-      # create an array with all search hits
-      counterarray <- data.frame(x$count,temp$count)
-      # add up row sums of the search hits
-      x$count <- rowSums(counterarray)
     }
+    count <- counter
   }
   else {    
     count_min <- as.numeric(count$from)
@@ -99,11 +105,12 @@ xpssCount <- function(x,
     for(l in 1:length(variables)){      
       evalVAR <- eval(parse(text = paste("x$",variables[[l]],sep="")))
       for(j in 1:length(evalVAR)){
-        if((is.na(evalVAR[j]) == FALSE) && (round(count_min,digits=5) <= round(evalVAR[j],digits=5)) && (round(evalVAR[j],digits=5) <= round(count_max,digits=5))){
+        if((is.na(evalVAR[j]) == FALSE) && (round(count_min,digits=5) <= round(as.numeric(evalVAR[j]),digits=5)) && (round(as.numeric(evalVAR[j]),digits=5) <= round(count_max,digits=5))){
           x$count[[j]] <- x$count[[j]]+1
         }
       }
     }
+    count <- x$count
   }
-  return(x)
+  return(count)
 }

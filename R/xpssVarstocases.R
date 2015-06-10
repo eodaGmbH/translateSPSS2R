@@ -4,7 +4,7 @@
 #'
 #' @usage xpssVarsToCases(x, from, idVar = NULL, indexVar = NULL, nullArg = "keep", 
 #' countVar = NULL, varLabels = list(id = NULL, index = NULL, count = NULL))
-#' @param x as a (non-empty) data.frame, data.table object or input data of class "xpssFrame". 
+#' @param x as a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param from variable that opens the span.
 #' @param idVar determines whether an id-variable should be created.
 #' @param indexVar determines whether an index-variable should be created.

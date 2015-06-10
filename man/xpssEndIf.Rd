@@ -16,7 +16,7 @@ Output is the original dataset.
 R implementation of the SPSS \code{END IF} argument.
 }
 \details{
-xpssEndIf determines the end of the analysis based on logical conditions via \code{\link{xpssDoIf}}.  \code{xpssEndIf} merge the excluded data with the actual dataset, after \code{xpssDoIf} subsetting the data. All changes which were made until \code{xpssEndIf} will be taken over, the excluded data will remain untouched!\cr \cr
+\code{xpssEndIf} determines the end of the analysis based on logical conditions via \code{\link{xpssDoIf}}.  \code{xpssEndIf} merge the excluded data with the actual dataset, after \code{xpssDoIf} subsetted the data. All changes which were made until \code{xpssEndIf} will be taken over, the excluded data will remain untouched!\cr \cr
 
 \strong{NOTE:} For temporary case selection, specify \code{xpssTemporary} before \code{xpssDoIf}.
 }

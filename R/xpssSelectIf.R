@@ -1,12 +1,12 @@
 #' Creates a subset of cases 
 #'
-#' R implementation of the SPSS \code{SELECT IF} argument. xpssSelectIf permanently selects cases for analysis based on logical conditions. 
+#' R Implementation of the SPSS \code{SELECT IF} argument. xpssSelectIf permanently selects cases for analysis based on logical conditions. 
 #'
-#' The condition to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators, arithmetic operations. 
+#' The condition to select cases are specified in a logical expression. These logical expressions can contain relational operators, logical operators and arithmetic operations. 
 #' 
 #'  \strong{NOTE:} For temporary case selection, specify \code{\link{xpssTemporary}} before \code{SELECT IF}.
 #'
-#' @param x a (non-empty) data.frame, data.table object or input data of class \code{"xpssFrame"}. 
+#' @param x a (non-empty) data.frame or input data of class \code{"xpssFrame"}. 
 #' @param cond logical expression for subsetting the data.
 #' @return Returns a subset of the actual dataset under the condition of the logical expression.
 #' @author Andreas Wygrabek

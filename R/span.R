@@ -3,7 +3,7 @@
 #' Creates a list of variables within a specific range.
 #'
 #' @usage span(x, from = NULL, to = NULL, addDF = FALSE)
-#' @param x a (non-empty) data.frame, data.table object, or input data of class "xpssFrame". 
+#' @param x a (non-empty) data.frame or input data of class "xpssFrame". 
 #' @param from  the variable that opens the span.
 #' @param to the variable that closes the span.
 #' @param addDF if the name of the input data should be used?
@@ -28,7 +28,7 @@ span <- function(x = NULL, from = NULL, to = NULL, addDF = FALSE){
     endindex <- which(colnames(x) == to)
     
     if(addDF != TRUE && addDF !=  FALSE) {
-      stop("only TRUE or FALSE are allowed as Statement")
+      stop("only TRUE or FALSE are allowed as statement")
     }
     
     if(addDF == FALSE){

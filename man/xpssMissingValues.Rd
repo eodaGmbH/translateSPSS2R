@@ -22,10 +22,10 @@ append = FALSE)
 \item{singlevalues}{atomic numeric or numeric vectors containing singlevalues which determine missing values.}
 }
 \value{
-a data frame with \code{NAs} located at the position where the specified values in as.missing used to be. In the attributes of the object the position and the value itself is stored.
+a \code{xpssFrame} object with \code{NAs} located at the position where the specified values in as.missing used to be. In the attributes of the object the position and the value itself is stored.
 }
 \description{
-R implementation of the SPSS \code{MISSING VALUES} function. xpssMissingValues defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables. Defines values as missing and replace them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
+R implementation of the SPSS \code{MISSING VALUES} function. xpssMissingValues defines values as missing and replaces them with \code{NA}. Position and Value are stored in the attributes of the specific variables.
 }
 \details{
 xpssMissingValues specifies values for missing data for the selected variables. Those variables which match the terms of beeing a missing data get treated as \code{NA}. In most cases, variables which contain \code{NA} receive a special treatment in data management, case selection, and descriptive, respectively inductive statistics.
@@ -41,19 +41,19 @@ data(fromXPSS)
 
 # declare the lowest value till 45 in variable V6 as missing
 fromXPSS <- xpssMissingValues(fromXPSS,
-variable = "V6",
+variables = "V6",
 as.missing = list(range=c(from="lo",
 to=45)))
 
 # declare 1 and 2 in variable V3 as missing
 fromXPSS <- xpssMissingValues(fromXPSS,
-variable = "V3",
+variables = "V3",
 as.missing = list(singlevalues=c(1,
 2)))
 
 # declare the lowest value and 50 till the highest value in variable V6 as missing
 fromXPSS <- xpssMissingValues(fromXPSS,
-variable = "V6",
+variables = "V6",
 as.missing = list(singlevalues="lo",
 range=c(from="50",
 to="hi")))
